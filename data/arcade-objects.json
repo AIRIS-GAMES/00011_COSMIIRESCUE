@@ -1,0 +1,181 @@
+{
+  "mapSize": {
+    "width": 1320,
+    "height": 1000
+  },
+  "props": [
+    {
+      "id": "home",
+      "asset": "home",
+      "x": 205,
+      "y": 864,
+      "w": 246,
+      "h": 362,
+      "layer": "world",
+      "image": "./Asset/stage/pop-home.svg",
+      "anchor": "center-bottom",
+      "repeat": false
+    },
+    {
+      "id": "capsule-right",
+      "asset": "capsule",
+      "x": 1193,
+      "y": 947,
+      "w": 180,
+      "h": 274,
+      "layer": "world",
+      "image": "./Asset/stage/pop-capsule.svg",
+      "anchor": "center-bottom",
+      "repeat": false
+    },
+    {
+      "id": "cabinet-far-a",
+      "asset": "home",
+      "x": 520,
+      "y": 915,
+      "w": 165,
+      "h": 244,
+      "layer": "far",
+      "opacity": 0.24,
+      "image": "./Asset/stage/pop-home.svg",
+      "anchor": "center-bottom",
+      "repeat": false
+    },
+    {
+      "id": "cabinet-far-b",
+      "asset": "capsule",
+      "x": 835,
+      "y": 935,
+      "w": 152,
+      "h": 230,
+      "layer": "far",
+      "opacity": 0.22,
+      "image": "./Asset/stage/pop-capsule.svg",
+      "anchor": "center-bottom",
+      "repeat": false
+    },
+    {
+      "id": "cabinet-mid",
+      "asset": "home",
+      "x": 1100,
+      "y": 945,
+      "w": 182,
+      "h": 273,
+      "layer": "mid",
+      "opacity": 0.3,
+      "image": "./Asset/stage/pop-home.svg",
+      "anchor": "center-bottom",
+      "repeat": false
+    },
+    {
+      "id": "foreground-capsule",
+      "asset": "capsule",
+      "x": 1360,
+      "y": 1105,
+      "w": 300,
+      "h": 445,
+      "layer": "foreground",
+      "opacity": 0.45,
+      "image": "./Asset/stage/pop-capsule.svg",
+      "anchor": "center-bottom",
+      "repeat": false
+    }
+  ],
+  "obstacles": [
+    {
+      "id": "shelf-a",
+      "asset": "shelf",
+      "x": 225,
+      "y": 310,
+      "w": 210,
+      "h": 29
+    },
+    {
+      "id": "shelf-b",
+      "asset": "shelf",
+      "x": 395,
+      "y": 493,
+      "w": 144,
+      "h": 23
+    },
+    {
+      "id": "shelf-c",
+      "asset": "shelf",
+      "x": 580,
+      "y": 585,
+      "w": 205,
+      "h": 30
+    },
+    {
+      "id": "shelf-d",
+      "asset": "shelf",
+      "x": 900,
+      "y": 445,
+      "w": 172,
+      "h": 27
+    },
+    {
+      "id": "shelf-e",
+      "asset": "shelf",
+      "x": 900,
+      "y": 695,
+      "w": 192,
+      "h": 28
+    },
+    {
+      "id": "shelf-f",
+      "asset": "shelf",
+      "x": 630,
+      "y": 203,
+      "w": 142,
+      "h": 23
+    },
+    {
+      "id": "bumper-a",
+      "asset": "bumper",
+      "x": 910,
+      "y": 295,
+      "r": 32,
+      "motion": {
+        "x": 72,
+        "y": 0,
+        "speed": 1.25
+      },
+      "phase": 0
+    },
+    {
+      "id": "bumper-b",
+      "asset": "bumper",
+      "x": 1130,
+      "y": 375,
+      "r": 29,
+      "motion": {
+        "x": 0,
+        "y": 80,
+        "speed": 1.55
+      },
+      "phase": 1
+    },
+    {
+      "id": "bumper-c",
+      "asset": "bumper",
+      "x": 745,
+      "y": 775,
+      "r": 29,
+      "motion": {
+        "x": 55,
+        "y": 0,
+        "speed": 1.4
+      },
+      "phase": 2
+    },
+    {
+      "id": "capsule-base",
+      "asset": null,
+      "x": 1127,
+      "y": 828,
+      "w": 128,
+      "h": 104
+    }
+  ]
+}

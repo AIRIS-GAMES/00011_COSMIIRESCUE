@@ -1,0 +1,110 @@
+{
+  "bounds": {
+    "x": 0,
+    "y": 0,
+    "w": 1320,
+    "h": 1000
+  },
+  "blockers": [
+    {
+      "id": "shelf-a",
+      "asset": "shelf",
+      "x": 225,
+      "y": 310,
+      "w": 210,
+      "h": 29
+    },
+    {
+      "id": "shelf-b",
+      "asset": "shelf",
+      "x": 395,
+      "y": 493,
+      "w": 144,
+      "h": 23
+    },
+    {
+      "id": "shelf-c",
+      "asset": "shelf",
+      "x": 580,
+      "y": 585,
+      "w": 205,
+      "h": 30
+    },
+    {
+      "id": "shelf-d",
+      "asset": "shelf",
+      "x": 900,
+      "y": 445,
+      "w": 172,
+      "h": 27
+    },
+    {
+      "id": "shelf-e",
+      "asset": "shelf",
+      "x": 900,
+      "y": 695,
+      "w": 192,
+      "h": 28
+    },
+    {
+      "id": "shelf-f",
+      "asset": "shelf",
+      "x": 630,
+      "y": 203,
+      "w": 142,
+      "h": 23
+    },
+    {
+      "id": "bumper-a",
+      "asset": "bumper",
+      "x": 910,
+      "y": 295,
+      "r": 32,
+      "motion": {
+        "x": 72,
+        "y": 0,
+        "speed": 1.25
+      },
+      "phase": 0
+    },
+    {
+      "id": "bumper-b",
+      "asset": "bumper",
+      "x": 1130,
+      "y": 375,
+      "r": 29,
+      "motion": {
+        "x": 0,
+        "y": 80,
+        "speed": 1.55
+      },
+      "phase": 1
+    },
+    {
+      "id": "bumper-c",
+      "asset": "bumper",
+      "x": 745,
+      "y": 775,
+      "r": 29,
+      "motion": {
+        "x": 55,
+        "y": 0,
+        "speed": 1.4
+      },
+      "phase": 2
+    },
+    {
+      "id": "capsule-base",
+      "asset": null,
+      "x": 1127,
+      "y": 828,
+      "w": 128,
+      "h": 104
+    }
+  ],
+  "homeTrigger": {
+    "x": 205,
+    "y": 790,
+    "radius": 59
+  }
+}

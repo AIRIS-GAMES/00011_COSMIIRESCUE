@@ -1,0 +1,226 @@
+[
+  {
+    "path": "Asset\\cast\\flap\\pipeline-meta.json",
+    "bytes": 2969
+  },
+  {
+    "path": "Asset\\cast\\flap\\prompt.txt",
+    "bytes": 1241
+  },
+  {
+    "path": "Asset\\cast\\flap\\raw-sheet.png",
+    "bytes": 1489528
+  },
+  {
+    "path": "Asset\\cast\\flap\\raw.png",
+    "bytes": 1310821
+  },
+  {
+    "path": "Asset\\cast\\sources.json",
+    "bytes": 832
+  },
+  {
+    "path": "Asset\\chara1_sub.PNG",
+    "bytes": 1218168
+  },
+  {
+    "path": "Asset\\chara2_sub.PNG",
+    "bytes": 1848371
+  },
+  {
+    "path": "Asset\\chara3_sub.PNG",
+    "bytes": 1441781
+  },
+  {
+    "path": "Asset\\chara4_sub.PNG",
+    "bytes": 1544395
+  },
+  {
+    "path": "Asset\\chara5_sub.PNG",
+    "bytes": 1020060
+  },
+  {
+    "path": "Asset\\checkpoint.png",
+    "bytes": 1118081
+  },
+  {
+    "path": "Asset\\IMG_4455.PNG",
+    "bytes": 911631
+  },
+  {
+    "path": "Asset\\IMG_4458.PNG",
+    "bytes": 843192
+  },
+  {
+    "path": "Asset\\IMG_4460.PNG",
+    "bytes": 1094381
+  },
+  {
+    "path": "Asset\\IMG_4461.PNG",
+    "bytes": 809426
+  },
+  {
+    "path": "Asset\\IMG_4462.PNG",
+    "bytes": 854160
+  },
+  {
+    "path": "Asset\\obj.png",
+    "bytes": 1186929
+  },
+  {
+    "path": "Asset\\objects\\blood-edit-prompt.txt",
+    "bytes": 709
+  },
+  {
+    "path": "Asset\\objects\\hard-source\\pipeline-meta.json",
+    "bytes": 6131
+  },
+  {
+    "path": "Asset\\objects\\hard-source\\prompt.txt",
+    "bytes": 1834
+  },
+  {
+    "path": "Asset\\objects\\hard-source\\raw-sheet.png",
+    "bytes": 1440686
+  },
+  {
+    "path": "Asset\\objects\\hard-source\\single-1.png",
+    "bytes": 139768
+  },
+  {
+    "path": "Asset\\objects\\hard-source\\single-2.png",
+    "bytes": 95029
+  },
+  {
+    "path": "Asset\\objects\\hard-source\\single-3.png",
+    "bytes": 120159
+  },
+  {
+    "path": "Asset\\objects\\hard-source\\single-4.png",
+    "bytes": 52608
+  },
+  {
+    "path": "Asset\\objects\\hard-source\\single-5.png",
+    "bytes": 37378
+  },
+  {
+    "path": "Asset\\objects\\hard-source\\single-6.png",
+    "bytes": 100422
+  },
+  {
+    "path": "Asset\\objects\\hard-source\\single-7.png",
+    "bytes": 136466
+  },
+  {
+    "path": "Asset\\objects\\hard-source\\single-8.png",
+    "bytes": 133318
+  },
+  {
+    "path": "Asset\\objects\\hard-source\\single-9.png",
+    "bytes": 81011
+  },
+  {
+    "path": "Asset\\objects\\soft-source\\pipeline-meta.json",
+    "bytes": 6128
+  },
+  {
+    "path": "Asset\\objects\\soft-source\\prompt.txt",
+    "bytes": 1829
+  },
+  {
+    "path": "Asset\\objects\\soft-source\\raw-sheet.png",
+    "bytes": 1509974
+  },
+  {
+    "path": "Asset\\objects\\soft-source\\single-1.png",
+    "bytes": 91638
+  },
+  {
+    "path": "Asset\\objects\\soft-source\\single-2.png",
+    "bytes": 125755
+  },
+  {
+    "path": "Asset\\objects\\soft-source\\single-3.png",
+    "bytes": 107637
+  },
+  {
+    "path": "Asset\\objects\\soft-source\\single-4.png",
+    "bytes": 104681
+  },
+  {
+    "path": "Asset\\objects\\soft-source\\single-5.png",
+    "bytes": 86265
+  },
+  {
+    "path": "Asset\\objects\\soft-source\\single-6.png",
+    "bytes": 118469
+  },
+  {
+    "path": "Asset\\objects\\soft-source\\single-7.png",
+    "bytes": 115215
+  },
+  {
+    "path": "Asset\\objects\\soft-source\\single-8.png",
+    "bytes": 139530
+  },
+  {
+    "path": "Asset\\objects\\soft-source\\single-9.png",
+    "bytes": 145692
+  },
+  {
+    "path": "Asset\\objects\\source-clean\\fork.png",
+    "bytes": 52608
+  },
+  {
+    "path": "Asset\\objects\\source-clean\\knife.png",
+    "bytes": 37378
+  },
+  {
+    "path": "Asset\\objects\\sources.json",
+    "bytes": 2070
+  },
+  {
+    "path": "Asset\\stage\\arcade-base.prompt.txt",
+    "bytes": 1132
+  },
+  {
+    "path": "Asset\\stage\\arcade-reference.prompt.txt",
+    "bytes": 1219
+  },
+  {
+    "path": "Asset\\stage\\bumper.prompt.txt",
+    "bytes": 859
+  },
+  {
+    "path": "Asset\\stage\\capsule.prompt.txt",
+    "bytes": 878
+  },
+  {
+    "path": "Asset\\stage\\checkpoint-cosmii-prompt.txt",
+    "bytes": 1272
+  },
+  {
+    "path": "Asset\\stage\\checkpoint-ring.png",
+    "bytes": 1241556
+  },
+  {
+    "path": "Asset\\stage\\home-fix.prompt.txt",
+    "bytes": 623
+  },
+  {
+    "path": "Asset\\stage\\home.prompt.txt",
+    "bytes": 999
+  },
+  {
+    "path": "Asset\\stage\\pop-background-prompt.txt",
+    "bytes": 1134
+  },
+  {
+    "path": "Asset\\stage\\shelf.prompt.txt",
+    "bytes": 975
+  },
+  {
+    "path": "Asset\\神楽の光.mp3",
+    "bytes": 4656852
+  }
+]

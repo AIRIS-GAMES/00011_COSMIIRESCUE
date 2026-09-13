@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {RescueGame,seededRandom} from '../src/engine.js';
+import {stage} from '../src/stage.js';
+import {RescueStorage} from '../src/storage.js';
+const make=(count=0)=>{const g=new RescueGame(stage,seededRandom(2));g.start('hard');g.world.extend=()=>{};g.incoming.update=()=>{};g.homes=[];for(const f of g.friends.slice(0,count))g.rescue(f);g.friends=[];return g;};
+test('hard mode ends immediately on losing the last friend, including strong hits',()=>{for(const damage of [1,2,3]){const g=make(damage);g.hit(damage);assert.equal(g.carry.length,0);assert.equal(g.state,'ending');assert.equal(g.hearts,0);g.start();assert.equal(g.mode,'hard');assert.equal(g.state,'playing');}});
+test('hard mode allows solo flight but no opening damage shield',()=>{const g=make();g.update(1/120);assert.equal(g.state,'playing');g.hit();assert.equal(g.state,'ending');});
+test('hard checkpoint deposits all friends and continues; next solo damage ends the run',()=>{const g=make(3);g.beginReturn();assert.equal(g.carry.length,0);assert.equal(g.state,'playing');while(g.bankQueue.length)g.bankOne();assert.equal(g.rescued,3);assert.ok(g.score>0);g.update(1/120);assert.equal(g.state,'playing');g.hit();assert.equal(g.state,'ending');});
+test('hard mode survives partial damage and nuisance effects; normal mode retains lives',()=>{const g=make(5);g.hit(2);assert.equal(g.carry.length,1);assert.equal(g.state,'playing');g.cooldown=0;g.effects.slow=2;g.update(1/120);assert.equal(g.state,'playing');g.start('normal');g.time=31;g.hit();assert.equal(g.state,'playing');assert.equal(g.hearts,2);});
+test('hard scores are isolated and normal legacy scores survive reload',()=>{const map=new Map(),disk={getItem:k=>map.get(k),setItem:(k,v)=>map.set(k,v)};const normal=new RescueStorage(disk),hard=new RescueStorage(disk,'hard');normal.record({score:500,rescued:3,maxCarry:3});hard.record({score:100,rescued:1,maxCarry:1});assert.equal(new RescueStorage(disk).data.best,500);assert.equal(new RescueStorage(disk,'hard').data.best,100);});

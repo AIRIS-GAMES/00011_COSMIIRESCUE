@@ -1,0 +1,298 @@
+[
+  {
+    "bytes": 447616,
+    "path": "asset-contact.png"
+  },
+  {
+    "bytes": 2604533,
+    "path": "Asset\\stage\\arcade-preview.png"
+  },
+  {
+    "bytes": 1936019,
+    "path": "Asset\\stage\\arcade-reference.png"
+  },
+  {
+    "bytes": 1963660,
+    "path": "Asset\\stage\\arcade-base.png"
+  },
+  {
+    "bytes": 1528292,
+    "path": "Asset\\stage\\home-raw.png"
+  },
+  {
+    "bytes": 1206767,
+    "path": "Asset\\stage\\home-key.png"
+  },
+  {
+    "bytes": 798285,
+    "path": "Asset\\stage\\home-alpha.png"
+  },
+  {
+    "bytes": 473195,
+    "path": "Asset\\stage\\home.png"
+  },
+  {
+    "bytes": 839956,
+    "path": "Asset\\stage\\capsule-raw.png"
+  },
+  {
+    "bytes": 525608,
+    "path": "Asset\\stage\\capsule.png"
+  },
+  {
+    "bytes": 822190,
+    "path": "Asset\\stage\\shelf-raw.png"
+  },
+  {
+    "bytes": 112051,
+    "path": "Asset\\stage\\shelf.png"
+  },
+  {
+    "bytes": 683358,
+    "path": "Asset\\stage\\bumper-raw.png"
+  },
+  {
+    "bytes": 641036,
+    "path": "Asset\\stage\\bumper.png"
+  },
+  {
+    "bytes": 264042,
+    "path": "Asset\\stage\\props-contact.png"
+  },
+  {
+    "bytes": 706,
+    "path": "Asset\\stage\\pop-home.svg"
+  },
+  {
+    "bytes": 662,
+    "path": "Asset\\stage\\pop-capsule.svg"
+  },
+  {
+    "bytes": 1680,
+    "path": "Asset\\stage\\manifest.json"
+  },
+  {
+    "bytes": 1403,
+    "path": "Asset\\stage\\extraction.json"
+  },
+  {
+    "bytes": 772375,
+    "path": "Asset\\objects\\soft-source\\raw-sheet-clean.png"
+  },
+  {
+    "bytes": 1021918,
+    "path": "Asset\\objects\\soft-source\\sheet-transparent.png"
+  },
+  {
+    "bytes": 275001,
+    "path": "Asset\\objects\\soft-source\\animation.gif"
+  },
+  {
+    "bytes": 694933,
+    "path": "Asset\\objects\\hard-source\\raw-sheet-clean.png"
+  },
+  {
+    "bytes": 889221,
+    "path": "Asset\\objects\\hard-source\\sheet-transparent.png"
+  },
+  {
+    "bytes": 227737,
+    "path": "Asset\\objects\\hard-source\\animation.gif"
+  },
+  {
+    "bytes": 802783,
+    "path": "Asset\\cast\\flap\\raw-sheet-clean.png"
+  },
+  {
+    "bytes": 245966,
+    "path": "Asset\\cast\\flap\\sheet-transparent.png"
+  },
+  {
+    "bytes": 121724,
+    "path": "Asset\\cast\\flap\\animation.gif"
+  },
+  {
+    "bytes": 964826,
+    "path": "test-results\\auto-landscape-menu.png"
+  },
+  {
+    "bytes": 1014023,
+    "path": "test-results\\auto-landscape-play.png"
+  },
+  {
+    "bytes": 653075,
+    "path": "test-results\\auto-landscape-small.png"
+  },
+  {
+    "bytes": 124388,
+    "path": "test-results\\biome-neon.png"
+  },
+  {
+    "bytes": 321470,
+    "path": "test-results\\biome-sky.png"
+  },
+  {
+    "bytes": 104740,
+    "path": "test-results\\biome-space.png"
+  },
+  {
+    "bytes": 118124,
+    "path": "test-results\\biome-sunset.png"
+  },
+  {
+    "bytes": 281013,
+    "path": "test-results\\blood-impact.png"
+  },
+  {
+    "bytes": 108656,
+    "path": "test-results\\boot-landscape-menu.png"
+  },
+  {
+    "bytes": 24703,
+    "path": "test-results\\boot-portrait.png"
+  },
+  {
+    "bytes": 145745,
+    "path": "test-results\\checkpoint-ring.png"
+  },
+  {
+    "bytes": 213473,
+    "path": "test-results\\controls-center.png"
+  },
+  {
+    "bytes": 298687,
+    "path": "test-results\\controls-docked.png"
+  },
+  {
+    "bytes": 287820,
+    "path": "test-results\\endless-area-mobile.png"
+  },
+  {
+    "bytes": 893752,
+    "path": "test-results\\endless-desktop.png"
+  },
+  {
+    "bytes": 295731,
+    "path": "test-results\\endless-play-mobile.png"
+  },
+  {
+    "bytes": 290030,
+    "path": "test-results\\endless-title-mobile.png"
+  },
+  {
+    "bytes": 165355,
+    "path": "test-results\\fever-mobile.png"
+  },
+  {
+    "bytes": 89467,
+    "path": "test-results\\game-mobile.png"
+  },
+  {
+    "bytes": 190407,
+    "path": "test-results\\hard-menu-small.png"
+  },
+  {
+    "bytes": 277470,
+    "path": "test-results\\hard-menu.png"
+  },
+  {
+    "bytes": 269496,
+    "path": "test-results\\landscape-carry.png"
+  },
+  {
+    "bytes": 277879,
+    "path": "test-results\\landscape-depth.png"
+  },
+  {
+    "bytes": 324781,
+    "path": "test-results\\landscape-title.png"
+  },
+  {
+    "bytes": 165869,
+    "path": "test-results\\new-characters.png"
+  },
+  {
+    "bytes": 261065,
+    "path": "test-results\\objects-effects.png"
+  },
+  {
+    "bytes": 328858,
+    "path": "test-results\\objects-gallery.png"
+  },
+  {
+    "bytes": 275441,
+    "path": "test-results\\pop-carry-mobile.png"
+  },
+  {
+    "bytes": 315145,
+    "path": "test-results\\pop-fever-mobile.png"
+  },
+  {
+    "bytes": 322207,
+    "path": "test-results\\rainbow-mode.png"
+  },
+  {
+    "bytes": 133827,
+    "path": "test-results\\refresh-objects.png"
+  },
+  {
+    "bytes": 352927,
+    "path": "test-results\\rescue-fever-mobile.png"
+  },
+  {
+    "bytes": 86843,
+    "path": "test-results\\rescue-result-mobile.png"
+  },
+  {
+    "bytes": 345268,
+    "path": "test-results\\rescue-return-mobile.png"
+  },
+  {
+    "bytes": 352203,
+    "path": "test-results\\rescue-start-mobile.png"
+  },
+  {
+    "bytes": 588878,
+    "path": "test-results\\rescue-title-desktop.png"
+  },
+  {
+    "bytes": 342155,
+    "path": "test-results\\rescue-title-mobile.png"
+  },
+  {
+    "bytes": 333064,
+    "path": "test-results\\rescue-train-mobile.png"
+  },
+  {
+    "bytes": 75166,
+    "path": "test-results\\result-mobile.png"
+  },
+  {
+    "bytes": 29304,
+    "path": "test-results\\review-asset-failure.png"
+  },
+  {
+    "bytes": 1188726,
+    "path": "test-results\\sharpness-desktop.png"
+  },
+  {
+    "bytes": 1558221,
+    "path": "test-results\\sharpness-phone.png"
+  },
+  {
+    "bytes": 296118,
+    "path": "test-results\\title-desktop.png"
+  },
+  {
+    "bytes": 129254,
+    "path": "test-results\\title-mobile.png"
+  },
+  {
+    "bytes": 487075,
+    "path": "test-results\\transition-covered.png"
+  },
+  {
+    "bytes": 493324,
+    "path": "test-results\\transition-enter.png"
+  }
+]

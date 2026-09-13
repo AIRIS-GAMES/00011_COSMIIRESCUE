@@ -1,0 +1,5 @@
+import {chromium} from '@playwright/test';
+import assert from 'node:assert/strict';
+const browser=await chromium.launch({channel:'chrome',headless:true});
+try{const p=await browser.newPage({viewport:{width:844,height:390}}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('http://localhost:5180');await p.locator('#loading').waitFor({state:'hidden'});await p.locator('#start').click();await p.locator('.face-transition').waitFor({state:'hidden'});
+await p.evaluate(async()=>{const {game:g,renderer:r}=await import('/src/main.js');g.player.x=3400;g.player.y=790;g.world.extend(g);g.state='ready';r.snap(g);g.obstacles=['fork','knife','rocket'].map((asset,i)=>({asset,x:g.player.x+170+i*190,y:g.player.y-50+(i%2)*100,size:190+i*45,r:60,ry:25,angle:Math.PI,damage:2,disabled:0}));});await p.waitForTimeout(1300);await p.screenshot({path:'test-results/refresh-objects.png'});assert.ok(await p.locator('#home-direction').isVisible());assert.deepEqual(errors,[]);console.log('PASS: regenerated assets, directed objects and nearby checkpoint hint render.');}finally{await browser.close();}

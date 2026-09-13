@@ -1,0 +1,14 @@
+import {chromium} from '@playwright/test';
+import assert from 'node:assert/strict';
+const b=await chromium.launch({channel:'chrome',headless:true});
+try{const p=await b.newPage({viewport:{width:844,height:390},hasTouch:true}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.goto('http://localhost:5180');await p.locator('#loading').waitFor({state:'hidden'});await p.locator('#start').tap();await p.locator('.face-transition').waitFor({state:'hidden'});await p.locator('#flap').tap();await p.waitForTimeout(500);
+ await p.evaluate(async()=>{const {game:g}=await import('/src/main.js');g.world.extend=()=>{};g.incoming.update=()=>{};g.obstacles=[];g.homes=[];g.friends=[];g.carry=[];g.player.vy=0;for(let i=0;i<20;i++)g.rescue(g.spawnFriend({x:g.player.x,y:g.player.y,kind:i%4}));g.beginReturn();while(g.bankQueue.length)g.bankOne();});
+ await p.evaluate(async()=>{window.testAudio=(await import('/src/main.js')).audio;}); await p.waitForFunction(()=>{const audio=window.testAudio;return decodeURIComponent(audio.bgm.currentSrc).includes('rainbow-24s.mp3')&&!audio.bgm.paused&&audio.bgm.currentTime>0;});
+ assert.ok(await p.evaluate(()=>window.testAudio.bgm.duration>=24&&window.testAudio.bgm.duration<24.2));
+ await p.evaluate(()=>{window.testAudio.bgm.currentTime=23.8;});
+ await p.waitForFunction(()=>!window.testAudio.bgm.paused&&window.testAudio.bgm.currentTime<1);
+ await p.evaluate(async()=>{const {game:g,renderer}=await import('/src/main.js');window.testRenderer=renderer;const x=g.player.x+220,y=g.player.y+8;g.obstacles.push({asset:'knife',x,y,baseX:x,baseY:y,size:330,r:100,ry:43,angle:Math.PI,phase:0,disabled:0});});
+ await p.waitForFunction(()=>window.testRenderer.fragments.length>0);
+ await p.screenshot({path:'test-results/rainbow-mode.png'});await p.locator('#pause').tap();const left=await p.evaluate(async()=>(await import('/src/main.js')).game.rainbow.left);await p.waitForTimeout(300);assert.equal(await p.evaluate(async()=>(await import('/src/main.js')).game.rainbow.left),left);assert.equal(await p.evaluate(async()=>(await import('/src/main.js')).audio.bgm.paused),true);
+ await p.locator('#resume').tap();await p.evaluate(async()=>{(await import('/src/main.js')).game.rainbow.left=.01;});await p.evaluate(async()=>{window.testAudio=(await import('/src/main.js')).audio;}); await p.waitForFunction(()=>{const audio=window.testAudio;return decodeURIComponent(audio.bgm.currentSrc).includes('Hypnoticcuping')&&!audio.bgm.paused;});assert.deepEqual(errors,[]);console.log('PASS: twenty friends in one checkpoint return trigger rainbow, supplied music plays, pause freezes mode/music, expiry restores normal track.');
+}finally{await b.close();}

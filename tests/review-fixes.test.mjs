@@ -1,0 +1,14 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {RescueGame,seededRandom,overlap} from '../src/engine.js';
+import {stage} from '../src/stage.js';
+import {RescueStorage} from '../src/storage.js';
+import {GameSettings} from '../src/settings.js';
+import {RescueAnalytics} from '../src/analytics.js';
+import {pushOutEllipse} from '../src/collision.js';
+const disk=()=>{const m=new Map();return {getItem:k=>m.get(k),setItem:(k,v)=>m.set(k,v)};};
+test('checkpoint commits all points synchronously before animation, reset or reload',()=>{const d=disk(),storage=new RescueStorage(d),g=new RescueGame(stage,seededRandom(1));g.start();storage.beginRun();g.onCheckpoint=()=>storage.record(g);for(let i=0;i<20;i++)g.rescue(g.spawnFriend({x:0,y:0,kind:0}));g.beginReturn();const total=g.bestReturn;assert.equal(g.score,total);assert.equal(g.rescued,20);assert.equal(g.bankQueue.length,20);assert.equal(new RescueStorage(d).data.best,total);g.bankOne();assert.equal(g.score,total);g.reset();assert.equal(new RescueStorage(d).data.runs[0].rescued,20);});
+test('left movement returns past previous scroll boundary',()=>{const g=new RescueGame(stage,seededRandom(1));g.start();g.world.extend=()=>{};g.incoming.update=()=>{};g.homes=[];g.friends=[];g.player.x=2000;g.scrollX=1700;g.setDirection(-1);for(let i=0;i<240;i++)g.update(1/120);assert.ok(g.player.x<1700);assert.ok(g.player.vx<0);});
+test('ellipse contact is pushed minimally along its short axis at any rotation',()=>{for(const angle of [0,.7,Math.PI/2]){const o={x:500,y:500,r:144,ry:60,angle},p={x:500-76*Math.sin(angle),y:500+76*Math.cos(angle),r:17},before={...p};assert.equal(overlap(p,o),true);pushOutEllipse(p,o);assert.ok(Math.hypot(p.x-before.x,p.y-before.y)<3);assert.equal(overlap(p,o),false);}});
+test('mute migrates from hard and persists globally without changing scores',()=>{const d=disk();d.setItem('cosmii-endless-v1-hard',JSON.stringify({muted:true,best:500,runs:[]}));let settings=new GameSettings(d);assert.equal(settings.muted,true);assert.equal(new RescueStorage(d,'hard').data.best,500);settings.muted=false;settings.save();settings=new GameSettings(d);assert.equal(settings.muted,false);});
+test('persisted pagehide keeps the same analytics run; real leave ends once',()=>{const calls=[],a=new RescueAnalytics((...args)=>calls.push(args)),g={mode:'hard',score:500};a.start(g);a.pageHide(g,true);assert.equal(a.active,true);a.event({type:'return',count:3,total:500},g);a.pageHide(g,false);a.pageHide(g,false);assert.equal(calls.filter(c=>c[1]==='Checkpoint:Count:hard').length,1);assert.equal(calls.filter(c=>c[1]==='Run:End:leave:hard').length,1);assert.equal(calls.filter(c=>c[0]==='addProgressionEvent').length,1);});
