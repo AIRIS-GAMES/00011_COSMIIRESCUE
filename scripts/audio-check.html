@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja"><head><meta charset="utf-8"><base href="/"><meta name="viewport" content="width=device-width,initial-scale=1"><title>効果音の確認</title>
+<style>body{font:16px system-ui,sans-serif;background:#fff8e8;color:#38281e;margin:0;padding:20px;max-width:600px}h1{font-size:23px}p{line-height:1.6}button{display:block;width:100%;min-height:54px;padding:12px;margin:12px 0;border:2px solid #76542c;border-radius:12px;background:#ffd35e;font:700 17px system-ui}audio{width:100%}pre{white-space:pre-wrap;overflow-wrap:anywhere;background:white;border-radius:10px;padding:12px;font-size:13px}a{display:block;padding:16px 0}</style></head>
+<body><h1>効果音の確認</h1><p>BGMは流れません。上から順に押して、どれが聞こえるか確認してください。</p>
+<button id="wav">① WAVを直接鳴らす</button><audio id="direct-wav" controls preload="auto" src="/Asset/audio/sfx/rescue.wav"></audio>
+<button id="mp3">② 同じ音のMP3を鳴らす</button><audio id="direct-mp3" controls preload="auto" src="/Asset/audio/sfx-mp3/rescue.mp3"></audio>
+<button id="game">③ ゲームと同じ方法で鳴らす</button>
+<button id="direct-game">④ ゲームの音をタップ中に鳴らす</button>
+<pre id="status">まだ再生していません</pre><p>①〜④のうち、聞こえた番号を教えてください。全部無音なら、この画面の結果も教えてください。</p><a href="/">ゲームへ戻る</a>
+<script type="module">
+import {GameAudio} from '/src/audio.js';
+const engine=new GameAudio();engine.enabled=false;
+const wav=document.getElementById('direct-wav'),mp3=document.getElementById('direct-mp3'),status=document.getElementById('status');
+let current=null,label='',outcome='',timer=null;
+function stop(){clearTimeout(timer);wav.pause();mp3.pause();engine.stopEffects();}
+function snapshot(){
+  if(!current)return;
+  status.textContent=[label,outcome,`再生時間: ${current.currentTime.toFixed(3)} 秒 / 長さ: ${Number.isFinite(current.duration)?current.duration.toFixed(3):'未取得'}`,
+    `停止: ${current.paused} / 終了: ${current.ended}`,`読込: ${current.readyState} / 通信: ${current.networkState}`,
+    `音量: ${current.volume} / ミュート: ${current.muted}`,`音源エラー: ${current.error?current.error.code+' '+current.error.message:'なし'}`,
+    `ゲーム再生エラー: ${engine.lastError?engine.lastError.name+' '+engine.lastError.message:'なし'}`].join('\n');
+}
+function direct(audio,name){stop();current=audio;label=name;outcome='再生要求中';audio.currentTime=0;
+  try{Promise.resolve(audio.play()).then(()=>{outcome='play() 成功';snapshot();},e=>{outcome=`play() 拒否: ${e.name} ${e.message}`;snapshot();});}
+  catch(e){outcome=`例外: ${e.name} ${e.message}`;}snapshot();
+}
+document.getElementById('wav').onclick=()=>direct(wav,'① WAV直接');
+document.getElementById('mp3').onclick=()=>direct(mp3,'② MP3直接');
+document.getElementById('game').onclick=()=>{
+  stop();engine.unlock();engine.lastError=null;current=engine.sfx.rescue;label='③ ゲーム経由（タップの1秒後）';outcome='1秒後に再生';
+  timer=setTimeout(()=>{engine.effect('rescue');outcome='再生要求済み';snapshot();},1000);snapshot();
+};
+document.getElementById('direct-game').onclick=()=>{engine.lastError=null;direct(engine.sfx.rescue,'④ ゲーム要素をタップ中に直接再生');};
+setInterval(snapshot,150);
+document.addEventListener('visibilitychange',()=>{if(document.hidden)stop();});
+</script></body></html>

@@ -1,3 +1,4 @@
+import {CollaborationMode} from './collaboration.js';
 import {checkpointRimContact,attachedSlot} from './checkpoint.js';
 import {IncomingHazards} from './incoming.js';
 import {difficulty,impact} from './difficulty.js';
@@ -12,7 +13,8 @@ export function seededRandom(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let
 export function overlap(a,b){if(b.ry){const dx=a.x-b.x,dy=a.y-b.y,c=Math.cos(b.angle||0),s=Math.sin(b.angle||0);return ((dx*c+dy*s)/(b.r+a.r))**2+((-dx*s+dy*c)/(b.ry+a.r))**2<1;}if(b.r)return distance(a,b)<a.r+b.r;return Math.hypot(a.x-clamp(a.x,b.x,b.x+b.w),a.y-clamp(a.y,b.y,b.y+b.h))<a.r;}
 export function returnValue(friends,multiplier=1){const group=1+Math.min(2,Math.max(0,friends.length-1)*.2);return friends.map(f=>Math.round(f.value*f.combo*group*multiplier));}
 export class RescueGame {
-  constructor(stage,random=Math.random){this.template=stage;this.random=random;this.reset();}
+  constructor(stage,random=Math.random,collaborationConfig=null,now=Date.now){this.template=stage;this.random=random;this.collaborationConfig=collaborationConfig;this.now=now;this.reset();}
+  get powered(){return this.rainbow.active||this.collaboration.active;}
   reset(){
     this.stage={...this.template,props:[],spawns:[],home:{...this.template.home}};
     const h=this.stage.home;this.state='ready';this.time=0;this.scrollX=0;this.travel=0;this.direction=0;this.homes=[];
@@ -23,7 +25,7 @@ export class RescueGame {
     this.rimCooldown=0;this.effects={fog:0,slow:0,paper:0,slip:0};this.stun=0;this.cooldown=0;this.hitstop=0;this.endDelay=0;this.bankQueue=[];this.bankClock=0;
     this.returnLock=0;this.spawnClock=0;this.nearClock=0;this.nextId=1;
     this.obstacles=[];this.incoming=new IncomingHazards();this.view=null;
-    this.rainbow=new RainbowMode();
+    this.rainbow=new RainbowMode();this.collaboration=new CollaborationMode(this.collaborationConfig,this.now);
     this.activeZones=[];
     this.world=new EndlessWorld(this.template,this.random);this.world.extend(this);
     this.unlocked=new Set();
@@ -33,13 +35,13 @@ export class RescueGame {
   start(mode=this.mode||'normal'){this.mode=mode==='hard'?'hard':'normal';this.reset();this.state='playing';this.emit('start');}
   setDirection(value){const next=clamp(value,-1,1);if(next*this.direction<0)this.emit('turn',{x:this.player.x,y:this.player.y});this.direction=next;}
   flap(){if(this.state!=='playing'||this.stun>0)return;this.player.vy=-330;this.player.tap=.28;this.emit('flap',{x:this.player.x,y:this.player.y});}
-  spawnFriend(s){const f={id:this.nextId++,x:s.x,y:s.y,baseX:s.x,baseY:s.y,kind:s.kind??Math.floor(this.random()*4),value:s.rare?250:100,rare:!!s.rare,combo:1,cooldown:s.cooldown||0,phase:this.random()*6.28};this.friends.push(f);return f;}
+  spawnFriend(s){const f={id:this.nextId++,x:s.x,y:s.y,baseX:s.x,baseY:s.y,kind:s.kind??Math.floor(this.random()*4),value:s.rare?250:100,rare:!!s.rare,combo:1,cooldown:s.cooldown||0,phase:this.random()*6.28,collaborationKind:this.collaboration.assign(this,s),feverSpawn:!!s.feverSpawn};this.friends.push(f);return f;}
   rescue(f){
     if(f.cooldown>0||this.carry.some(c=>c.id===f.id))return;
     this.friends=this.friends.filter(c=>c!==f);this.combo=this.comboLeft>0?Math.min(4,this.combo+1):1;this.comboLeft=4.5;
     this.maxCombo=Math.max(this.maxCombo,this.combo);f.combo=1+(this.combo-1)*.25;
     this.carry.push({...f});this.maxCarry=Math.max(this.maxCarry,this.carry.length);
-    this.emit('rescue',{x:f.x,y:f.y,kind:f.kind,combo:this.combo,count:this.carry.length});
+    this.emit('rescue',{x:f.x,y:f.y,kind:f.kind,collaborationKind:f.collaborationKind,combo:this.combo,count:this.carry.length});
   }
   beginReturn(){
     if(!this.carry.length||this.bankQueue.length||this.returnLock>0)return;
@@ -49,18 +51,18 @@ export class RescueGame {
     this.score+=total;this.rescued+=friends.length;
     this.onCheckpoint?.(this);
     this.emit('return',{x:this.stage.home.x,y:this.stage.home.y,count:friends.length,total});
-    this.rainbow.returnGroup(this,friends.length);
+    if(this.collaboration.enabled)this.collaboration.returnGroup(this,friends);else this.rainbow.returnGroup(this,friends.length);
   }
-  bankOne(){const f=this.bankQueue.shift();if(!f)return;const h=this.returnCheckpoint||this.returnHome;h.attached??=[];const slot=attachedSlot(h.attached.length);h.attached.push({kind:f.kind,...slot,showAt:this.time+.5});this.emit('bank',{x:f.x,y:f.y,homeX:h.x+slot.x,homeY:h.y+slot.y,kind:f.kind,points:f.points,index:f.bankIndex});}
+  bankOne(){const f=this.bankQueue.shift();if(!f)return;const h=this.returnCheckpoint||this.returnHome;h.attached??=[];const slot=attachedSlot(h.attached.length);h.attached.push({kind:f.kind,collaborationKind:f.collaborationKind,...slot,showAt:this.time+.5});this.emit('bank',{x:f.x,y:f.y,homeX:h.x+slot.x,homeY:h.y+slot.y,kind:f.kind,collaborationKind:f.collaborationKind,points:f.points,index:f.bankIndex});}
   hit(damage=1,contact=null){
-    if(this.cooldown>0||this.rainbow.active)return;
+    if(this.cooldown>0||this.powered)return;
     this.cooldown=difficulty(this.mode,this.time).cooldown;this.hitstop=.055;
     if(this.mode!=='hard'&&this.time<30&&!this.carry.length){this.emit('bump',{x:this.player.x,y:this.player.y});return;}
     const hadFriends=this.carry.length>0,rules=impact(this.mode,damage,this.carry.length,contact===this.player);
     this.stun=Math.max(this.stun,rules.stun);
-    if(this.carry.length){const count=rules.loss;for(let i=0;i<count;i++){const lost=this.carry.pop();this.spawnFriend({x:lost.x-90-i*18,y:lost.y+60+i*12,kind:lost.kind,rare:lost.rare,cooldown:6});}this.emit('lost',{x:contact?.x??this.player.x,y:contact?.y??this.player.y,kind:0,count});}
+    if(this.carry.length){const count=rules.loss;for(let i=0;i<count;i++){const lost=this.carry.pop();this.spawnFriend({x:lost.x-90-i*18,y:lost.y+60+i*12,kind:lost.kind,rare:lost.rare,collaborationKind:lost.collaborationKind,feverSpawn:lost.feverSpawn,cooldown:6});}this.emit('lost',{x:contact?.x??this.player.x,y:contact?.y??this.player.y,kind:0,count});}
     else{this.hearts--;this.emit('hit',{x:this.player.x,y:this.player.y});if(this.hearts<=0)this.finish('hit');}
-    if(contact)this.emit('blood',{x:contact.x,y:contact.y,damage});
+    if(contact&&!this.collaboration.enabled)this.emit('blood',{x:contact.x,y:contact.y,damage});
     if(hadFriends&&rules.life&&this.time>=30){this.hearts--;this.emit('hit',{x:this.player.x,y:this.player.y});}
     if(rules.fatal||this.hearts<=0||this.mode==='hard'&&!this.carry.length){this.hearts=0;this.finish('hit');}
     this.combo=0;this.comboLeft=0;
@@ -72,7 +74,7 @@ export class RescueGame {
     if(this.state!=='playing')return;if(this.hitstop>0){this.hitstop-=dt;return;}
     for(const key of Object.keys(this.effects))this.effects[key]=Math.max(0,this.effects[key]-dt);
     this.stun=Math.max(0,this.stun-dt);
-    this.rainbow.update(this,dt);
+    this.rainbow.update(this,dt);this.collaboration.update(this,dt);
     this.time+=dt;this.scrollX=Math.max(this.scrollX+110*(this.effects.slow>0?.5:1)*dt,this.player.x-310);this.travel=Math.max(this.travel,(this.player.x-this.template.home.x)/10);this.world.extend(this);this.incoming.update(this,dt);
     this.cooldown=Math.max(0,this.cooldown-dt);this.returnLock=Math.max(0,this.returnLock-dt);this.comboLeft=Math.max(0,this.comboLeft-dt);if(!this.comboLeft)this.combo=0;
     if(this.time>=30&&!this.unlocked.has('difficulty-30')){this.unlocked.add('difficulty-30');this.emit('difficulty',{level:1});}
@@ -94,7 +96,7 @@ export class RescueGame {
       const x=p.x+Math.cos(angle)*radius-p.vx*.009,y=p.y+Math.sin(angle)*radius+Math.sin(this.time*3+f.phase)*2;
       const follow=1-Math.exp(-24*dt);f.x+=(x-f.x)*follow;f.y+=(y-f.y)*follow;
     }
-    const beams=this.rainbow.active?eyeBeams(this):[];
+    const beams=this.powered?eyeBeams(this):[];
     for(const o of this.obstacles){
       o.disabled=Math.max(0,o.disabled-dt);
       if(o.incoming){o.x+=o.vx*dt;o.y+=o.vy*dt;}else{
@@ -103,7 +105,7 @@ export class RescueGame {
       o.x=o.baseX+(Math.sin(this.time*m.speed+phase)-Math.sin(phase))*m.x*strength;
       o.y=o.baseY+(Math.cos(this.time*m.speed+phase)-Math.cos(phase))*m.y*strength;
       }
-      if(this.rainbow.active){if(beamTargetVisible(this,o)&&beams.some(b=>beamHits(b,o))){o.destroyed=true;this.emit('break',{x:o.x,y:o.y,asset:o.asset,size:o.size,angle:o.angle,rainbow:true});}continue;}
+      if(this.powered){if(beamTargetVisible(this,o)&&beams.some(b=>beamHits(b,o))){o.destroyed=true;this.emit('break',{x:o.x,y:o.y,asset:o.asset,size:o.size,angle:o.angle,rainbow:true});}continue;}
       if(o.disabled)continue;
       const collision=overlap(p,o);
       if(o.effect){if(collision){this.effects[o.effect]=Math.max(this.effects[o.effect],o.duration);o.disabled=o.duration+1;this.emit('hinder',{x:p.x,y:p.y,effect:o.effect});}continue;}
