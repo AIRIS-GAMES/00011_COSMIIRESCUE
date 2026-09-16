@@ -30,12 +30,37 @@ test('rescue interrupts tapping and suppresses taps until rescue ends',async()=>
 });
 
 test('a burst of matching effects starts one decoder until playback is ready',async()=>{
-  const a=new GameAudio();a.unlock();const media=a.sfx.rescue;let ready;
+  let now=0;const a=new GameAudio(()=>now);a.unlock();const media=a.sfx.rescue;let ready;
   media.result=()=>new Promise(resolve=>{ready=resolve;});
   for(let i=0;i<30;i++)a.effect('rescue');
   assert.equal(media.calls.filter(c=>c==='play').length,1);
-  ready();await settle();media.result=()=>Promise.resolve();a.effect('rescue');
+  ready();await settle();media.result=()=>Promise.resolve();now=150;a.effect('rescue');
   assert.equal(media.calls.filter(c=>c==='play').length,2);await settle();
+});
+
+test('nearby POPs across frames play once without extra pause or seek, then recover',async()=>{
+  let now=0;const a=new GameAudio(()=>now);a.unlock();a.sfx.rescue.calls=[];
+  a.effect('rescue');await settle();
+  for(now=16;now<150;now+=16){a.effect('rescue');await settle();}
+  assert.deepEqual(a.sfx.rescue.calls,['pause','seek','play']);
+  now=150;a.effect('rescue');await settle();
+  assert.equal(a.sfx.rescue.calls.filter(c=>c==='play').length,2);
+  a.restart();a.effect('rescue');await settle();
+  assert.equal(a.sfx.rescue.calls.filter(c=>c==='play').length,3);
+});
+
+test('fever stops ongoing and pending effects, keeps BGM, and restores effects afterwards',async()=>{
+  const a=new GameAudio();a.unlock();let ready;
+  a.sfx.rescue.result=()=>new Promise(resolve=>{ready=resolve;});
+  a.effect('rescue');a.effect('bank');a.setRainbow(true);a.music(true);
+  const counts=Object.values(a.sfx).map(s=>s.calls.length);
+  for(const name of Object.keys(a.sfx))a.effect(name);
+  assert.deepEqual(Object.values(a.sfx).map(s=>s.calls.length),counts);
+  ready();await settle();
+  assert.ok(Object.values(a.sfx).every(s=>s.paused));assert.equal(a.voices.size,0);
+  assert.equal(a.bgm.paused,false);assert.ok(a.bgm.src.includes('rainbow-24s'));
+  a.setRainbow(false);a.music(true);a.sfx.rescue.result=()=>Promise.resolve();a.effect('rescue');await settle();
+  assert.equal(a.sfx.rescue.paused,false);assert.equal(a.bgm.paused,false);
 });
 
 test('effects restart in order, cap overlap, BGM OFF keeps effects, suspend silences all',async()=>{
@@ -88,13 +113,13 @@ test('each media element loads during the gesture, then effects can play outside
   }
   const original=globalThis.Audio;globalThis.Audio=GestureMedia;
   try{
-    const a=new GameAudio();gesture=true;a.unlock();gesture=false;
+    let now=0;const a=new GameAudio(()=>now);gesture=true;a.unlock();gesture=false;
     const media=[a.bgm,...Object.values(a.sfx)];assert.ok(media.every(m=>m.authorized));
     a.effect('flap');await settle();assert.equal(a.sfx.flap.paused,false);
     a.effect('rescue');await settle();assert.equal(a.sfx.rescue.paused,false);assert.equal(a.lastError,null);
     gesture=true;a.unlock();gesture=false;assert.ok(media.every(m=>m.calls.filter(c=>c==='load').length===1));
     // Model a later browser interruption: keep diagnostics and retry on next tap.
-    a.sfx.rescue.authorized=false;a.effect('rescue');await settle();assert.equal(a.lastError.name,'NotAllowedError');
+    now=150;a.sfx.rescue.authorized=false;a.effect('rescue');await settle();assert.equal(a.lastError.name,'NotAllowedError');
     gesture=true;a.unlock();gesture=false;a.effect('rescue');await settle();assert.equal(a.sfx.rescue.authorized,true);
     assert.equal(a.sfx.flap.calls.filter(c=>c==='load').length,1);assert.equal(a.sfx.rescue.calls.filter(c=>c==='load').length,2);
   }finally{globalThis.Audio=original;}

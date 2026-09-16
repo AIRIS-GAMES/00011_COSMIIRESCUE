@@ -129,7 +129,16 @@ export class Renderer {
 const center=this.width*.51,scale=Math.min(.88,h/390);const positions=[[0,0],[-48,-56],[49,-58],[63,18],[40,85],[-44,80],[-65,15]].map(([x,y])=>({x:center+x*scale,y:h*.55+y*scale}));
     c.save();c.strokeStyle='#fff5d590';c.lineWidth=3;c.setLineDash([4,7]);c.beginPath();for(const [i,p] of positions.entries()){if(!i)c.moveTo(p.x,p.y);else c.lineTo(p.x,p.y);}c.stroke();c.restore();
     positions.forEach((p,i)=>{const size=(i===0?97:67)*scale,y=p.y+(this.reduced?0:Math.sin(this.clock*2.5-i*.7)*7*scale);c.save();c.translate(p.x,y);c.rotate(Math.sin(this.clock*1.5-i)*.07);this.image(i?this.assets.friends[(i-1)%4]:this.assets.hero,-size/2,-size/2,size,size);c.restore();});
-    if(this.collaborationEnabled){const size=Math.min(76,h*.19);this.image(this.assets.collaborationImages[0],this.width*.60-size/2,h*.82-size/2,size,size);}
+    if(this.collaborationEnabled){
+      // Keep the guests clear of the logo, campaign banner and PLAY menu.
+      const guests=[[.15,.85,0,1],[.32,.86,2,.9],[.40,.32,3,.85],[.61,.43,5,.9],[.60,.83,6,1]];
+      guests.forEach(([x,y,kind,scale],i)=>{
+        const size=Math.min(76,h*.18)*scale,phase=i*1.7;
+        const dx=this.reduced?0:Math.sin(this.clock*.7+phase)*5;
+        const dy=this.reduced?0:Math.sin(this.clock*1.3+phase)*Math.min(10,h*.025);
+        this.image(this.assets.collaborationImages[kind],this.width*x+dx-size/2,h*y+dy-size/2,size,size);
+      });
+    }
     this.star(44,h*.465,9,'#fff2bd',this.clock*.2);this.star(354,h*.565,7,'#fff2bd');
   }
   collaborationHud(game){

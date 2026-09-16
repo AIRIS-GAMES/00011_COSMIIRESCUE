@@ -41,7 +41,7 @@ function clearInput(){pointer=null;pressed.clear();resetStick();}
 function startNow(){if(!ready||!bootComplete)return;audio.unlock();clearInput();paused=false;audio.resume();game.start(selectedMode);storage.beginRun();analytics.start(game);audio.restart();renderer.snap(game);accumulator=0;toastLeft=0;tutorialLeft=0;$('tutorial').hidden=true;$('toast').hidden=true;show('playing');beginControls();if(document.hidden)background();$('live').textContent='救出開始。左手で左右の向き、右手タップで上昇。仲間を道中のHOMEへ。';}
 function homeNow(){analytics.end(game,'quit');controlIntro=0;dockLeft=0;$('game').classList.remove('controls-intro');audio.music(false);audio.stopEffects();clearInput();paused=false;game.reset();renderer.snap(game);show('title');$('tutorial').hidden=true;$('toast').hidden=true;}
 function pause(){if(game.state!=='playing'&&game.state!=='ending')return;paused=!paused;clearInput();show(paused?'pause-screen':'playing');accumulator=0;if(!paused){if(document.hidden){paused=true;show('pause-screen');return;}audio.resume();}if(paused)audio.stopEffects();audio.music(!paused);}
-function processEvents(){const sounds=new Set();let rescued=false;for(const e of game.drain()){
+function processEvents(){audio.setRainbow(game.state==='playing'&&game.powered);const sounds=new Set();let rescued=false;for(const e of game.drain()){
   renderer.event(e);sounds.add(e.type==='collaborationStart'?'rainbowStart':e.type==='collaborationEnd'?'rainbowEnd':e.type);analytics.event(e,game);
   if(e.type==='rescue')rescued=true;
   if(e.type==='return')$('live').textContent=`RESCUED ${e.count}. SCORE +${e.total}`;
