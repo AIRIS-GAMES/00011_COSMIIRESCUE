@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="mobile-web-app-capable" content="yes">
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#c5eee0"><meta name="description" content="散らばったコスミーを集めて、みんなで帰ろう！どこまでも続くふわふわ救出アクション。">
+<title>COSMII RESCUE! — BETTER TOGETHER.</title><link rel="icon" href="./Asset/cast/green.png"><link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+<div id="boot-screen" class="boot-screen" role="status" aria-label="AIRIS GAMES"><img id="boot-logo" src="./Asset/AIRISGAMES.PNG" alt="AIRIS GAMES"><span id="boot-status">LOADING…</span><button id="boot-retry" class="primary" style="width:200px" hidden>RETRY ↻</button></div>
+<main class="arcade">
+  <section class="machine" aria-label="コスミーレスキュー ゲーム">
+    <div id="game" class="game">
+      <canvas id="canvas" aria-label="左手で左右の向き、右手タップで上昇。無操作で落下。仲間に触れて救出し、HOMEに戻ると得点。"></canvas>
+      <div class="hud">
+        <div class="hud-top"><div class="score"><label>SCORE</label><strong id="score">00000</strong></div><div class="timer"><label>DISTANCE</label><strong id="timer">0 m</strong></div><div class="controls"><button id="sound" class="icon-button" aria-label="音をオフにする">♪</button><button id="pause" class="icon-button" aria-label="一時停止">Ⅱ</button></div></div>
+        <div id="nav-row" class="nav-row" hidden><div id="home-direction" class="home-direction">⌂ HOME · 0 m</div><div id="hearts" aria-label="ライフ3">♥ ♥ ♥</div></div>
+      </div>
+      <div id="title" class="overlay title-screen">
+        <div class="title-kicker">FLY! POP! TOGETHER!</div><h1>COSMII<br><span>RESCUE!</span></h1>
+        <div class="start-area"><span class="best-pill">♛ BEST <b id="title-best">0</b></span><div class="mode-select" role="group" aria-label="難易度"><button id="mode-normal" aria-pressed="true">NORMAL</button><button id="mode-hard" aria-pressed="false">HARD</button></div><p id="mode-rule" class="mode-rule">3 LIVES</p><button id="start" class="primary">PLAY <span>↗</span></button><button id="records" class="text-button">BEST RUNS ↗</button></div>
+        <div class="title-footer"><span>ENDLESS FLIGHT. SO MANY FRIENDS.</span></div>
+      </div>
+      <div id="tutorial" class="tutorial" hidden>← MOVE →　 TAP ↑<span>RESCUE → HOME → SCORE</span></div>
+      <div id="flight-controls" class="flight-controls" hidden><div id="direction-pad" class="direction-pad" data-direction="neutral" aria-label="左手で左右の向きを操作"><i aria-hidden="true"></i><small>MOVE</small></div><button id="flap" class="flap-button" aria-label="上昇する">↑<small>TAP</small></button></div>
+      <div id="toast" class="toast" hidden></div>
+      <div id="carry-bar" class="carry-bar" hidden><div><span>FRIENDS</span><b><strong id="carry-count">0</strong> COSMII</b></div><div class="return-preview"><span>HOME BONUS</span><b id="return-value">+0</b></div></div>
+      <div id="pause-screen" class="overlay modal-screen" hidden><div class="panel"><div class="eyebrow">TAKE A LITTLE BREAK</div><h2>PAUSED</h2><button id="resume" class="primary">RESUME <span>▶</span></button><button id="quit" class="text-button">TITLE</button></div></div>
+      <div id="result" class="overlay modal-screen" hidden><div class="panel result-panel"><div id="result-eyebrow" class="eyebrow">WELCOME HOME!</div><div class="rescued-head"><b id="result-rescued">0</b><span>COSMII<br>RESCUED</span></div><div class="result-main"><span>SCORE</span><strong id="result-score">0</strong><div id="new-best" class="new-best" hidden>✦ NEW BEST! ✦</div></div><div class="result-stats"><div><span>BEST SCORE</span><b id="result-best">0</b></div><div><span>RESCUED COSMII</span><b id="result-rescued-stat">0</b></div><div><span>MAX CARRY</span><b id="result-carry">0</b></div><div><span>BEST RETURN</span><b id="result-return">0</b></div></div><p id="unbanked" class="unbanked"></p><button id="retry" class="primary">RETRY <span>↻</span></button><button id="home" class="text-button">TITLE</button></div></div>
+      <div id="records-screen" class="overlay modal-screen" hidden><div class="panel"><div class="eyebrow">YOUR PERSONAL TOP 5</div><h2>BEST RUNS</h2><p>LOCAL TOP 5</p><ol id="record-list"></ol><button id="close-records" class="primary">BACK <span>↩</span></button></div></div>
+      <div id="loading" class="overlay loading"><img src="./Asset/cast/green.png" alt=""><span>LOADING…</span></div>
+      <div id="live" class="sr-only" aria-live="polite"></div>
+    </div>
+    <div class="machine-bottom"><span>✦ BETTER TOGETHER</span><span>ONE LITTLE RESCUE AT A TIME</span></div>
+  </section>
+</main><script type="module" src="./src/main.js"></script>
+</body></html>
