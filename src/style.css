@@ -64,6 +64,8 @@ html,body,.arcade,.machine,button{touch-action:manipulation}
 .collaboration-title>span{padding:3px 10px;border-radius:99px;background:#ffe45e;font-size:clamp(9px,1.2cqw,13px);font-weight:900}
 .collaboration-title strong{font-size:clamp(13px,2cqw,21px)}
 .collaboration-title small{font-size:clamp(9px,1.15cqw,12px)}
+.collaboration-title{padding-right:clamp(54px,7cqw,78px)}
+.collaboration-title>img{position:absolute;right:8px;top:50%;width:clamp(40px,5.5cqw,62px);height:calc(100% - 12px);max-height:62px;object-fit:contain;transform:translateY(-50%);pointer-events:none}
 .collaboration-details{z-index:30;pointer-events:auto;background:#25342bb0}
 .collaboration-details .panel{width:min(650px,92%);max-height:94%;padding:14px;overflow:auto}
 .collaboration-details h2{margin:0 0 8px;font-size:24px;color:#c66500}
