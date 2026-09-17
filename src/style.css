@@ -24,6 +24,10 @@ html,body{overscroll-behavior:none;-webkit-text-size-adjust:100%}.game{-webkit-t
 @media(max-height:350px){.controls-intro .flight-controls{left:23%;right:23%;height:110px;bottom:calc(50% - 55px)}.controls-intro .direction-pad{height:75px}.controls-intro .flap-button{width:90px;height:90px}.controls-intro .flight-controls:before{bottom:calc(100% + 13px)}}
 @media(prefers-reduced-motion:reduce){.controls-intro .flap-button{animation:none}}
 
+/* Keep the left HUD and gameplay stick farther from the phone's camera cutout. */
+.hud-top .score,.nav-row .home-direction{margin-left:24px}
+.game:not(.controls-intro) #direction-pad{margin-left:24px}
+
 /* Compact mode selection, with independent best scores. */
 .mode-select{display:flex;gap:8px;margin:3px 0 6px}.mode-select button{flex:1;min-height:44px;border:2px solid #543442;border-radius:12px;background:#fff8e6;font-size:14px;letter-spacing:1px}.mode-select button[aria-pressed=true]{background:#bdeb98;box-shadow:0 3px 0 #543442}#mode-hard[aria-pressed=true]{background:#ff9cac}.start-area .mode-rule{font-size:10px;margin:8px 0 12px;min-height:14px;color:#543442}.direction-pad small{display:none}.controls-intro .direction-pad small{display:block}.title-footer{display:none}
 @media(max-height:360px){.start-area{bottom:3%}.mode-select button{min-height:44px;font-size:12px}.start-area .mode-rule{margin:5px 0 7px;font-size:9px}.start-area .best-pill{margin-bottom:3px}}
@@ -90,5 +94,10 @@ html,body,.arcade,.machine,button{touch-action:manipulation}
 .collaboration-on #unbanked{grid-column:1/3;grid-row:4;margin:0;min-height:0}
 .collaboration-on #retry{grid-column:1;grid-row:5;margin:0;min-height:44px;padding:8px}
 .collaboration-on #home{grid-column:2;grid-row:5;margin:0;min-height:44px;padding:8px}
-.collaboration-on #title .title-kicker{top:31%}
-.collaboration-on #title h1{top:43%}
+.collaboration-on #title .start-area{top:18%;gap:4px}
+#title .collaboration-title{position:relative;left:auto;top:auto;width:100%;flex-shrink:0;padding:6px 50px 6px 8px;gap:2px}
+#title .collaboration-title>span{font-size:9px;padding:2px 5px}
+#title .collaboration-title strong{font-size:clamp(10px,1.3cqw,15px);line-height:1.25}
+#title .collaboration-title small{font-size:9px}
+#title .collaboration-title>img{right:6px;width:38px}
+@media(max-height:360px){.collaboration-on #title .start-area{top:54px;gap:2px}.collaboration-on #title .best-pill{padding:3px 8px;margin:0}#title .collaboration-title{padding-top:4px;padding-bottom:4px}}

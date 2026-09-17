@@ -13,7 +13,7 @@ test('rescue remains unbanked until HOME and counts each delivery exactly once',
 test('collision protection and tail loss still work',()=>{const g=make();g.rescue(g.friends[0]);g.hit();assert.equal(g.carry.length,0);g.time=31;assert.equal(g.hearts,3);g.cooldown=0;g.hit();assert.equal(g.hearts,2);});
 test('retry resets distance, chunks, input, life and scores',()=>{const g=make();g.player.x=6000;g.world.extend(g);g.setDirection(-1);g.score=1200;g.start();assert.equal(g.score,0);assert.equal(g.travel,0);assert.equal(g.direction,0);assert.equal(g.hearts,3);assert.equal(g.player.x,205);assert.ok(g.world.next<=3);});
 
-test("neutral flight flows forward at the tuned cruising speed",()=>{const g=make(),x=g.player.x;advance(g,1);assert.ok(g.player.x-x>175);assert.ok(g.player.vx>=189);});
+test("neutral flight flows forward at the tuned cruising speed",()=>{const g=make(),x=g.player.x;g.player.y=200;advance(g,1);assert.ok(g.player.x-x>175);assert.ok(g.player.vx>=189);});
 
 test('falling has no floor, camera neighborhood continues at depth',()=>{const g=make();g.player.y=5000;g.world.extend(g);g.obstacles=[];const y=g.player.y;advance(g,1);assert.ok(g.player.y>y+300);assert.ok(g.homes.some(h=>h.y>5000));assert.ok(g.friends.some(f=>f.y>5000));});
 test('eight friends surround the hero instead of trailing in a line',()=>{const g=make();for(const f of g.friends.slice(0,8))g.rescue(f);g.obstacles=[];g.friends=[];advance(g,.4);assert.ok(g.carry.some(f=>f.x>g.player.x+20));assert.ok(g.carry.some(f=>f.x<g.player.x-20));assert.ok(g.carry.some(f=>f.y>g.player.y+20));assert.ok(g.carry.some(f=>f.y<g.player.y-20));});

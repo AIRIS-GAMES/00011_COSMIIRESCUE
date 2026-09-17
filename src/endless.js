@@ -12,7 +12,9 @@ export class EndlessWorld {
  const spawns=t.spawns.filter(s=>!s.after||g.time>=s.after).map(point);
  if(biome.id==='sunset')for(const x of [370,560,750,940]){const p=point({x,y:620,kind:Math.floor(x)%4,rare:true});spawns.push(p);}
  for(const s of spawns){const f=g.spawnFriend(s);f.chunk=key;}
- g.stage.spawns.push(...spawns);if(col%3===0&&row%2===0)g.homes.push({x:col*t.width+500,y:row*1000+790+shift,radius:65,chunk:key});
+ // Give the player more room to take off before reaching the first ring.
+ const homeX=col===0&&row===0?660:500;
+ g.stage.spawns.push(...spawns);if(col%3===0&&row%2===0)g.homes.push({x:col*t.width+homeX,y:row*1000+790+shift,radius:65,chunk:key});
  g.stage.props.push(...t.props.filter(p=>p.id!=='home').map(point));
  }
  g.biome=biomeAt(cx,cy);

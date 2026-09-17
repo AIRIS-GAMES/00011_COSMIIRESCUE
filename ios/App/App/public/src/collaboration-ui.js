@@ -10,7 +10,7 @@ export class CollaborationUI {
     title.innerHTML='<span>期間限定コラボ</span><strong>おっ！サン × COSMII RESCUE!</strong><small>コラボ内容を見る ↗</small>';
     const titleImage=document.createElement('img');titleImage.src=COLLABORATION_IMAGES[0];titleImage.alt='';titleImage.setAttribute('aria-hidden','true');title.prepend(titleImage);
     title.setAttribute('aria-haspopup','dialog');title.setAttribute('aria-controls','collaboration-details');
-    document.getElementById('title').append(title);this.title=title;
+    document.getElementById('records').after(title);this.title=title;
     const modal=document.createElement('div');modal.id='collaboration-details';modal.className='overlay modal-screen collaboration-details';modal.hidden=true;
     modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-labelledby','collaboration-details-heading');
     modal.innerHTML='<section class="panel"><h2 id="collaboration-details-heading">おっ！サン コラボ</h2><p class="collaboration-lead">おっ！サンを集めてフィーバー！</p><div class="collaboration-description"><img alt="おっ！サン"><ol><li>おっ！サンに触れて、HOMEへ届けよう！</li><li class="collaboration-rule"></li><li>無敵＆ビームで障害物をこわそう！<br>おっ！サンもたくさん登場！</li></ol></div><small class="collaboration-modal-credit">© SUN-TV</small><button type="button" class="primary collaboration-close">わかった！</button></section>';
