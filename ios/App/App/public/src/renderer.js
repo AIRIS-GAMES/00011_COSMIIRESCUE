@@ -5,7 +5,16 @@ import {VIEW_W,clamp,distance} from './engine.js';
 import {friends as characterInfo} from './characters.js';
 export class Renderer {
   constructor(canvas,assets,stage){this.canvas=canvas;this.ctx=canvas.getContext('2d',{alpha:false});this.assets=assets;this.stage=stage;this.width=VIEW_W;this.height=768;this.zoom=.9;this.camera={x:-35,y:200};this.clock=0;this.particles=[];this.popups=[];this.deliveries=[];this.bursts=[];this.fragments=[];this.shake=0;this.flash=0;this.homePulse=0;this.reduced=matchMedia('(prefers-reduced-motion: reduce)').matches;this.resize();}
-  resize(){const width=this.canvas.clientWidth,height=this.canvas.clientHeight;if(!width||!height)return;this.height=VIEW_W*height/width;const pixels=canvasResolution(width,height,devicePixelRatio||1);this.canvas.width=pixels.width;this.canvas.height=pixels.height;this.ctx.setTransform(pixels.width/VIEW_W,0,0,pixels.height/this.height,0,0);smoothImages(this.ctx);}
+  resize(){
+    const width=this.canvas.clientWidth,height=this.canvas.clientHeight,density=devicePixelRatio||1;
+    if(!width||!height)return;
+    if(width===this.viewportWidth&&height===this.viewportHeight&&density===this.pixelRatio)return;
+    this.viewportWidth=width;this.viewportHeight=height;this.pixelRatio=density;
+    this.height=VIEW_W*height/width;
+    const pixels=canvasResolution(width,height,density);
+    this.canvas.width=pixels.width;this.canvas.height=pixels.height;
+    this.ctx.setTransform(pixels.width/VIEW_W,0,0,pixels.height/this.height,0,0);smoothImages(this.ctx);
+  }
   screenToWorld(x,y){return {x:x/this.zoom+this.camera.x,y:y/this.zoom+this.camera.y};}
   worldToScreen(x,y){return {x:(x-this.camera.x)*this.zoom,y:(y-this.camera.y)*this.zoom};}
   snap(game){this.followCamera(game,1,true);this.particles=[];this.popups=[];this.deliveries=[];this.bursts=[];this.fragments=[];}
@@ -155,7 +164,11 @@ const center=this.width*.51,scale=Math.min(.88,h/390);const positions=[[0,0],[-4
       this.text('フィーバータイム',cx+48,cy+65,15,'#573b23');
     }
   }
-  draw(game,dt,title=false,paused=false){this.collaborationEnabled=game.collaboration.enabled;game.view={x:this.camera.x,y:this.camera.y,w:this.width/this.zoom,h:this.height/this.zoom};this.stage=game.stage;if(!paused)this.clock+=dt;if(!title&&!paused)this.followCamera(game,dt);const c=this.ctx;c.save();this.scenery(game,title);if(!this.reduced&&this.shake>0&&!paused)c.translate((Math.random()-.5)*this.shake,(Math.random()-.5)*this.shake);
+  draw(game,dt,title=false,paused=false){
+    // Mobile rotation can finish layout after the window resize event.
+    // Synchronize before painting so CSS never squeezes a stale canvas buffer.
+    this.resize();
+    this.collaborationEnabled=game.collaboration.enabled;game.view={x:this.camera.x,y:this.camera.y,w:this.width/this.zoom,h:this.height/this.zoom};this.stage=game.stage;if(!paused)this.clock+=dt;if(!title&&!paused)this.followCamera(game,dt);const c=this.ctx;c.save();this.scenery(game,title);if(!this.reduced&&this.shake>0&&!paused)c.translate((Math.random()-.5)*this.shake,(Math.random()-.5)*this.shake);
     if(title)this.title();else{this.world(game,dt,paused);for(const h of game.homes)this.home(game,h,true);this.checkpointHint(game);
       if(game.effects.fog>0){c.save();c.globalAlpha=Math.min(.62,game.effects.fog*.7);for(let i=0;i<9;i++)this.circle(this.width*(i/8),this.height*(.35+(i%3)*.14),this.height*.3,'#f2f6ff');c.restore();}
       if(game.effects.paper>0){c.save();c.globalAlpha=Math.min(1,game.effects.paper*3);c.translate(this.width*.62,this.height*.43);c.rotate(-.22);this.image(this.assets.flyer,-90,-100,180,200);c.restore();}
