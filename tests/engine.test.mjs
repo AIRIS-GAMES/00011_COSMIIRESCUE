@@ -6,6 +6,16 @@ const make=()=>{const g=new RescueGame(stage,seededRandom(7));g.start();return g
 const advance=(g,s)=>{for(let i=0;i<s*120;i++)g.update(1/120);};
 test('without input gravity pulls the player down',()=>{const g=make(),y=g.player.y;advance(g,.35);assert.ok(g.player.y>y+30);assert.ok(g.player.vy>200);});
 test('right tap immediately rises; holding does not repeat; later falls',()=>{const g=make();g.player.y=650;g.flap();assert.equal(g.player.vy,-330);advance(g,.2);assert.ok(g.player.y<610);advance(g,.35);assert.ok(g.player.vy>0);});
+test('repeated flaps cross the old ceiling and populate the world high above it',()=>{
+  const g=make();g.player.y=65;g.incoming.update=()=>{};
+  // Isolate flight from HOME rim collisions while retaining world generation.
+  const extend=g.world.extend.bind(g.world);let homes=g.homes;
+  g.world.extend=game=>{game.homes=homes;extend(game);homes=game.homes;game.homes=[];};
+  for(let i=0;i<20*120;i++){if(i%12===0)g.flap();g.update(1/120);g.drain();}
+  assert.equal(g.state,'playing');assert.ok(g.player.y<-5000);assert.ok(g.player.vy<0);
+  assert.ok(homes.some(h=>h.y<-5000));assert.ok(g.friends.some(f=>f.y<-5000));
+  assert.ok(g.world.chunks.length<=12);assert.ok(g.stage.props.length<=72);
+});
 test('left/right steering is independent of vertical lift',()=>{const g=make();g.setDirection(-1);g.flap();advance(g,.2);assert.ok(g.player.vx<0);assert.ok(g.player.vy<0);g.setDirection(1);advance(g,.3);assert.ok(g.player.vx>0);assert.equal(g.direction,1);g.flap();assert.equal(g.direction,1);g.setDirection(0);advance(g,.2);assert.ok(g.player.vx>0);});
 test('world extends beyond old room bounds, with more HOME points',()=>{const g=make();g.player.x=2500;g.world.extend(g);assert.ok(g.world.next>=4);assert.ok(g.homes.some(h=>h.x>3000));assert.ok(g.friends.some(f=>f.x>3000));});
 test('ten minute unobstructed flight has no time limit and bounded live geometry',()=>{const g=make();const extend=g.world.extend.bind(g.world);let homes=g.homes;g.world.extend=game=>{game.homes=homes;extend(game);homes=game.homes;game.homes=[];};g.cooldown=10000;g.setDirection(1);for(let i=0;i<600*120;i++){for(const o of g.obstacles)o.disabled=1;if(g.player.y>640&&g.player.vy>0)g.flap();g.update(1/120);g.drain();}assert.equal(g.state,'playing');assert.ok(g.time>599);assert.ok(g.player.x>100000);assert.ok(g.obstacles.length<=168);assert.ok(g.stage.props.length<=72);assert.ok(g.homes.length<=12);});

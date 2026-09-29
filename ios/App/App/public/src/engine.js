@@ -88,7 +88,6 @@ export class RescueGame {
     const speed=(turbo?1.3:1)*(this.effects.slow>0?.5:1),tx=(this.direction<0?this.direction*225:this.direction>0?this.direction*310:190)*speed;
     if(this.stun<=0)p.vx+=(tx-p.vx)*(1-Math.exp(-(this.effects.slip>0?2:12)*dt));p.vy=Math.min(475,p.vy+820*dt);
     p.x=Math.max(p.r+8,p.x+p.vx*dt);p.y+=p.vy*dt;
-    if(p.y<60){p.y=60;p.vy=Math.max(40,p.vy);}
     p.angle+=(clamp(p.vx/900,-.23,.23)-p.angle)*dt*9;
     for(let i=0;i<this.carry.length;i++){
       const f=this.carry[i],ring=Math.floor(i/8),slot=i%8,count=Math.min(8,this.carry.length-ring*8);

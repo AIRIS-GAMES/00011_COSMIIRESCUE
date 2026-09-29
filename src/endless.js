@@ -1,10 +1,10 @@
 import {biomeAt} from './biomes.js';
-// A bounded two-dimensional neighborhood, with no floor.
+// A bounded two-dimensional neighborhood, with no floor or ceiling.
 export class EndlessWorld {
  constructor(template,random){this.template=template;this.random=random;this.next=0;this.loaded=new Set();this.chunks=[];}
  extend(g){
  const t=this.template,cx=Math.floor(g.player.x/t.width),cy=Math.floor(g.player.y/1000),wanted=new Set();
- for(let row=Math.max(0,cy-1);row<=cy+1;row++)for(let col=Math.max(0,cx-1);col<=cx+2;col++){
+ for(let row=cy-1;row<=cy+1;row++)for(let col=Math.max(0,cx-1);col<=cx+2;col++){
  const key=`${col}:${row}`;wanted.add(key);if(this.loaded.has(key))continue;this.next=Math.max(this.next,col+1);
  const biome=biomeAt(col,row);
  const shift=col===0&&row===0?0:(this.random()-.5)*120;

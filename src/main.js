@@ -9,12 +9,14 @@ import {hero,friends} from './characters.js';
 import {Renderer} from './renderer.js';
 import {GameAudio} from './audio.js';
 import {RescueStorage} from './storage.js';
+import {LeaderboardUI} from './leaderboard-ui.js';
 const $=id=>document.getElementById(id),audio=new GameAudio(),settings=new GameSettings();
 const modeStores={normal:new RescueStorage(),hard:new RescueStorage(undefined,'hard')};
 let selectedMode='normal',storage=modeStores.normal;
 function selectMode(mode){selectedMode=mode;storage=modeStores[mode];for(const name of ['normal','hard'])$('mode-'+name).setAttribute('aria-pressed',String(name===mode));$('mode-rule').textContent=mode==='hard'?'0 FRIENDS / HEAVY HIT = END':'3 LIVES';$('title-best').textContent=storage.data.best.toLocaleString();}
 export const game=new RescueGame(stage,Math.random,collaboration);
 const collaborationUI=new CollaborationUI(game);
+const leaderboardUI=new LeaderboardUI();
 game.onCheckpoint=()=>storage.record(game);
 export let renderer;
 export {audio};
@@ -26,6 +28,12 @@ async function changeScene(action){if(transition.busy||!ready||!bootComplete)ret
 function start(){return changeScene(startNow);}
 function resume(){if(paused&&!transition.busy)pause();}
 function home(){return changeScene(homeNow);}
+function endRun(){
+  if(transition.busy||!['playing','ending'].includes(game.state))return;
+  clearInput();controlIntro=0;dockLeft=0;$('game').classList.remove('controls-intro');
+  paused=false;accumulator=0;audio.resume();audio.stopEffects();audio.music(false);
+  game.finish('quit');show('playing');processEvents();
+}
 let bootComplete=false;
 const bootStarted=performance.now();
 function orientationUI(){document.documentElement.classList.toggle('landscape-auto',bootComplete&&innerHeight>innerWidth);document.querySelector('.arcade').inert=!bootComplete;if(ready)clearInput();renderer?.resize();}
@@ -38,7 +46,7 @@ function loadImage(src){return new Promise((resolve,reject)=>{const img=new Imag
 function show(name){screen=name;collaborationUI.show(name);for(const id of ['title','result','pause-screen','records-screen'])$(id).hidden=name!==id;const playing=name==='playing';$('nav-row').hidden=!playing;$('carry-bar').hidden=!playing;$('pause').hidden=!playing;$('flight-controls').hidden=!playing;$('title-best').textContent=storage.data.best.toLocaleString();}
 function toast(text,duration=2.5){$('toast').textContent=text;$('toast').hidden=false;toastLeft=duration;}
 function clearInput(){pointer=null;pressed.clear();resetStick();}
-function startNow(){if(!ready||!bootComplete)return;audio.unlock();clearInput();paused=false;audio.resume();game.start(selectedMode);storage.beginRun();analytics.start(game);audio.restart();renderer.snap(game);accumulator=0;toastLeft=0;tutorialLeft=0;$('tutorial').hidden=true;$('toast').hidden=true;show('playing');beginControls();if(document.hidden)background();$('live').textContent='救出開始。左手で左右の向き、右手タップで上昇。仲間を道中のHOMEへ。';}
+function startNow(){if(!ready||!bootComplete)return;audio.unlock();clearInput();paused=false;audio.resume();game.start(selectedMode);storage.beginRun();leaderboardUI.beginRun();analytics.start(game);audio.restart();renderer.snap(game);accumulator=0;toastLeft=0;tutorialLeft=0;$('tutorial').hidden=true;$('toast').hidden=true;show('playing');beginControls();if(document.hidden)background();$('live').textContent='救出開始。左手で左右の向き、右手タップで上昇。仲間を道中のHOMEへ。';}
 function homeNow(){analytics.end(game,'quit');controlIntro=0;dockLeft=0;$('game').classList.remove('controls-intro');audio.music(false);audio.stopEffects();clearInput();paused=false;game.reset();renderer.snap(game);show('title');$('tutorial').hidden=true;$('toast').hidden=true;}
 function pause(){if(game.state!=='playing'&&game.state!=='ending')return;paused=!paused;clearInput();show(paused?'pause-screen':'playing');accumulator=0;if(!paused){if(document.hidden){paused=true;show('pause-screen');return;}audio.resume();}if(paused)audio.stopEffects();audio.music(!paused);}
 function processEvents(){audio.setRainbow(game.state==='playing'&&game.powered);const sounds=new Set();let rescued=false;for(const e of game.drain()){
@@ -48,6 +56,7 @@ function processEvents(){audio.setRainbow(game.state==='playing'&&game.powered);
 
   if(e.type==='finish'){$('tutorial').hidden=true;}
   if(e.type==='gameOver'){
+    leaderboardUI.result(game);
     const best=storage.record(game);show('result');$('toast').hidden=true;$('result-rescued').textContent=game.rescued;$('result-rescued-stat').textContent=`${game.rescued}`;
     $('result-score').textContent=game.score.toLocaleString();$('result-best').textContent=storage.data.best.toLocaleString();$('result-carry').textContent=`${game.maxCarry}`;
     $('result-return').textContent=`${game.bestReturn.toLocaleString()} pt`;$('new-best').hidden=!best;
@@ -55,8 +64,8 @@ function processEvents(){audio.setRainbow(game.state==='playing'&&game.powered);
     $('live').textContent=`${game.rescued}匹を救出。スコア${game.score}。`;if(best){sounds.add('best');renderer.event({type:'best'});}
   }
 }
-  // Tapping keeps its visual feedback without playing a sound.
-  for(const type of sounds)if(type!=='flap')audio.effect(type);
+  // Only POP, power-up end, and new-record events play sound effects.
+  for(const type of sounds)if(['rescue','rainbowEnd','best'].includes(type))audio.effect(type);
   if(rescued){$('carry-bar').classList.remove('pulse');void $('carry-bar').offsetWidth;$('carry-bar').classList.add('pulse');}
 }
 function hud(){
@@ -112,10 +121,10 @@ function background(){audio.suspend();if(!paused&&(game.state==='playing'||game.
 window.addEventListener('blur',background);
 // Capacitor's built-in scene lifecycle event; keep the existing tap-to-resume flow.
 document.addEventListener('pause',background);
-$('mode-normal').onclick=()=>selectMode('normal');$('mode-hard').onclick=()=>selectMode('hard');$('start').onclick=start;$('retry').onclick=start;$('home').onclick=home;$('quit').onclick=home;$('pause').onclick=pause;$('resume').onclick=resume;
+$('mode-normal').onclick=()=>selectMode('normal');$('mode-hard').onclick=()=>selectMode('hard');$('start').onclick=start;$('retry').onclick=start;$('home').onclick=home;$('quit').onclick=endRun;$('pause').onclick=pause;$('resume').onclick=resume;
 function soundLabel(){$('sound').textContent=audio.enabled?'♪':'♪̸';$('sound').setAttribute('aria-label',audio.enabled?'BGMをオフにする（効果音はON）':'BGMをオンにする（効果音はON）');}
 $('sound').onclick=()=>{audio.unlock();audio.enabled=!audio.enabled;settings.muted=!audio.enabled;settings.save();audio.music(screen==='playing'&&!paused);soundLabel();};
-$('records').onclick=()=>{show('records-screen');$('record-list').replaceChildren();if(!storage.data.runs.length){const li=document.createElement('li');li.textContent='NO RUNS YET';$('record-list').append(li);}storage.data.runs.forEach((run,i)=>{const li=document.createElement('li'),a=document.createElement('b'),b=document.createElement('span');a.textContent=`${String(i+1).padStart(2,'0')} / ${run.score.toLocaleString()}`;b.textContent=`${run.rescued} RESCUED`;li.append(a,b);$('record-list').append(li);});};$('close-records').onclick=home;
+$('records').onclick=()=>{show('records-screen');leaderboardUI.open(storage);};$('close-records').onclick=()=>show('title');
 document.addEventListener('visibilitychange',()=>{if(document.hidden)background();last=0;accumulator=0;});
 window.addEventListener('resize',orientationUI);
 window.addEventListener('pagehide',event=>{background();analytics.pageHide(game,event.persisted);});

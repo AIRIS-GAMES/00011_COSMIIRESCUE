@@ -37,7 +37,7 @@ export class RescueAnalytics {
     if(e.type==='break'&&e.rainbow)this.design('Rainbow:Destroyed',1);
     if(e.type==='lost')this.design('Damage:FriendsLost',e.count||1);
     if(e.type==='hit')this.design('Damage:LifeLost',1);
-    if(e.type==='finish')this.end(game,e.reason==='hit'?'death':'finish');
+    if(e.type==='finish')this.end(game,e.reason==='hit'?'death':e.reason==='quit'?'quit':'finish');
   }
   pageHide(game,persisted){if(!persisted)this.end(game,'leave');}
   end(game,reason='quit'){
