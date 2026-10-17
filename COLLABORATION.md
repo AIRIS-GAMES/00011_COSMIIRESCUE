@@ -3,11 +3,11 @@
 ## 現在の設定
 
 設定は **`src/collaboration-config.js` の1か所**。
-開催日時は未定のため、現在は `enabled:true`、開始・終了日時は `null`。
+コラボは終了し、現在は `enabled:false`。通常版として動作する。開始・終了日時は `null`。
 
 ```js
 export const collaboration={
-  enabled:true,
+  enabled:false,
   startsAt:null,
   endsAt:null,
   target:5,

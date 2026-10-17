@@ -1,5 +1,5 @@
 export const collaboration={
-  "enabled": true,
+  "enabled": false,
   "startsAt": null,
   "endsAt": null,
   "target": 5,
