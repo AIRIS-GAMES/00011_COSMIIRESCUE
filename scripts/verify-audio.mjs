@@ -4,7 +4,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
   const page=await browser.newPage({viewport:{width:844,height:390}}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://localhost:5180/dist/index.html');
+  await page.goto('http://localhost:5180/?opening=off&analytics=offdist/index.html');
   await page.locator('#loading').waitFor({state:'hidden'});
   await page.locator('#start').click();await page.locator('.face-transition').waitFor({state:'hidden'});
   await page.evaluate(async()=>{window.checkedAudio=(await import('/dist/src/main.js')).audio;});

@@ -4,7 +4,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true});
 try {
   const page=await browser.newPage({viewport:{width:844,height:390},hasTouch:true});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://localhost:5180');await page.locator('#loading').waitFor({state:'hidden'});await page.screenshot({path:'test-results/landscape-title.png'});await page.locator('#start').click();
+  await page.goto('http://localhost:5180/?opening=off&analytics=off');await page.locator('#loading').waitFor({state:'hidden'});await page.screenshot({path:'test-results/landscape-title.png'});await page.locator('#start').click();
   await page.evaluate(async()=>{window.g=(await import('/src/main.js')).game;});
   // Controlled visual scenario: do not present as a naturally played score.
   await page.evaluate(()=>{for(const f of g.friends.slice(0,8))g.rescue(f);g.player.y=500;});

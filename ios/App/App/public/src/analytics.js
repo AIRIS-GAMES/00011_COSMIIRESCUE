@@ -30,8 +30,31 @@ export class RescueAnalytics {
     this.design('Run:Start');
   }
   design(name,value){this.call('addDesignEvent',`${name}:${this.mode||'normal'}`,value);}
+  community(name,data={}){
+    if(['character_initial','character_select','profile_display','goal_display','profile_unlock','goal_complete','result_detail'].includes(name)){this.interest(name,data);return;}
+    if(!['play','encyclopedia_open','social_open','external_click','social_popup_view','social_popup_close'].includes(name))return;
+    const source=['title','result','home','encyclopedia','result_popup'].includes(data.source)?data.source:'title';
+    const type=['green','pink','blue','red','purple'].includes(data.characterType)?data.characterType:'group';
+    const destination=['x','tiktok','instagram','line'].includes(data.destination)?data.destination:'none';
+    const mode=['normal','hard'].includes(data.mode)?data.mode:'normal';
+    const suffix=name==='play'?mode:name==='external_click'?`${source}:${destination}:${type}`:source;
+    this.call('addDesignEvent',`Interest:${name}:${suffix}`,1);
+  }
+  interest(name,data={}){
+    if(!['character_initial','character_select','profile_display','goal_display','profile_unlock','goal_complete','result_detail'].includes(name))return;
+    const source=['title','result','home','encyclopedia','return'].includes(data.source)?data.source:'title';
+    const kind=['green','pink','blue','red','purple'].includes(data.characterType)?data.characterType:'group';
+    const status=['preview','basic','achieved'].includes(data.status)?data.status:'preview';
+    this.call('addDesignEvent',`InterestV2:${name}:${source}:${kind}:${status}`,1);
+  }
+  presentation(name,data={}){
+    if(name==='variant'){this.call('addDesignEvent',`Presentation:variant:opening_${data.opening?'on':'off'}:reactions_${data.reactions?'on':'off'}`,1);return;}
+    if(!['story_open','story_complete','story_skip'].includes(name))return;
+    this.call('addDesignEvent',`Presentation:${name}:${['first','startup'].includes(data.source)?data.source:'replay'}`,1);
+  }
   event(e,game){
     if(!this.active)return;
+    if(e.type==='rescue')this.design('Rescue:Success',1);
     if(e.type==='return'){this.checkpoints++;this.design('Checkpoint:Count',1);this.design('Checkpoint:Rescued',e.count);this.design('Checkpoint:Points',e.total);this.design('Checkpoint:TotalScore',game.score);}
     if(e.type==='rainbowStart')this.design('Rainbow:Start',1);
     if(e.type==='break'&&e.rainbow)this.design('Rainbow:Destroyed',1);

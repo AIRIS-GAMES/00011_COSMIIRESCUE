@@ -9,7 +9,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
   const p=await browser.newPage({viewport:{width:844,height:390}}),requests=[],errors=[];
   p.on('request',r=>{if(r.url().includes('/Asset/collaborations/'))requests.push(r.url());});p.on('pageerror',e=>errors.push(e.message));
-  await p.goto('http://localhost:5180/dist/index.html');await p.locator('#loading').waitFor({state:'hidden'});
+  await p.goto('http://localhost:5180/?opening=off&analytics=offdist/index.html');await p.locator('#loading').waitFor({state:'hidden'});
   assert.equal(await p.locator('.collaboration-title').count(),0);
   assert.equal(await p.locator('.collaboration-credit').count(),0);
   await p.screenshot({path:'test-results/collaboration-off.png'});

@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
   const page=await browser.newPage({viewport:{width:844,height:390}});
-  await page.goto('http://localhost:5180/dist/index.html');await page.locator('#loading').waitFor({state:'hidden'});
+  await page.goto('http://localhost:5180/?opening=off&analytics=offdist/index.html');await page.locator('#loading').waitFor({state:'hidden'});
   await page.locator('#start').click();await page.locator('.face-transition').waitFor({state:'hidden'});await page.locator('#flap').click();await page.waitForTimeout(450);
   await page.evaluate(async()=>{
     const {game,audio}=await import('/dist/src/main.js');game.world.extend=()=>{};game.incoming.update=()=>{};game.friends=[];game.obstacles=[];game.homes=[];game.drain();audio.stopEffects();

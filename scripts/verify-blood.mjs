@@ -4,7 +4,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
   const page=await browser.newPage({viewport:{width:844,height:390},hasTouch:true});
   const errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://localhost:5180');
+  await page.goto('http://localhost:5180/?opening=off&analytics=off');
   await page.locator('#loading').waitFor({state:'hidden'});
   await page.locator('#start').click();await page.locator('.face-transition').waitFor({state:'hidden'});
   await page.locator('#flap').tap();await page.waitForTimeout(450);

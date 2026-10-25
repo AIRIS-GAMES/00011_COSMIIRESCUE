@@ -21,31 +21,30 @@ html,body{overscroll-behavior:none;-webkit-text-size-adjust:100%}.game{-webkit-t
 @media(orientation:landscape) and (max-height:360px){.title-screen{padding-top:54px}h1{font-size:46px;margin-top:7px}h1 span{font-size:44px}.title-sub{font-size:11px;margin-top:8px}.start-area{bottom:7%;left:58%;right:5%}.start-area p{margin-top:5px}.best-pill{margin-bottom:7px}.primary{padding:9px;font-size:15px}.start-area .text-button{padding:3px}.flight-controls{height:65px;bottom:max(18px,env(safe-area-inset-bottom))}.flap-button{height:65px;width:65px}.direction-pad{height:56px;width:130px}.carry-bar{bottom:max(12px,env(safe-area-inset-bottom));left:33%;right:25%;padding:5px 10px}.score strong{font-size:29px}.timer strong{font-size:20px}}
 
 /* Start-of-flight control spotlight; the real controls move into place. */
-.flight-controls{transition:left .35s ease,right .35s ease,bottom .35s ease,height .35s ease}.direction-pad,.flap-button{transition:width .35s ease,height .35s ease,transform .35s ease}.controls-intro .flight-controls{left:25%;right:25%;bottom:calc(50% - 70px);height:140px;z-index:12}.controls-intro .direction-pad{width:48%;height:96px;box-shadow:0 6px 0 #543442,0 0 0 9px #fff7d98c}.controls-intro .flap-button{width:112px;height:112px;box-shadow:0 6px 0 #543442,0 0 0 9px #fff7d98c;animation:control-beat 1s ease-in-out infinite}.controls-intro .direction-pad small{font-size:16px;bottom:-39px;color:#fff9dc;text-shadow:0 2px 0 #543442}.controls-intro .direction-pad small:before{content:'LEFT / '}.controls-intro .flap-button small{font-size:14px}.controls-intro .flap-button:after{content:'RIGHT / TAP';position:absolute;bottom:-36px;font-size:16px;color:#fff9dc;text-shadow:0 2px 0 #543442;white-space:nowrap}.controls-intro .flap-button{position:relative}.controls-intro:after{content:'';position:absolute;inset:0;background:#302d4a99;z-index:10;pointer-events:none}.controls-intro .flight-controls:before{content:'MOVE + TAP';position:absolute;bottom:calc(100% + 24px);left:0;right:0;text-align:center;font-size:20px;letter-spacing:4px;color:#fff8dc;text-shadow:0 2px 0 #543442}.controls-intro .carry-bar{opacity:0}@keyframes control-beat{50%{transform:scale(1.06)}}
-@media(max-height:350px){.controls-intro .flight-controls{left:23%;right:23%;height:110px;bottom:calc(50% - 55px)}.controls-intro .direction-pad{height:75px}.controls-intro .flap-button{width:90px;height:90px}.controls-intro .flight-controls:before{bottom:calc(100% + 13px)}}
-@media(prefers-reduced-motion:reduce){.controls-intro .flap-button{animation:none}}
+.flight-controls{transition:left .35s ease,right .35s ease,bottom .35s ease,height .35s ease}.direction-pad,.flap-button{transition:width .35s ease,height .35s ease,transform .35s ease}
+
+
 
 /* Keep the left HUD and gameplay stick farther from the phone's camera cutout. */
 .hud-top .score,.nav-row .home-direction{margin-left:24px}
-.game:not(.controls-intro) #direction-pad{margin-left:24px}
+.game #direction-pad{margin-left:24px}
 
 /* Compact mode selection, with independent best scores. */
-.mode-select{display:flex;gap:8px;margin:3px 0 6px}.mode-select button{flex:1;min-height:44px;border:2px solid #543442;border-radius:12px;background:#fff8e6;font-size:14px;letter-spacing:1px}.mode-select button[aria-pressed=true]{background:#bdeb98;box-shadow:0 3px 0 #543442}#mode-hard[aria-pressed=true]{background:#ff9cac}.start-area .mode-rule{font-size:10px;margin:8px 0 12px;min-height:14px;color:#543442}.direction-pad small{display:none}.controls-intro .direction-pad small{display:block}.title-footer{display:none}
+.mode-select{display:flex;gap:8px;margin:3px 0 6px}.mode-select button{flex:1;min-height:44px;border:2px solid #543442;border-radius:12px;background:#fff8e6;font-size:14px;letter-spacing:1px}.mode-select button[aria-pressed=true]{background:#bdeb98;box-shadow:0 3px 0 #543442}#mode-hard[aria-pressed=true]{background:#ff9cac}.start-area .mode-rule{font-size:10px;margin:8px 0 12px;min-height:14px;color:#543442}.direction-pad small{display:none}.title-footer{display:none}
 @media(max-height:360px){.start-area{bottom:3%}.mode-select button{min-height:44px;font-size:12px}.start-area .mode-rule{margin:5px 0 7px;font-size:9px}.start-area .best-pill{margin-bottom:3px}}
 /* After the upright boot logo, present the same landscape canvas on either orientation. */
 .arcade{position:fixed;inset:0}.face-transition{width:100%;height:100%}
 .landscape-auto .arcade{inset:auto;left:0;top:0;width:100dvh;height:100dvw;transform-origin:0 0;transform:translateX(100vw) rotate(90deg)}
 .landscape-auto .machine{width:100%;height:100%}.landscape-auto .panel{max-height:94dvw}
-@media(orientation:portrait) and (max-width:360px){.landscape-auto .title-screen{padding-top:54px}.landscape-auto h1{font-size:46px;margin-top:7px}.landscape-auto h1 span{font-size:44px}.landscape-auto .start-area{bottom:3%;left:58%;right:5%}.landscape-auto .best-pill{margin-bottom:3px}.landscape-auto .primary{padding:9px;font-size:15px}.landscape-auto .mode-select button{min-height:44px;font-size:12px}.landscape-auto .mode-rule{font-size:9px;margin:5px 0 7px}.landscape-auto .flight-controls{height:65px;bottom:18px}.landscape-auto .flap-button{height:65px;width:65px}.landscape-auto .direction-pad{height:56px;width:130px}.landscape-auto .carry-bar{bottom:12px;left:33%;right:25%;padding:5px 10px}.landscape-auto .controls-intro .flight-controls{height:110px;bottom:calc(50% - 55px)}.landscape-auto .controls-intro .direction-pad{height:75px;width:48%}.landscape-auto .controls-intro .flap-button{width:90px;height:90px}}
+@media(orientation:portrait) and (max-width:360px){.landscape-auto .title-screen{padding-top:54px}.landscape-auto h1{font-size:46px;margin-top:7px}.landscape-auto h1 span{font-size:44px}.landscape-auto .start-area{bottom:3%;left:58%;right:5%}.landscape-auto .best-pill{margin-bottom:3px}.landscape-auto .primary{padding:9px;font-size:15px}.landscape-auto .mode-select button{min-height:44px;font-size:12px}.landscape-auto .mode-rule{font-size:9px;margin:5px 0 7px}.landscape-auto .flight-controls{height:65px;bottom:18px}.landscape-auto .flap-button{height:65px;width:65px}.landscape-auto .direction-pad{height:56px;width:130px}.landscape-auto .carry-bar{bottom:12px;left:33%;right:25%;padding:5px 10px}}
 /* Circular analog thumbstick; visual Y travel does not replace tap-to-rise. */
 #direction-pad{width:104px;height:104px;flex:0 0 auto;border-radius:50%;background:#b6f3ede0;border:2px solid #54344280;box-shadow:inset 0 0 0 9px #ffffff38,0 3px 0 #54344235;overflow:visible}
 #direction-pad:before{content:'';position:absolute;inset:22%;border:1px dashed #54344238;border-radius:50%;pointer-events:none}
 #direction-pad>i{position:absolute;left:50%;top:50%;width:43%;height:43%;margin:0;border-radius:50%;background:#ff91c4;border:2px solid #543442;box-shadow:0 3px 0 #54344255,inset 0 3px 0 #ffd7eb;transform:translate(calc(-50% + var(--stick-x,0px)),calc(-50% + var(--stick-y,0px)));transition:transform .13s ease-out;pointer-events:none}
 #direction-pad.active{background:#b6f3edfa;border-color:#543442}
 #direction-pad.active>i{transition:none;background:#ff77b6}
-.controls-intro #direction-pad{width:116px;height:116px;box-shadow:0 4px 0 #54344255,0 0 0 9px #fff7d98c}
-@media(max-height:360px){#direction-pad{width:84px;height:84px}.controls-intro #direction-pad{width:96px;height:96px}}
-@media(orientation:portrait) and (max-width:360px){.landscape-auto #direction-pad{width:84px;height:84px}.landscape-auto .controls-intro #direction-pad{width:96px;height:96px}}
+@media(max-height:360px){#direction-pad{width:84px;height:84px}}
+@media(orientation:portrait) and (max-width:360px){.landscape-auto #direction-pad{width:84px;height:84px}}
 /* Suppress double-tap zoom on menus and on the rotated viewport's outer area. */
 html,body,.arcade,.machine,button{touch-action:manipulation}
 #game,#canvas,#flight-controls,#direction-pad,#flap{touch-action:none}
@@ -153,3 +152,41 @@ html,body,.arcade,.machine,button{touch-action:manipulation}
 .ranking-name-card .ranking-name-error{color:#a32343}
 .ranking-name-error:empty{display:none}
 .ranking-name-card>div{margin-top:12px}
+#practice-start{position:absolute;left:15%;top:79%;min-height:28px;padding:3px 12px;border-radius:20px;background:#fffbe8;color:#345b64;font-size:clamp(10px,1.3cqw,16px);pointer-events:auto}
+#return-memory{max-height:135px;overflow:auto;margin:6px 0}
+#return-memory>div{display:flex;align-items:center;gap:6px;text-align:left;font-size:12px;margin:5px 0}
+#return-memory img{width:42px;height:42px;object-fit:contain}
+#return-memory span{flex:1}
+#return-memory button{font-size:11px;padding:6px;min-height:30px;flex-shrink:0}
+.result-panel{max-height:94%;overflow:auto}
+#title #practice-start{left:41%;top:68%;max-width:21%;font-size:clamp(10px,1.3cqw,16px)}
+#result .result-panel{display:grid;grid-template-columns:1fr 1fr;gap:5px 16px;padding:12px}
+#result-eyebrow,#return-memory,#unbanked{grid-column:1/-1}
+#result .rescued-head{grid-column:2;grid-row:2;margin:0}
+#result .result-main{grid-column:1;grid-row:2;border:0;padding:0}
+#result .result-stats{grid-column:1/-1;margin:0;padding:5px 0}
+#result #retry,#result #home{margin-top:0;align-self:center}
+#result #unbanked:empty{display:none}
+#result #return-memory{margin:0;max-height:86px}
+/* PSF2: one nonblocking notice below the HUD, clear of the flight controls. */
+#toast{top:28%;left:25%;right:25%;max-width:480px;margin:auto;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;line-height:1.5;min-height:38px;pointer-events:none}
+#toast img{width:42px;height:42px;object-fit:contain;flex-shrink:0}
+#toast[data-kind=red] img{animation:return-hop .5s ease-in-out 2}
+#toast[data-kind=blue] img{animation:return-relax 1.4s ease-out}
+#toast[data-kind=purple] img{transform:rotate(-8deg)}
+#toast[data-kind=pink] img{animation:return-soft 1s ease-out}
+@keyframes return-hop{50%{transform:translateY(-6px) scale(1.05,.95)}}
+@keyframes return-relax{50%{transform:scale(1.12,.9)}}
+@keyframes return-soft{from{opacity:.5}to{opacity:1}}
+#blue-status{position:absolute;bottom:calc(100% + 7px);left:0;right:0;text-align:center;font-size:10px;line-height:1.3;background:#fffdebea;border:1px solid #569ea9;border-radius:10px;padding:3px;letter-spacing:0}
+@media(prefers-reduced-motion:reduce){#toast img{animation:none!important;transform:none!important}}
+@container(max-width:650px){#toast{left:22%;right:22%;top:30%;font-size:11px;padding:5px}#toast img{width:32px;height:32px}}
+#toast{top:34%}@container(max-width:650px){#toast{top:35%}}
+@container(max-width:650px){
+ #result .result-panel{padding:8px;gap:4px 10px;max-height:100%}
+ #result .result-main>strong{font-size:28px}#result .rescued-head>b{font-size:36px}#result .rescued-head>span{font-size:12px}
+ #result .new-best{font-size:9px;padding:2px;margin:3px}#result-eyebrow{font-size:9px}
+ #result .result-stats{padding:4px 0;gap:3px 16px}#result .result-stats b{font-size:12px}#result .result-stats>div{font-size:9px}
+ #result .primary{padding:7px;font-size:14px;min-height:36px}#result .primary span{font-size:18px}
+ #return-memory>div{font-size:11px;margin:2px 0}#return-memory img{width:32px;height:32px}#return-memory button{font-size:10px}
+}

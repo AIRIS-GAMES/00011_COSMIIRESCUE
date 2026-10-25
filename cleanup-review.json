@@ -1,0 +1,102 @@
+﻿[
+    {
+        "path":  "src/story-data.js",
+        "bytes":  4637,
+        "sha256":  "6248CCE0A08BBA12F4804DAC5813FE1493AD608B2550DBF72C095C2D9F9BD86D"
+    },
+    {
+        "path":  "src/story-game.js",
+        "bytes":  7245,
+        "sha256":  "801BA8520F1FA644103B86CE448716040BDB09E37F8936A533E29A469073B02C"
+    },
+    {
+        "path":  "src/story-intro.css",
+        "bytes":  6387,
+        "sha256":  "D86C68967685C421D6DAB89A337A933BD21476F568DFEF9E332FBAA7366DA33E"
+    },
+    {
+        "path":  "src/story-intro.js",
+        "bytes":  4278,
+        "sha256":  "A2FB9A15523E6AC4B4C79BF772B7BAB90CCC1B740EE08DEDF6D5EAE1F75C1873"
+    },
+    {
+        "path":  "src/story-storage.js",
+        "bytes":  4228,
+        "sha256":  "05E586D63539E6DBA27829A7801B3B798FE487481932CFD8C6BFFAB699C7E371"
+    },
+    {
+        "path":  "src/story-ui.js",
+        "bytes":  11056,
+        "sha256":  "3226176328E369FBD32E166B7AF541B29DFF080D027B9BC67EBD5EDAAE61F09A"
+    },
+    {
+        "path":  "src/story.css",
+        "bytes":  5060,
+        "sha256":  "4F34324D732AC9828749225171F8005321FCADB69BA820B3AEE7AA8F6D0E9692"
+    },
+    {
+        "path":  "src/opening-data.js",
+        "bytes":  1625,
+        "sha256":  "8935FDD8CAE7B6C85FC3CFFA534A8B7907DEB2454FF8EF70BDDED8E49CBEB026"
+    },
+    {
+        "path":  "scripts/verify-story-progression.mjs",
+        "bytes":  5688,
+        "sha256":  "0B635B3A3A5C87C596D163CFF7912FFFF8AEE4C82D1D877D64DF162B3721590E"
+    },
+    {
+        "path":  "scripts/verify-story.mjs",
+        "bytes":  136,
+        "sha256":  "6CFC6ADE11E7F0CBD2D5F5AA8BCED705EC53417A960FF793C737AC8BAB10D319"
+    },
+    {
+        "path":  "scripts/verify-intro.mjs",
+        "bytes":  3158,
+        "sha256":  "23A8D743895842DB099CF12407F95320D2A7E98CE0E0B62872D8C4CC749C111F"
+    },
+    {
+        "path":  "scripts/verify-control-intro.mjs",
+        "bytes":  1379,
+        "sha256":  "2E1B80B15B0F738DF3191E61FD6A394E768684EA6D3FBD686FD1EAAC32FA8846"
+    },
+    {
+        "path":  "scripts/verify-phase1.mjs",
+        "bytes":  7576,
+        "sha256":  "C3DCABF0D01108E3FBBFEAFC6F577770093C274AA3F58C8810AF84F8CE0F85A8"
+    },
+    {
+        "path":  "scripts/compact-ui.py",
+        "bytes":  3462,
+        "sha256":  "303D5B2F20629F8594CD42655BFC39BC6DA169D4104CD0C4111B8D883D9F61E3"
+    },
+    {
+        "path":  "scripts/remove-collab.py",
+        "bytes":  4257,
+        "sha256":  "C848BBE1F4CDC6BFB6578945998BB7BC4EDAD69F16DE0985CD0E76E6AA307025"
+    },
+    {
+        "path":  "tests/story-progression.test.mjs",
+        "bytes":  3840,
+        "sha256":  "6B96EA1C34B848BE6D56D3CB01FC6E7A0BC92C0420AD4584BC18579E33090A1F"
+    },
+    {
+        "path":  "tests/story.test.mjs",
+        "bytes":  5148,
+        "sha256":  "9C47FF809B0E7099B2CF7F79782BC0799C07B2CC7CA1C45D7D79AC45FD5386E1"
+    },
+    {
+        "path":  "STORY-MVP.md",
+        "bytes":  6170,
+        "sha256":  "B7150A1F4E913AE90711A13F51F0B4AABEF6CE0BB617C5F38EF5E55235F94D1F"
+    },
+    {
+        "path":  "cleanup-removed.json",
+        "bytes":  6070,
+        "sha256":  "84F843B3E2102CB1D0984A01AAF0345AD2838EB5765B7E4AA438D0363C90C35C"
+    },
+    {
+        "path":  "cleanup-source-removed.json",
+        "bytes":  4599,
+        "sha256":  "42ABF6ADA9AC952B5B453D3AF8F08D286FF4B769811533F14B269808982531CF"
+    }
+]

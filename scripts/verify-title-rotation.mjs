@@ -8,7 +8,7 @@ for(const [name,type,options] of [['chrome',chromium,{channel:'chrome'}],['webki
     const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:3,hasTouch:true,reducedMotion:'reduce'});
     const errors=[];
     page.on('pageerror',error=>errors.push(error.message));
-    await page.goto(process.env.TEST_URL||'http://localhost:5180');
+    await page.goto(process.env.TEST_URL||'http://localhost:5180/?opening=off&analytics=off');
     await page.locator('#loading').waitFor({state:'hidden'});
     await page.evaluate(()=>{
       const original=CanvasRenderingContext2D.prototype.drawImage;

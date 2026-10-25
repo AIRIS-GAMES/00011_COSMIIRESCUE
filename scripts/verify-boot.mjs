@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  const p=await browser.newPage({viewport:{width:390,height:844},hasTouch:true}),errors=[];p.on('pageerror',e=>errors.push(e.message));
- await p.goto('http://localhost:5180');await p.locator('#boot-logo').evaluate(img=>img.decode());
+ await p.goto('http://localhost:5180/?opening=off&analytics=off');await p.locator('#boot-logo').evaluate(img=>img.decode());
  assert.ok(await p.locator('#boot-screen').isVisible());await p.screenshot({path:'test-results/boot-portrait.png'});
  await p.locator('#boot-screen').waitFor({state:'hidden'});assert.ok(await p.locator('#rotate-screen').isVisible());
  assert.ok(await p.locator('.arcade').evaluate(el=>el.inert));

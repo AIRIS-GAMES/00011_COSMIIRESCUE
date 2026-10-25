@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 const b=await chromium.launch({channel:'chrome',headless:true});
 try{
  const p=await b.newPage({viewport:{width:390,height:844},hasTouch:true,deviceScaleFactor:2});const errors=[];p.on('pageerror',e=>errors.push(e.message));
- await p.goto('http://localhost:5180');assert.ok(await p.locator('#boot-screen').isVisible());await p.locator('#loading').waitFor({state:'hidden'});
+ await p.goto('http://localhost:5180/?opening=off&analytics=off');assert.ok(await p.locator('#boot-screen').isVisible());await p.locator('#loading').waitFor({state:'hidden'});
  assert.equal(await p.locator('#rotate-screen').count(),0);assert.ok(await p.locator('#title').isVisible());
  const size=await p.locator('#canvas').evaluate(c=>({w:c.clientWidth,h:c.clientHeight,pixels:c.width}));assert.deepEqual(size,{w:844,h:390,pixels:1688});await p.screenshot({path:'test-results/auto-landscape-menu.png'});
  await p.locator('#start').tap();await p.locator('.face-transition').waitFor({state:'hidden'});await p.locator('#flap').tap();await p.waitForTimeout(450);

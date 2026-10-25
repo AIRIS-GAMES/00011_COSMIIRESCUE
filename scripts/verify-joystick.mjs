@@ -4,7 +4,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  for(const viewport of [{width:844,height:390},{width:390,height:844}]){
   const p=await browser.newPage({viewport,hasTouch:true});const errors=[];p.on('pageerror',e=>errors.push(e.message));
-  await p.goto('http://localhost:5180');await p.locator('#loading').waitFor({state:'hidden'});await p.locator('#start').tap();await p.locator('.face-transition').waitFor({state:'hidden'});await p.locator('#flap').tap();await p.waitForTimeout(500);
+  await p.addInitScript(()=>localStorage.setItem('cosmii-psf-v1',JSON.stringify({intro:true,practice:true})));await p.route('**/*',r=>new URL(r.request().url()).hostname==='localhost'?r.continue():r.abort());await p.goto('http://localhost:5180/?opening=off&analytics=off');await p.locator('#loading').waitFor({state:'hidden'});await p.locator('#start').tap();await p.locator('.face-transition').waitFor({state:'hidden'});await p.locator('#flap').tap();await p.waitForTimeout(500);
   await p.evaluate(async()=>{window.testGame=(await import('/src/main.js')).game;const g=window.testGame;g.world.extend=()=>{};g.incoming.update=()=>{};g.obstacles=[];g.homes=[];});
   const pad=await p.locator('#direction-pad').boundingBox(),flap=await p.locator('#flap').boundingBox(),rotated=viewport.height>viewport.width;
   assert.ok(Math.abs(pad.width-pad.height)<1);
