@@ -3,7 +3,7 @@ import {PGlite} from '@electric-sql/pglite';
 import {readFile,mkdir} from 'node:fs/promises';
 import assert from 'node:assert/strict';
 import {newRunId} from '../src/leaderboard.js';
-const base=process.env.TEST_URL||'http://localhost:5180';
+const base=process.env.TEST_URL||'http://localhost:5180/?opening=off&analytics=off';
 const db=await PGlite.create(),browser=await chromium.launch({headless:true});
 try{
   await db.exec('create role anon; create role authenticated;');

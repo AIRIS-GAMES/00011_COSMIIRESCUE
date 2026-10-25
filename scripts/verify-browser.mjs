@@ -5,7 +5,7 @@ await mkdir('test-results',{recursive:true});
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
   const p=await browser.newPage({viewport:{width:844,height:390},hasTouch:true});const errors=[];p.on('pageerror',e=>errors.push(e.message));
-  await p.goto('http://localhost:5180');await p.locator('#loading').waitFor({state:'hidden'});
+  await p.goto('http://localhost:5180/?opening=off&analytics=off');await p.locator('#loading').waitFor({state:'hidden'});
   await p.screenshot({path:'test-results/endless-title-mobile.png'});await p.locator('#start').click();await p.locator('.face-transition').waitFor({state:'hidden'});
   await p.evaluate(async()=>{window.g=(await import('/src/main.js')).game;});
   await p.evaluate(()=>{g.obstacles=[];g.homes=[];g.world.extend=()=>{};g.player.y=650;});const session=await p.context().newCDPSession(p);

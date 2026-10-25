@@ -55,6 +55,7 @@ export class LeaderboardUI {
   }
   beginRun(){this.run=null;this.form.hidden=true;this.name.value='';}
   result(game){
+    if(game.psfRules&&game.mode==='normal'){this.run=null;this.form.hidden=true;return;}
     this.run={id:newRunId(),mode:game.mode,score:Math.floor(game.score),rescued:game.rescued,seconds:game.time};
     this.form.hidden=!this.api.configured||game.mode!=='normal';
     this.name.disabled=false;this.submit.disabled=false;this.submit.textContent='登録';this.message.textContent='';
@@ -73,11 +74,11 @@ export class LeaderboardUI {
       this.message.textContent=error.message;this.submit.disabled=false;this.submit.textContent='再試行';
     }
   }
-  open(storage){this.storage=storage;if(this.api.configured)this.openOnline();else this.openLocal();}
+  open(storage){this.storage=storage;if(this.api.configured&&storage.key!=='cosmii-endless-psf-v1')this.openOnline();else this.openLocal();}
   select(online){
     $('ranking-online').setAttribute('aria-pressed',String(online));$('ranking-local').setAttribute('aria-pressed',String(!online));
     $('record-list').replaceChildren();this.status.textContent='';this.refresh.hidden=!online||!this.api.configured;
-    $('records-caption').textContent=online?'NORMAL · EVENT TOP 20':`${this.storage.key.endsWith('-hard')?'HARD':'NORMAL'} · MY TOP 5`;
+    $('records-caption').textContent=online?'NORMAL · EVENT TOP 20':`${this.storage.key.endsWith('-hard')?'HARD':this.storage.key==='cosmii-endless-psf-v1'?'NORMAL PSF v1':'NORMAL'} · MY TOP 5`;
   }
   row(rank,name,score,detail=''){
     const li=document.createElement('li'),position=document.createElement('b'),label=document.createElement('span'),points=document.createElement('strong');

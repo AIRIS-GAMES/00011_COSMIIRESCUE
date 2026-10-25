@@ -4,7 +4,7 @@ const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  const page=await browser.newPage({viewport:{width:844,height:390}});
  await page.addInitScript(()=>{const NativeAudio=window.Audio;window.Audio=class extends NativeAudio{constructor(src){super(src);if(src?.includes('/audio/bgm/'))window.musicTrack=this;}};});
- await page.goto('http://localhost:5180');await page.locator('#loading').waitFor({state:'hidden'});
+ await page.goto('http://localhost:5180/?opening=off&analytics=off');await page.locator('#loading').waitFor({state:'hidden'});
  assert.ok(await page.evaluate(()=>musicTrack.paused));
  await page.locator('#start').click();await page.waitForFunction(()=>musicTrack.currentTime>.2&&!musicTrack.paused);
  assert.ok(await page.evaluate(()=>musicTrack.loop&&musicTrack.duration>0&&!musicTrack.error));

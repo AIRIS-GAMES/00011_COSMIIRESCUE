@@ -1,7 +1,7 @@
 // Separate namespace: legacy endless-flight scores are intentionally preserved.
 const KEY='cosmii-endless-v1';
 export class RescueStorage {
-  constructor(storage,mode='normal'){this.key=mode==='hard'?KEY+'-hard':KEY;if(!storage){try{storage=globalThis.localStorage;}catch{}}this.storage=storage;this.data={best:0,runs:[],muted:false};try{const data=JSON.parse(storage.getItem(this.key));if(data){this.data.best=Number.isFinite(data.best)?Math.max(0,data.best):0;this.data.muted=!!data.muted;this.data.runs=Array.isArray(data.runs)?data.runs.filter(r=>Number.isFinite(r.score)&&Number.isFinite(r.rescued)).slice(0,5):[];}}catch{}}
+  constructor(storage,mode='normal'){this.key=mode==='psf'?'cosmii-endless-psf-v1':mode==='hard'?KEY+'-hard':KEY;if(!storage){try{storage=globalThis.localStorage;}catch{}}this.storage=storage;this.data={best:0,runs:[],muted:false};try{const data=JSON.parse(storage.getItem(this.key));if(data){this.data.best=Number.isFinite(data.best)?Math.max(0,data.best):0;this.data.muted=!!data.muted;this.data.runs=Array.isArray(data.runs)?data.runs.filter(r=>Number.isFinite(r.score)&&Number.isFinite(r.rescued)).slice(0,5):[];}}catch{}}
   save(){try{this.storage.setItem(this.key,JSON.stringify(this.data));}catch{}}
   beginRun(){this.runId=globalThis.crypto?.randomUUID?.()||`${Date.now()}-${Math.random().toString(36).slice(2)}`;this.runStartBest=this.data.best;}
   record(game){

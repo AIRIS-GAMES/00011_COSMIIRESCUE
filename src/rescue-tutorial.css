@@ -1,0 +1,8 @@
+.practice-guide{position:absolute;inset:0;z-index:5;pointer-events:none;color:#315365}
+.practice-copy{position:absolute;top:3%;left:17%;right:17%;text-align:center;background:#fffdf0ed;border:2px solid #8acbd2;border-radius:18px;padding:8px 14px;box-shadow:0 3px 0 #31536522}
+.practice-copy small{font-size:10px;letter-spacing:1px}.practice-copy h2{font-size:clamp(16px,2.5cqw,25px);margin:3px}.practice-copy p{font-size:clamp(11px,1.5cqw,16px);margin:4px;line-height:1.5}.practice-copy span{font-size:clamp(10px,1.3cqw,13px);color:#527a80}
+.practice-actions{position:absolute;right:3%;bottom:25%;display:flex;gap:10px}.practice-actions button{pointer-events:auto;min-height:44px;border:2px solid #72aeb8;background:#fff9e8ed;color:#315365;border-radius:24px;padding:8px 18px;font-size:clamp(11px,1.5cqw,16px)}
+.practice-actions #tutorial-start{background:#ffe18b;font-weight:900}
+.practice-complete{background:#b8e9e688;pointer-events:auto}.practice-complete .practice-copy{top:25%;padding:20px}.practice-complete .practice-actions{bottom:25%;left:0;right:0;justify-content:center}
+.game.training .score,.game.training .timer,.game.training #home-direction,.game.training #hearts{visibility:hidden}
+@container(max-width:650px){.practice-copy{left:12%;right:12%;padding:5px 8px;top:2%}.practice-copy h2{font-size:16px}.practice-copy p{font-size:11px}.practice-copy small{font-size:9px}.practice-actions button{padding:5px 12px}}
