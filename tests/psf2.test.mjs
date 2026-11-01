@@ -23,15 +23,12 @@ test('interest tracks unmet selections but never counts automatic redraws as cho
 test('interest events bound every name segment and survive blocked measurement',()=>{
  const sent=[],a=new RescueAnalytics((...args)=>sent.push(args));a.interest('character_select',{source:'secret',characterType:'private',status:'url'});a.interest('private',{});assert.deepEqual(sent,[['addDesignEvent','InterestV2:character_select:title:group:preview',1]]);assert.doesNotThrow(()=>new RescueAnalytics(()=>{throw Error();}).interest('profile_display',{}));
 });
-test('harmless protected hit does not consume blue or emit defense, blood, lost or hit',()=>{
- for(const time of [1,40]){const g=game();g.time=time;g.hit(1,g.player);assert.equal(g.blueUsed,false);assert.equal(g.carry.length,1);assert.equal(g.hearts,3);assert.equal(g.stun,0);assert.deepEqual(g.drain().map(e=>e.type),['bump']);}
+test('harmless protected hit emits only a bump, without blood, lost or hit',()=>{
+ for(const time of [1,40]){const g=game();g.time=time;g.hit(1,g.player);assert.equal(g.carry.length,1);assert.equal(g.hearts,3);assert.equal(g.stun,0);assert.deepEqual(g.drain().map(e=>e.type),['bump']);}
 });
-test('strong hit that adds stun is defended; pure plan has no mutation',()=>{
+test('protected strong hit only adds stun; pure plan has no mutation',()=>{
  const input={mode:'normal',time:1,count:1,direct:true,protectedReturn:true,stun:0},copy={...input};const plan=damagePlan(input,2);assert.deepEqual(input,copy);assert.equal(plan.loss,0);assert.equal(plan.life,0);assert.ok(plan.stunAdded>0);
- const g=game();g.hit(2,g.player);const events=g.drain();assert.equal(g.blueUsed,true);assert.equal(g.stun,0);assert.deepEqual(events.map(e=>e.type),['blueDefense']);assert.equal(events[0].preventedStun,plan.stunAdded);
-});
-test('existing stronger stun is not claimed as prevented; real losses spend one shared charge',()=>{
- const g=game();g.stun=.5;g.hit(2,g.player);assert.equal(g.blueUsed,false);g.cooldown=0;g.rescue(g.spawnFriend({x:1,y:1,kind:1}));g.drain();g.hit(1,g.player);assert.equal(g.blueUsed,true);assert.equal(g.carry.length,2);assert.equal(g.drain()[0].preventedFriends,1);g.cooldown=0;g.hit(1,g.player);assert.equal(g.carry.length,1);
+ const g=game();g.hit(2,g.player);assert.equal(g.carry.length,1);assert.equal(g.hearts,3);assert.equal(g.stun,plan.stunAdded);assert.deepEqual(g.drain(),[]);
 });
 test('attempt attribution survives reload; migrated starts are not mislabeled first',()=>{
  const s=memory(),p=new PsfProgress(s);assert.equal(p.beginNormal(),'first');p.mark('started');assert.equal(new PsfProgress(s).beginNormal(),'retry');const old=memory();old.setItem('cosmii-psf-v1',JSON.stringify({started:true}));assert.equal(new PsfProgress(old).beginNormal(),'legacy');

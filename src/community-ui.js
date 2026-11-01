@@ -89,7 +89,7 @@ export class CommunityUI {
  social(body){
   body.classList.add('social-body');body.append(el('p','community-intro','ゲームの外でも、コスミーといっしょに。'));
   const panels=el('div','social-panels'),sns=el('section','social-panel'),line=el('section','social-panel');sns.append(el('h3','','公式SNS'));line.append(el('h3','','LINEスタンプ'));panels.append(sns,line);body.append(panels);
-  const group=el('div','social-cast');cast.forEach(c=>group.append(portrait(c)));sns.append(group);
+  sns.classList.add('social-accounts');
   const links=el('div','social-links');sns.append(links);
   const addLink=(parent,id,label,icon)=>{
    const item=socialLinks.find(l=>l.id===id);let url;try{url=new URL(item?.url);if(url.protocol!=='https:')url=null;}catch{}

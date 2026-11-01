@@ -4,6 +4,20 @@ import {RescueGame,seededRandom,returnValue} from '../src/engine.js';
 import {stage} from '../src/stage.js';
 const make=()=>{const g=new RescueGame(stage,seededRandom(7));g.start();return g;};
 const advance=(g,s)=>{for(let i=0;i<s*120;i++)g.update(1/120);};
+
+test('each delivered friend earns one point in both modes, with no distance or combo bonus',()=>{
+  for(const mode of ['normal','hard']){
+    const g=make();g.start(mode);
+    for(const f of g.friends.slice(0,5)){f.rare=true;f.value=250;g.rescue(f);}
+    g.travel=50000;
+    assert.equal(g.score,0);
+    assert.deepEqual(returnValue(g.carry),[1,1,1,1,1]);
+    g.beginReturn();assert.equal(g.score,5);assert.equal(g.rescued,5);
+    while(g.bankQueue.length)g.bankOne();
+    g.returnLock=0;g.beginReturn();assert.equal(g.score,5);
+    g.rescue(g.friends[0]);g.finish('quit');assert.equal(g.score,5);
+  }
+});
 test('without input gravity pulls the player down',()=>{const g=make(),y=g.player.y;advance(g,.35);assert.ok(g.player.y>y+30);assert.ok(g.player.vy>200);});
 test('right tap immediately rises; holding does not repeat; later falls',()=>{const g=make();g.player.y=650;g.flap();assert.equal(g.player.vy,-330);advance(g,.2);assert.ok(g.player.y<610);advance(g,.35);assert.ok(g.player.vy>0);});
 test('repeated flaps cross the old ceiling and populate the world high above it',()=>{

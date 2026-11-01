@@ -1,3 +1,4 @@
+import {resetSkills,chargeSkill,activateSkill,updateSkills} from './skills.js';
 import {CollaborationMode} from './collaboration.js';
 import {collectibleItems,COLLECTIBLE_RADIUS} from './collection.js';
 import {checkpointRimContact,attachedSlot} from './checkpoint.js';
@@ -12,17 +13,18 @@ export const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
 export const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
 export function seededRandom(seed){return()=>{seed|=0;seed=seed+0x6D2B79F5|0;let t=Math.imul(seed^seed>>>15,1|seed);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
 export function overlap(a,b){if(b.ry){const dx=a.x-b.x,dy=a.y-b.y,c=Math.cos(b.angle||0),s=Math.sin(b.angle||0);return ((dx*c+dy*s)/(b.r+a.r))**2+((-dx*s+dy*c)/(b.ry+a.r))**2<1;}if(b.r)return distance(a,b)<a.r+b.r;return Math.hypot(a.x-clamp(a.x,b.x,b.x+b.w),a.y-clamp(a.y,b.y,b.y+b.h))<a.r;}
-export function returnValue(friends,multiplier=1){const group=1+Math.min(2,Math.max(0,friends.length-1)*.2);return friends.map(f=>Math.round(f.value*f.combo*group*multiplier));}
+// One delivered friend is one point, regardless of rarity, combo or group size.
+export function returnValue(friends){return friends.map(()=>1);}
 export const horizontalSpeed=d=>190+(d<0?415:120)*clamp(d,-1,1);
 export class RescueGame {
   constructor(stage,random=Math.random,collaborationConfig=null,now=Date.now){this.template=stage;this.random=random;this.collaborationConfig=collaborationConfig;this.now=now;this.reset();}
   get powered(){return this.rainbow.active||this.collaboration.active;}
   reset(){
-    this.rimGuideShown=false;
+    resetSkills(this);this.rimGuideShown=false;
     this.items=[];this.itemClock=0;this.itemSpawn=0;this.itemSequence=0;
-    this.stage={...this.template,props:[],spawns:[],home:{...this.template.home}};
+    this.stage={...this.template,props:[],spawns:[],zones:[],home:{...this.template.home}};
     const h=this.stage.home;this.state='ready';this.time=0;this.scrollX=0;this.travel=0;this.direction=0;this.homes=[];
-    this.delivered=[0,0,0,0];this.returnSequence=0;this.blueUsed=false;this.cushionUntil=0;this.score=0;this.rescued=0;this.maxCarry=0;this.bestReturn=0;this.bestReturnCount=0;
+    this.delivered=[0,0,0,0];this.returnSequence=0;this.score=0;this.rescued=0;this.maxCarry=0;this.bestReturn=0;this.bestReturnCount=0;
     this.combo=0;this.maxCombo=0;this.comboLeft=0;this.hearts=3;
     this.player={x:h.x,y:h.y-125,vx:190,vy:0,r:17,tap:0,angle:0};
     this.target=null;this.keys=null;this.carry=[];this.friends=[];this.events=[];
@@ -38,20 +40,21 @@ export class RescueGame {
   drain(){const e=this.events;this.events=[];return e;}
   start(mode=this.mode||'normal'){this.mode=mode==='hard'?'hard':'normal';this.reset();this.state='playing';this.emit('start');}
   setDirection(value){const next=clamp(value,-1,1);if(next*this.direction<0)this.emit('turn',{x:this.player.x,y:this.player.y});this.direction=next;}
-  flap(){if(this.state!=='playing'||this.stun>0)return;this.player.vy=-330;this.player.tap=.28;this.emit('flap',{x:this.player.x,y:this.player.y});}
-  spawnFriend(s){const f={id:this.nextId++,x:s.x,y:s.y,baseX:s.x,baseY:s.y,kind:s.kind??Math.floor(this.random()*4),value:s.rare?250:100,rare:!!s.rare,combo:1,cooldown:s.cooldown||0,phase:this.random()*6.28,collaborationKind:this.collaboration.assign(this,s),feverSpawn:!!s.feverSpawn};this.friends.push(f);return f;}
-  rescue(f){
+  flap(){if(this.state!=='playing'||this.stun>0||this.skillCutin)return;this.player.vy=-330;this.player.tap=.28;this.emit('flap',{x:this.player.x,y:this.player.y});}
+  spawnFriend(s){const f={id:this.nextId++,x:s.x,y:s.y,baseX:s.x,baseY:s.y,kind:s.kind??Math.floor(this.random()*4),value:s.rare?250:100,rare:!!s.rare,combo:1,cooldown:s.cooldown||0,phase:this.random()*6.28,collaborationKind:this.collaboration.assign(this,s),feverSpawn:!!s.feverSpawn,skillCharged:!!s.skillCharged};this.friends.push(f);return f;}
+  activateSkill(kind){return activateSkill(this,kind);}
+  rescue(f,charge=true){
     if(f.cooldown>0||this.carry.some(c=>c.id===f.id))return;
     this.friends=this.friends.filter(c=>c!==f);this.combo=this.comboLeft>0?Math.min(4,this.combo+1):1;this.comboLeft=4.5;
     this.maxCombo=Math.max(this.maxCombo,this.combo);f.combo=1+(this.combo-1)*.25;
-    this.carry.push({...f});this.maxCarry=Math.max(this.maxCarry,this.carry.length);
+    chargeSkill(this,f,charge);this.carry.push({...f});this.maxCarry=Math.max(this.maxCarry,this.carry.length);
     this.emit('rescue',{x:f.x,y:f.y,kind:f.kind,collaborationKind:f.collaborationKind,combo:this.combo,count:this.carry.length});
   }
   beginReturn(){
     if(!this.carry.length||this.bankQueue.length||this.returnLock>0)return;
     const friends=this.carry.splice(0),amounts=returnValue(friends),total=amounts.reduce((a,b)=>a+b,0);
     this.returnHome={...this.stage.home};this.returnCheckpoint=this.stage.home;this.returnCheckpoint.attached??=[];this.bestReturn=Math.max(total,this.bestReturn);this.bestReturnCount=Math.max(this.bestReturnCount,friends.length);
-    this.hearts=Math.min(3,this.hearts+1);this.returnLock=1.2;this.bankQueue=friends.map((f,i)=>({...f,points:amounts[i],bankIndex:this.rescued+i+1}));this.bankClock=0;
+    this.returnLock=1.2;this.bankQueue=friends.map((f,i)=>({...f,points:amounts[i],bankIndex:this.rescued+i+1}));this.bankClock=0;
     const delivered=[0,0,0,0];for(const f of friends)if(!Number.isInteger(f.collaborationKind))delivered[f.kind]++;
     this.delivered=this.delivered.map((n,i)=>n+delivered[i]);this.returnSequence++;
     this.score+=total;this.rescued+=friends.length;
@@ -62,23 +65,22 @@ export class RescueGame {
   }
   bankOne(){const f=this.bankQueue.shift();if(!f)return;const h=this.returnCheckpoint||this.returnHome;h.attached??=[];const slot=attachedSlot(h.attached.length);h.attached.push({kind:f.kind,collaborationKind:f.collaborationKind,...slot,showAt:this.time+.5});this.emit('bank',{x:f.x,y:f.y,homeX:h.x+slot.x,homeY:h.y+slot.y,kind:f.kind,collaborationKind:f.collaborationKind,points:f.points,index:f.bankIndex});}
   hit(damage=1,contact=null){
-    if(this.cooldown>0||this.powered)return;
+    if(this.cooldown>0||this.powered||this.phaseLeft>0||this.skillCutin)return;
+    if(this.skillGuard){this.cooldown=1.3;this.emit('guardBlock',{x:this.player.x,y:this.player.y});return;}
+    const soloHit=this.mode==='hard'&&this.carry.length===0;
     const plan=damagePlan({mode:this.mode,time:this.time,count:this.carry.length,direct:contact===this.player,protectedReturn:this.protectedReturn,stun:this.stun},damage);
     this.cooldown=difficulty(this.mode,this.time).cooldown;this.hitstop=.055;
-    if(plan.harmful&&this.blueAvailable){
-      this.blueUsed=true;this.defenderId=this.carry.find(f=>f.kind===1&&!Number.isInteger(f.collaborationKind)).id;this.cushionUntil=this.time+1.3;
-      this.emit('blueDefense',{x:this.player.x,y:this.player.y,preventedFriends:plan.loss,preventedLife:plan.life,preventedStun:plan.stunAdded});return;
-    }
     if(!plan.harmful&&!plan.fatal){this.emit('bump',{x:this.player.x,y:this.player.y});return;}
     this.stun+=plan.stunAdded;
-    for(let i=0;i<plan.loss;i++){const lost=this.carry.pop();this.spawnFriend({x:lost.x-90-i*18,y:lost.y+60+i*12,kind:lost.kind,rare:lost.rare,collaborationKind:lost.collaborationKind,feverSpawn:lost.feverSpawn,cooldown:6});}
+    for(let i=0;i<plan.loss;i++){const lost=this.carry.pop();this.spawnFriend({x:lost.x-90-i*18,y:lost.y+60+i*12,kind:lost.kind,rare:lost.rare,collaborationKind:lost.collaborationKind,feverSpawn:lost.feverSpawn,skillCharged:lost.skillCharged,cooldown:6});}
     if(plan.loss)this.emit('lost',{x:contact?.x??this.player.x,y:contact?.y??this.player.y,kind:0,count:plan.loss});
     if(plan.life){this.hearts-=plan.life;this.emit('hit',{x:this.player.x,y:this.player.y});}
     if(contact&&!this.collaboration.enabled&&(plan.loss||plan.life))this.emit('blood',{x:contact.x,y:contact.y,damage});
-    if(plan.fatal||this.hearts<=0||this.mode==='hard'&&!this.carry.length){this.hearts=0;this.finish('hit');}
+    if(plan.fatal||this.hearts<=0||soloHit){this.hearts=0;this.finish('hit');}
     this.combo=0;this.comboLeft=0;
   }
-  get blueAvailable(){return !!(this.psfRules&&this.mode==='normal'&&!this.isTraining&&!this.blueUsed&&this.carry.some(f=>f.kind===1&&!Number.isInteger(f.collaborationKind)));}
+  // Intended travel direction: small left input still drifts right in NORMAL.
+  get forward(){return (this.mode==='hard'?this.direction<0:horizontalSpeed(this.direction)<0)?-1:1;}
   get protectedReturn(){return !!(this.psfRules&&this.firstReturnProtection&&this.mode==='normal'&&!this.isTraining&&this.carry.length);}
   finish(reason='time'){if(this.state!=='playing')return;while(this.bankQueue.length)this.bankOne();this.state='ending';this.endDelay=reason==='hit'?.85:.4;this.reason=reason;this.target=null;this.emit('finish',{reason,unbanked:this.carry.length});}
   followCarry(dt){
@@ -93,7 +95,7 @@ export class RescueGame {
   update(dt){
     if(!Number.isFinite(dt)||dt<=0)return;dt=Math.min(dt,1/30);
     if(this.state==='ending'){this.endDelay-=dt;if(this.endDelay<=0){this.state='over';this.emit('gameOver');}return;}
-    if(this.state!=='playing')return;if(this.hitstop>0){this.hitstop-=dt;return;}
+    if(this.state!=='playing')return;if(updateSkills(this,dt))return;if(this.hitstop>0){this.hitstop-=dt;return;}
     for(const key of Object.keys(this.effects))this.effects[key]=Math.max(0,this.effects[key]-dt);
     this.stun=Math.max(0,this.stun-dt);
     this.rainbow.update(this,dt);this.collaboration.update(this,dt);
@@ -130,7 +132,7 @@ export class RescueGame {
       o.y=o.baseY+(Math.cos(this.time*m.speed+phase)-Math.cos(phase))*m.y*strength;
       }
       if(this.powered){if(beamTargetVisible(this,o)&&beams.some(b=>beamHits(b,o))){o.destroyed=true;this.emit('break',{x:o.x,y:o.y,asset:o.asset,size:o.size,angle:o.angle,rainbow:true});}continue;}
-      if(o.disabled)continue;
+      if(o.disabled||this.phaseLeft>0)continue;
       const collision=overlap(p,o);
       if(o.effect){if(collision){this.effects[o.effect]=Math.max(this.effects[o.effect],o.duration);o.disabled=o.duration+1;this.emit('hinder',{x:p.x,y:p.y,effect:o.effect});}continue;}
       if(collision){

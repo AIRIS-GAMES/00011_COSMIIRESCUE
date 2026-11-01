@@ -167,7 +167,8 @@ html,body,.arcade,.machine,button{touch-action:manipulation}
 #result .result-stats{grid-column:1/-1;margin:0;padding:5px 0}
 #result #retry,#result #home{margin-top:0;align-self:center}
 #result #unbanked:empty{display:none}
-#result #return-memory{margin:0;max-height:86px}
+#result #return-memory{margin:0;max-height:none;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:2px 10px}
+#result #return-memory>div{margin:0}
 /* PSF2: one nonblocking notice below the HUD, clear of the flight controls. */
 #toast{top:28%;left:25%;right:25%;max-width:480px;margin:auto;display:flex;align-items:center;justify-content:center;gap:8px;font-size:12px;line-height:1.5;min-height:38px;pointer-events:none}
 #toast img{width:42px;height:42px;object-fit:contain;flex-shrink:0}
@@ -178,7 +179,6 @@ html,body,.arcade,.machine,button{touch-action:manipulation}
 @keyframes return-hop{50%{transform:translateY(-6px) scale(1.05,.95)}}
 @keyframes return-relax{50%{transform:scale(1.12,.9)}}
 @keyframes return-soft{from{opacity:.5}to{opacity:1}}
-#blue-status{position:absolute;bottom:calc(100% + 7px);left:0;right:0;text-align:center;font-size:10px;line-height:1.3;background:#fffdebea;border:1px solid #569ea9;border-radius:10px;padding:3px;letter-spacing:0}
 @media(prefers-reduced-motion:reduce){#toast img{animation:none!important;transform:none!important}}
 @container(max-width:650px){#toast{left:22%;right:22%;top:30%;font-size:11px;padding:5px}#toast img{width:32px;height:32px}}
 #toast{top:34%}@container(max-width:650px){#toast{top:35%}}

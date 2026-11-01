@@ -50,7 +50,7 @@ export class CollaborationMode {
     if(this.spawnWait<=0){
       this.spawnWait=.8;
       if(game.friends.filter(f=>f.feverSpawn).length>=8)return;
-      const p=game.player,forward=game.direction<-.15?-1:1;
+      const p=game.player,forward=game.forward??(game.direction<-.15?-1:1);
       game.spawnFriend({x:Math.max(60,p.x+forward*(160+game.random()*100)),y:Math.max(80,p.y+(game.random()-.5)*180),feverSpawn:true});
     }
   }

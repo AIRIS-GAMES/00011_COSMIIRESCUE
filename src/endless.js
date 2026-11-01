@@ -16,11 +16,13 @@ export class EndlessWorld {
  const homeX=col===0&&row===0?660:500;
  g.stage.spawns.push(...spawns);if(col%3===0&&row%2===0)g.homes.push({x:col*t.width+homeX,y:row*1000+790+shift,radius:65,chunk:key});
  g.stage.props.push(...t.props.filter(p=>p.id!=='home').map(point));
+ // Speed lanes repeat with sky chunks instead of staying at the start room.
+ if(biome.id==='sky')g.stage.zones.push(...(t.zones||[]).map(point));
  }
  g.biome=biomeAt(cx,cy);
  const keep=o=>o.chunk?wanted.has(o.chunk):Math.abs(o.x-g.player.x)<2700&&Math.abs(o.y-g.player.y)<1800;
  for(const k of ['friends','homes'])g[k]=g[k].filter(keep);
- for(const k of ['props','spawns'])g.stage[k]=g.stage[k].filter(keep);
+ for(const k of ['props','spawns','zones'])g.stage[k]=g.stage[k].filter(keep);
  this.loaded=wanted;this.chunks=[...wanted];
  g.stage.home=g.homes.reduce((a,b)=>Math.hypot(a.x-g.player.x,a.y-g.player.y)<Math.hypot(b.x-g.player.x,b.y-g.player.y)?a:b);
  }

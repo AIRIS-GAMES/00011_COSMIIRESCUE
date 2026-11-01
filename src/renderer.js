@@ -129,9 +129,8 @@ export class Renderer {
     for(const f of game.friends)this.friend(f);
     if(game.target&&distance(game.target,game.player)>45){c.save();c.globalAlpha=.45;c.strokeStyle='#fafbd7';c.lineWidth=2;c.beginPath();c.arc(game.target.x,game.target.y,12+Math.sin(this.clock*5)*2,0,6.28);c.stroke();c.restore();}
 
-    for(let i=game.carry.length-1;i>=0;i--)if(!(game.cushionUntil>game.time&&game.carry[i].id===game.defenderId))this.friend(game.carry[i],true,i);
+    for(let i=game.carry.length-1;i>=0;i--)this.friend(game.carry[i],true,i);
     const p=game.player;
-    if(game.cushionUntil>game.time){c.save();c.globalAlpha=.95;c.translate(p.x,p.y+20);c.scale(1.8,.8);this.image(this.assets.friends[1],-42,-42,84,84);c.restore();}
     c.save();c.translate(p.x,p.y);c.rotate(p.angle);this.reactions?.applyHero(c,this.reduced,game.powered);if(game.cooldown>0&&Math.sin(this.clock*25)<0)c.globalAlpha=.45;
     if(p.tap>0){const v=Math.sin(p.tap/.28*Math.PI)*.07;c.scale(1+v,1-v);}const frame=!game.powered&&p.tap>0&&this.assets.flapFrames?this.assets.flapFrames[Math.min(3,Math.floor((.28-p.tap)/.07))]:this.assets.hero;this.image(frame,-38,-38,76,76);c.restore();
     if(game.powered){
