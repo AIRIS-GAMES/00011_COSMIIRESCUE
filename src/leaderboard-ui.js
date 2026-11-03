@@ -70,10 +70,14 @@ export class LeaderboardUI {
     this.editor.querySelector('.ranking-name-cancel').onclick=()=>this.editor.close();
     this.editor.addEventListener('close',()=>{this.editorInput.blur();window.dispatchEvent(new Event('resize'));if(this.settingsMode)this.settingsButton.focus({preventScroll:true});else if(!this.form.hidden&&!this.submit.hidden)this.submit.focus({preventScroll:true});});
     this.editor.addEventListener('keydown',event=>event.stopPropagation());this.editor.addEventListener('keyup',event=>event.stopPropagation());
-    this.editor.querySelector('form').onsubmit=event=>{
+    this.editor.addEventListener('cancel',event=>{if(this.savingName)event.preventDefault();});
+    this.editor.querySelector('form').onsubmit=async event=>{
       event.preventDefault();
-      try{this.name.value=playerName(this.editorInput.value);if(this.settingsMode)this.auto.rename(this.name.value);else this.auto.join(this.name.value,this.run);this.message.textContent='';this.editor.close();this.register();}
+      if(this.savingName)return;
+      this.savingName=true;this.editor.querySelectorAll('button').forEach(button=>button.disabled=true);this.editorInput.readOnly=true;
+      try{this.name.value=playerName(this.editorInput.value);if(this.settingsMode)this.auto.rename(this.name.value);else this.auto.join(this.name.value,this.run);this.editor.querySelector('[role="status"]').textContent='保存中…';await this.register(true);this.editor.close();}
       catch(error){this.editor.querySelector('[role="status"]').textContent=error.message;this.editorInput.focus();}
+      finally{this.savingName=false;this.editorInput.readOnly=false;this.editor.querySelectorAll('button').forEach(button=>button.disabled=false);}
     };
     this.form.onsubmit=event=>{event.preventDefault();try{if(this.auto.read().name)this.register();else this.openEditor();}catch{this.message.textContent='端末に保存できません';}};
     this.form.addEventListener('keydown',event=>event.stopPropagation());
@@ -93,7 +97,7 @@ export class LeaderboardUI {
     this.name.disabled=false;this.submit.disabled=false;this.submit.hidden=false;this.submit.textContent='ランキングに参加';this.message.textContent='';
     try{if(this.auto.read().name){this.auto.offer(this.run);this.register();}}catch{this.message.textContent='端末に保存できません';}
   }
-  async register(){
+  async register(propagateError=false){
     clearTimeout(this.retryTimer);
     try{
       const data=this.auto.read();if(data.deleting){this.submit.hidden=true;this.message.textContent='データ削除中 · 設定から再試行';return;}if(!data.name){this.submit.hidden=false;this.submit.textContent='ランキングに参加';this.message.textContent='';return;}
@@ -102,9 +106,10 @@ export class LeaderboardUI {
       if(this.auto.read().deleting||this.auto.read().deleted)return;
       this.message.textContent=result?`自己ベスト ${result.score}匹 · ${result.rank}位`:'自己ベスト登録済み ✓';
     }catch(error){
-      if(error.permanent){this.message.textContent=error.message;this.submit.hidden=true;return;}
+      if(error.permanent){this.message.textContent=error.message;this.submit.hidden=true;if(propagateError)throw error;return;}
       this.message.textContent='未送信 · 後で自動再送';this.message.title=error.message;this.submit.hidden=false;this.submit.disabled=false;this.submit.textContent='再送';
       this.retryTimer=setTimeout(()=>{if(!document.hidden)this.register();},60000);
+      if(propagateError)throw error;
     }
   }
   open(storage){this.storage=storage;if(this.api.configured&&!storage.key.endsWith('-hard'))this.openOnline();else this.openLocal();}

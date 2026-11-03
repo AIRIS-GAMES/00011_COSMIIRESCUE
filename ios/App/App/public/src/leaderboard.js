@@ -1,4 +1,5 @@
 import {RankingAuth} from './ranking-auth.js';
+import {checkNameRules} from './name-rules.js';
 export function newRunId(){
   const bytes=globalThis.crypto.getRandomValues(new Uint8Array(16));
   bytes[6]=(bytes[6]&15)|64;bytes[8]=(bytes[8]&63)|128;
@@ -8,6 +9,7 @@ export function newRunId(){
 export function playerName(value){
   const name=String(value).normalize('NFC').trim();
   if(!name||Array.from(name).length>12||/[\u0000-\u001f\u007f-\u009f\u202a-\u202e\u2066-\u2069]/u.test(name))throw Error('名前は1〜12文字で入力してください。');
+  checkNameRules(name);
   return name;
 }
 export class Leaderboard {
