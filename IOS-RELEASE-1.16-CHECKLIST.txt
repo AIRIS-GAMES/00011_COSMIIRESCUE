@@ -1,0 +1,68 @@
+Cosmii Rescue 1.16 / 提出前の確認（2026-11-03）
+
+今回コードで対応した内容
+- App/PrivacyInfo.xcprivacy に UserDefaults / CA92.1 を追加し、AppターゲットのResourcesへ登録。
+  これは必要理由APIの申告。収集データ・トラッキング全体の申告が完了したという意味ではない。
+- Info.plist の表示名とCapacitorのappNameを Cosmii Rescue に統一。
+- Debug/Release の MARKETING_VERSION を1.16へ変更。
+- UIRequiredDeviceCapabilitiesは変更していない。
+- GitHub Pagesはnpm ci → npm run build → distのみ公開するワークフローに変更。
+  pushしてActionsの成功・再デプロイを確認するまでは、公開サイトは変わらない。
+  リポジトリ自体が公開の場合、Git履歴の情報はこの変更では消えない。
+
+まだ提出前に必要な実装・運用
+1. 公開ニックネーム
+   現行は自由入力。フィルタ・通報・ユーザー非表示・運営連絡先・運営による審査/削除を設ける。
+   通報ボタンだけ置いても解決しない。通報の保存先、担当者、確認頻度と処理方法が必要。
+   サーバー側で初回登録と名前変更の両方に検証を適用する。
+   投稿の識別に順位や名前は使わず、安定した識別子を用いる。
+2. アカウント削除
+   ランキング行の削除だけでは匿名認証ユーザーが残る。
+   Supabase Authユーザーと関連データの削除、未送信キュー・認証トークンの消去を含める。
+   再送で復活しないことを検証する。管理用キーをアプリへ入れない。
+   このチェックリスト作成時点では未実装。
+3. 申告・ポリシー
+   AppsFlyer、Supabaseに加えて既存のGameAnalyticsを含め、SDK設定・実データフローを確認する。
+   App Store Connectの収集データ/関連付け/トラッキングの申告と公開プライバシーポリシーを更新。
+   年齢区分質問票は公開ニックネームの機能を含めて回答を見直す。年齢レートは独自に断定しない。
+   Xcode ArchiveのPrivacy ReportでアプリとSDKのマニフェストを確認する。
+4. ATT
+   現行コードは起動時の分析初期化後、アプリがactiveかつATT未回答なら要求する。
+   システム設定・回答済み・制限状態では表示しない。ATT拒否でもゲームは遊べる。
+   オープニングとの前後順は実機で確認する。厳密な「必ず動画の前」とは記載しない。
+   チュートリアル後に移す場合、現在のSDK start待機方式も見直す必要がある。
+   単に後ろへ移すと、初期計測が遅れたり、途中離脱ユーザーの計測を逃す可能性がある。
+5. ビルド
+   Mac担当者はApp Store Connectに未使用のバージョン/ビルド番号を確認。
+   現在の設定はバージョン1.16、ビルド1。1.16が使用済みなら更に更新する。
+   Xcodeで署名付きArchive/Validate Appを実行し、PrivacyInfo.xcprivacyがApp.app内にあることを確認。
+
+審査メモ案（実機確認後に使う）
+「トラッキング許可は、iOS版の起動時に分析機能を初期化し、アプリがアクティブになった際、
+未回答の場合に要求します。設定 > プライバシーとセキュリティ > トラッキングで要求が
+許可されていない場合や、回答済み/制限状態ではダイアログは表示されません。
+許可しなくてもゲームの全機能を利用できます。」
+
+このバージョンの新機能（記録変更の説明案）
+「スコアを飛距離から救出数に変更しました。新しいルールに合わせ、記録・ランキングを新しく集計します。」
+旧スコアを新しい救出数へ機械的に換算しない。端末の旧データを削除する処理は加えない。
+
+Mac担当者の上書き更新テスト
+- ストア版でプレイし、設定・記録・ふれあい・図鑑の状態を記録する。
+- アプリを削除せず、同じBundle IDのTestFlight版を上書きインストール。
+- 起動、表示名、設定、部屋、図鑑、累計帰還、ランキング同意/認証を確認。
+- 旧データが保持され、新ルールのスコアと混在しないことを確認。
+- 新規インストールでもATT、動画SKIP、練習、ランキング、D1/D7通知を確認。
+- 通知/ATTを許可・拒否した双方でプレイ可能なことを確認。
+- WindowsではXcodeビルド・実機動作は未検証。
+
+広告公開前
+- SDK入りの更新版がストア公開された後に計測テストと広告配信を行う。
+- AppsFlyer側でApple Ads/Meta/TikTokの必要な連携設定・テストを確認する。
+- ATT拒否はApple AdsのAdServices計測を一律に止めるものではないが、全件取得を保証しない。
+- ストア素材を現在のゲーム内容に合わせ、各媒体とAppsFlyerの計測定義・集計期間を揃えて比較する。
+
+公式参照
+https://developer.apple.com/documentation/bundleresources/app-privacy-configuration/nsprivacyaccessedapitypes/nsprivacyaccessedapitype
+https://developer.apple.com/app-store/review/guidelines/#user-generated-content
+https://developer.apple.com/help/app-review/guideline-reference/5-1-1-account-deletion
