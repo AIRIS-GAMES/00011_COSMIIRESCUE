@@ -7,7 +7,7 @@ try{for(const base of ['','/dist']){
  for(const mode of ['normal','hard']){
  await p.locator('#mode-'+mode).click();await p.locator('#start').click();await p.locator('.face-transition').waitFor({state:'hidden'});
  await p.evaluate(async base=>{const {game:g}=await import(base+'/src/main.js');g.world={extend(){}};g.incoming={update(){}};g.obstacles=[];g.friends=[];g.homes=[];g.carry=[];for(let i=0;i<3;i++)g.rescue(g.spawnFriend({x:g.player.x,y:g.player.y,kind:1}));g.beginReturn();g.finish('quit');},base);
- await p.locator('.result-social-close').click();await expect(p.locator('#result-rescued-stat')).toContainText('68');await expect(p.locator('#result-rescued')).toHaveText('3');await p.locator('#home').click();await p.locator('.face-transition').waitFor({state:'hidden'});
+ await p.locator('.result-social-back').click();await expect(p.locator('#result-rescued-stat')).toContainText('68');await expect(p.locator('#result-rescued')).toHaveText('3');await p.locator('#home').click();await p.locator('.face-transition').waitFor({state:'hidden'});
  }
  await p.reload();await p.locator('#boot-screen').waitFor({state:'hidden'});await expect(p.locator('#title-total-returned')).toContainText('68');await p.screenshot({path:`test-results/total-returned${base?'-dist':''}.png`});
  await p.setViewportSize({width:390,height:844});await expect(p.locator('#title-total-returned')).toBeVisible();assert.equal(await p.evaluate(async base=>(await import(base+'/src/main.js')).progress.totalReturned,base),68);

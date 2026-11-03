@@ -1,19 +1,20 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {Leaderboard,newRunId,playerName} from '../src/leaderboard.js';
-const config={url:'https://example.supabase.co',publishableKey:'sb_publishable_test',eventId:'cosmii-event-01'};
-const run={id:newRunId(),mode:'normal',score:5000,rescued:20,seconds:150.9};
+const config={url:'https://example.supabase.co',publishableKey:'sb_publishable_test',eventId:'cosmii-rescue-v1'};
+const run={id:newRunId(),mode:'normal',score:20,rescued:20,seconds:150.9};
 test('ranking submission contains a stable run ID and public API key, never an auth bearer secret',async()=>{
-  const calls=[],api=new Leaderboard(config,async(url,options)=>{calls.push({url,...options});return {ok:true,json:async()=>({rank:2,score:5000})};});
+  const calls=[],api=new Leaderboard(config,async(url,options)=>{calls.push({url,...options});return {ok:true,json:async()=>({rank:2,score:20})};});
   await api.submit(run,' コスミー ');await api.submit(run,'コスミー');
   assert.equal(calls[0].headers.apikey,config.publishableKey);assert.equal(calls[0].headers.Authorization,undefined);
   assert.equal(calls[0].body,calls[1].body);
-  assert.equal(JSON.parse(calls[0].body).p_name,'コスミー');assert.equal(JSON.parse(calls[0].body).p_seconds,150);
+  assert.equal(JSON.parse(calls[0].body).p_score,20);assert.ok(calls[0].url.endsWith('/cosmii_rescue_submit_score'));assert.equal(JSON.parse(calls[0].body).p_name,'コスミー');assert.equal(JSON.parse(calls[0].body).p_seconds,150);
 });
 test('HARD, invalid names, negative scores and secret keys cannot submit',async()=>{
   const api=new Leaderboard(config,()=>{throw Error('must not send');});
   await assert.rejects(()=>api.submit({...run,mode:'hard'},'A'),/NORMAL/);
   await assert.rejects(()=>api.submit({...run,score:-1},'A'),/スコア/);
+  await assert.rejects(()=>api.submit({...run,score:5000},'A'),/スコア/);
   for(const name of ['',' '.repeat(3),'a'.repeat(13),'A\nB','A\u202eB'])assert.throws(()=>playerName(name));
   assert.equal(playerName('🐱'.repeat(12)),'🐱'.repeat(12));
   assert.equal(new Leaderboard({...config,publishableKey:'sb_secret_x'}).configured,false);

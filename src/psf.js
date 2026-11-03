@@ -16,6 +16,6 @@ export class PsfProgress {
 const events=new Set(['practice_start','practice_step','practice_complete','practice_exit','first_start','first_rescue','first_return','retry','normal_attempt','first_return_attempt','result_shown']);
 export function psfMeasure(analytics,name,value=1,variant='normal',kind='group'){
  if(!events.has(name)||!Number.isFinite(value))return;
- const suffix=name==='practice_step'?`:step_${Math.max(0,Math.min(4,Math.floor(value)))}`:name==='result_detail'?`:${kinds.includes(kind)?kind:'group'}`:'';
+ const suffix=name==='practice_step'?`:step_${Math.max(0,Math.min(6,Math.floor(value)))}`:name==='result_detail'?`:${kinds.includes(kind)?kind:'group'}`:'';
  try{analytics.call('addDesignEvent',`PSF:v2:${name}:${['normal','hard','optional','onboarding','first','retry','legacy'].includes(variant)?variant:'normal'}${suffix}`,Math.max(0,value));}catch{}
 }

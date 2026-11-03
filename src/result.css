@@ -1,0 +1,41 @@
+/* The result is one compact card; details live in the character collection. */
+#title #home-settings{position:absolute;right:10px;top:7px;display:grid;place-items:center;min-width:42px;min-height:42px;padding:2px;border:2px solid #8c7770;border-radius:50%;background:#fffbed;color:#805665;font:30px sans-serif;pointer-events:auto}
+#game[data-screen="title"] #sound{visibility:hidden}
+#title #home-settings{width:52px;height:52px;border:0;background:none;padding:0;box-shadow:none}
+#title #home-settings img{width:100%;height:100%;object-fit:contain;pointer-events:none}
+#game[data-screen="title"] .hud .controls{pointer-events:none}
+.ranking-name-card .settings-bgm{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:6px 0 12px;font-size:16px}
+.ranking-name-card input{font-family:var(--game-font)}
+.ranking-name-card .settings-bgm button{flex:0 0 90px;background:#e5f4d8;border-color:#5c8d7c;color:#345c4c}
+.ranking-name-card .settings-bgm button[aria-pressed="false"]{background:#e6e6e6;color:#666;border-color:#999}
+.ranking-name-dialog[data-compact="true"].home-settings-dialog .ranking-name-card{grid-template-columns:1fr 1fr;align-items:center;column-gap:12px}
+.ranking-name-dialog[data-compact="true"].home-settings-dialog .ranking-name-card h2,.ranking-name-dialog[data-compact="true"].home-settings-dialog .ranking-name-card>div:last-child,.ranking-name-dialog[data-compact="true"].home-settings-dialog .ranking-name-error{grid-column:1/-1}
+.ranking-name-dialog[data-compact="true"].home-settings-dialog .settings-bgm{margin:0}
+.ranking-name-dialog[data-compact="true"]{padding:6px}
+.ranking-name-dialog[data-compact="true"] .ranking-name-card{padding:0;display:grid;gap:5px}
+.ranking-name-dialog[data-compact="true"] .ranking-name-card h2{font-size:16px;margin:0}
+.ranking-name-dialog[data-compact="true"] .ranking-name-card>p:not(.ranking-name-error){display:none}
+.ranking-name-dialog[data-compact="true"] .ranking-name-card input{min-height:44px;padding:6px;font-size:16px}
+.ranking-name-dialog[data-compact="true"] .ranking-name-card>div{margin:0}
+#game #result{padding:8px}
+#game #result .result-panel{width:min(620px,96%);max-height:100%;display:flex;flex-direction:column;gap:7px;padding:12px 18px;overflow:auto}
+#result .result-main,#result #unbanked,#result .result-stats>div:nth-child(n+3){display:none}
+#game #result .rescued-head{display:flex;justify-content:center;align-items:baseline;gap:6px;margin:0;line-height:1}
+#game #result .rescued-head>b{font-size:clamp(40px,7cqw,64px);color:#ec518e;line-height:1.1}
+#game #result .rescued-head>span{font-size:16px;line-height:1.2}
+#result-eyebrow{font-size:clamp(12px,1.8cqw,17px);line-height:1.4;letter-spacing:.05em}
+#game #result .result-stats{display:flex;justify-content:center;gap:24px;border:0;margin:0;padding:0}
+#game #result .result-stats>div{gap:8px;align-items:baseline;font-size:11px}
+#game #result .result-stats b{font-size:16px}
+#game #result #return-memory{display:flex;justify-content:center;gap:8px;margin:0;border:0;padding:0}
+#game #result #return-memory:empty{display:none}
+#game #result #return-memory>div{display:contents}
+#game #result #return-memory button{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;flex:0 1 110px;min-width:0;min-height:44px;border:1px solid #dca4b8;border-radius:12px;background:#fffaf0;color:#603b2d;font-size:10px;padding:3px}
+#game #result #return-memory img{width:34px;height:34px;object-fit:contain;margin:0}
+#game #result .ranking-entry{display:flex;align-items:center;justify-content:center;gap:8px;min-height:24px;padding:0;margin:0;border:0}
+#game #result .ranking-entry button{font:inherit;font-size:11px;min-height:28px;border:1px solid #82b5ad;border-radius:14px;background:#eff8e8;color:#285f56;padding:3px 14px}
+#game #result .ranking-entry-status{font-size:10px;line-height:1.4;margin:0}
+#game #result .result-actions{position:static;display:flex;gap:12px;padding:0;margin:0;background:none}
+#game #result .result-actions #retry,#game #result .result-actions #home{flex:1;min-height:44px;padding:6px;border:2px solid #704f5f;border-radius:16px;box-shadow:0 3px 0 #704f5f;font-size:16px;margin:0;text-decoration:none}
+#game #result .result-actions #home{background:#fffaf0}
+@container(max-width:650px){#game #result .result-panel{gap:5px;padding:8px 12px}#game #result #return-memory img{width:28px;height:28px}#game #result #return-memory button{font-size:9px}#game #result .rescued-head>b{font-size:40px}#game #result .result-actions #retry,#game #result .result-actions #home{font-size:14px}}

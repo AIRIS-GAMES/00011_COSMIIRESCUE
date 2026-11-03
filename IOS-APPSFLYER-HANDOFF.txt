@@ -1,0 +1,74 @@
+COSMII RESCUE / AppsFlyer 引き継ぎ（2026-11-03）
+
+実装済み
+- App Store ID: 6811575619 / Bundle ID: com.airisgames.cosmiirescue
+- 公式 AppsFlyer iOS SDK 6.17.9 を Swift Package Manager の exactVersion で追加。
+- ios/App/App/Info.plist の AppsFlyerDevKey に受領キーを設定済み。ブラウザ用JSには含めない。
+- iOSのみ有効。GameAnalyticsの細かい行動計測は維持。
+- ATT回答前はSDKをstartしない。許可時のみIDFA取得・広告パートナー共有を有効化。
+- 拒否・制限時はIDFA取得と全パートナーへのユーザーレベル共有を無効化。
+  AppsFlyer自身への計測、Apple Ads AdServices、SKANは残る。
+  Meta/TikTokの全インストールが個別に判別できる保証はない。
+- IDFVを独自に他社IDと結合しない。メール、名前、座標、個人IDを追加送信しない。
+- 初帰還・初ふれあいはUserDefaultsで一度。過去の帰還は遡及送信しない。
+  初ふれあいはこのSDK導入以降の初回。
+- SDKがオフライン送信を管理。起動待ちはメモリ内64件まで。強制終了時の配送保証なし。
+- SDKログは無効。デバッグ起動はデフォルト計測OFF。
+
+送るイベント（インストールとセッションはSDKが自動計測）
+af_tutorial_completion: 練習完了、source=onboarding/optional
+cosmii_play: 本番開始、mode=normal/hard、NORMALはattempt=first/retry/legacy
+cosmii_first_return: 保存単位の初帰還、seconds=成功ラン秒数
+cosmii_retry: 結果の再挑戦、mode
+cosmii_room_open: 部屋を開く、visit=first/revisit（同一セッションも含む）
+cosmii_first_interaction: 初ふれあい、color
+cosmii_trust_gain: 確定した信頼度増加、color/amount
+タップ・なでる座標・毎フレームの情報は送信しない。
+
+Mac担当者の手順
+1. 更新後の ios フォルダ全体を受け取る。publicだけを上書きしない。
+2. ios/App/App.xcodeproj を開き、署名Teamと公開Bundle IDの一致を確認。
+3. File > Packages > Resolve Package Versions。
+   AppsFlyerLib 6.17.9、Capacitor 7.6.9 を確認。
+   従来のPackage.resolvedだけが8.5.2だったため、Package.swift/npmと同じ7.6.9へ統一済み。
+   SceneDelegateProxy（8系API）は7系ApplicationDelegateProxyへ置換。
+   CapApp-SPM/Package.swiftはCLI管理なのでSDK依存はXcodeプロジェクトへ追加。
+4. Scheme > Run > Arguments Passed On Launch に -CosmiiAttributionTesting を追加すると、
+   DebugでもAppsFlyer送信する。先にAppsFlyer側にテストiPhoneを登録する。
+   通常Debugは送信OFF。Release/TestFlightは送信ON。
+   全停止する検証は -CosmiiAttributionOff を使用。
+5. 実機新規起動。ATT表示、許可/拒否どちらでもゲームが動くことを確認。
+   許可待ちでSDK通信しないこと、拒否時IDFAが入らないこと、
+   OS設定の許可撤回後の復帰でも設定が適用されることを確認。
+6. 練習完了→本番→初帰還→ふれあい→部屋へ戻る。
+   AppsFlyerのSDKテスト/イベント画面で上記イベントを確認。
+   再入室でcosmii_first_interactionが再送されないことを確認。
+   バックグラウンド→復帰、オフライン→オンラインも確認。
+7. 連携前の自然起動がOrganic扱いでも不具合ではない。
+   各広告連携後、Apple Ads・Meta・TikTokそれぞれの公式テストで流入を確認。
+8. 次のバージョン/ビルド番号に更新（既存1.15とビルド番号は未変更）。
+   TestFlightで確認後、更新提出。
+
+あなた（管理画面担当）の作業
+- Partner MarketplaceでApple Ads・Meta・TikTokを接続。
+- Meta/TikTok向けイベントを対応付け。全イベントを無条件に全媒体へ共有しない。
+- SKAN Conversion Studioで練習完了・初帰還などを計測目標に設定。
+  コードで別のCV更新処理を追加して二重管理しない。
+- SKANポストバックコピー先は設定済み。
+  SKAdNetworkItemsは広告表示側の設定なので広告主アプリとして一律追加していない。
+- 広告費API連携を設定しない限り、SDKだけでは獲得単価は計算できない。
+- App Store ConnectのApp Privacyと公開プライバシーポリシーを更新。
+  AppsFlyer利用、端末識別子/利用データ、広告効果測定、共有先、同意/撤回を実際の設定に合わせる。
+  SDK付属PrivacyInfo.xcprivacyも含めXcodeのPrivacy Reportで確認。
+- 海外配信などの追加同意要件にATTは代用できない。配信地域に応じて公開前に確認。
+
+検証の限界
+Windows環境のためXcodeコンパイル/署名、iPhoneのATT実画面、AppsFlyer実受信、
+広告アカウント接続は未実施。自動テストのイベントは外部へ送っていない。
+実機で上記確認後に公開する。
+
+公式資料
+https://dev.appsflyer.com/hc/docs/integrate-ios-sdk
+https://dev.appsflyer.com/hc/docs/ios-sdk-reference-appsflyerlib
+https://github.com/AppsFlyerSDK/AppsFlyerFramework/tree/6.17.9
+https://capacitorjs.com/docs/plugins/ios

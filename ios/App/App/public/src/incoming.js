@@ -11,7 +11,7 @@ export class IncomingHazards {
     if(g.powered)this.wait=.42;
     if(g.obstacles.length>=14)return;
     const p=g.player,view=g.view||{x:p.x-460,y:p.y-240,w:1067,h:480};
-    let dx=g.direction<-.15?-1:1,dy=0;
+    let dx=g.forward??(g.direction<-.15?-1:1),dy=0;
     if(!g.powered&&Math.abs(p.vy)>Math.abs(p.vx)*1.3){dx=0;dy=Math.sign(p.vy);}
     const pool=sectionHazards(Math.floor(p.x/1320),Math.floor(p.y/1000),danger||settings.heavy).filter(o=>
       (!g.collaboration?.enabled||!['knife','fork'].includes(o.asset))&&

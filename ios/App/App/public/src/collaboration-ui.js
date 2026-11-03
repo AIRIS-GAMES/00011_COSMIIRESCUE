@@ -13,7 +13,7 @@ export class CollaborationUI {
     document.getElementById('records').after(title);this.title=title;
     const modal=document.createElement('div');modal.id='collaboration-details';modal.className='overlay modal-screen collaboration-details';modal.hidden=true;
     modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-labelledby','collaboration-details-heading');
-    modal.innerHTML='<section class="panel"><h2 id="collaboration-details-heading">おっ！サン コラボ</h2><p class="collaboration-lead">おっ！サンを集めてフィーバー！</p><div class="collaboration-description"><img alt="おっ！サン"><ol><li>おっ！サンに触れて、HOMEへ届けよう！</li><li class="collaboration-rule"></li><li>無敵＆ビームで障害物をこわそう！<br>おっ！サンもたくさん登場！</li></ol></div><small class="collaboration-modal-credit">© SUN-TV</small><button type="button" class="primary collaboration-close">わかった！</button></section>';
+    modal.innerHTML='<section class="panel"><h2 id="collaboration-details-heading">おっ！サン コラボ</h2><p class="collaboration-lead">おっ！サンを集めてフィーバー！</p><div class="collaboration-description"><img alt="おっ！サン"><ol><li>おっ！サンに触れて、HOMEへ届けよう！</li><li class="collaboration-rule"></li><li>無敵＆ビームで障害物をこわそう！<br>おっ！サンもたくさん登場！</li></ol></div><small class="collaboration-modal-credit">© SUN-TV</small></section><button type="button" class="collaboration-close back-button" aria-label="ホームにもどる"><span aria-hidden="true">↩</span><small>もどる</small></button>';
     modal.querySelector('img').src=COLLABORATION_IMAGES[0];
     modal.querySelector('.collaboration-rule').textContent=`合計${this.game.collaboration.target}体届けると、${this.game.collaboration.seconds}秒間フィーバー！`;
     document.getElementById('game').append(modal);this.modal=modal;

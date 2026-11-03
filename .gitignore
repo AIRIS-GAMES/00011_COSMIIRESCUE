@@ -2,3 +2,12 @@ node_modules/
 dist/
 test-results/
 asset-contact.png
+
+# Generated previews are reproducible; keep prompts and QC metadata.
+output/**/*.png
+output/**/*.gif
+Asset/audio/click-candidates/
+Asset/audio/celebration-candidates/
+
+# Local Netlify folder
+.netlify

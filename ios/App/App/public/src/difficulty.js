@@ -8,7 +8,7 @@ export function impact(mode,tier,count,direct){
   return {loss:Math.min(count,strong?Math.max(tier+(hard?2:1),Math.ceil(count*(hard?.6:.4))):(hard?3:2)),
     fatal:hard&&direct&&strong,stun:strong?(hard?.42:.28):0,life:direct&&!hard};
 }
-// Pure, single calculation of the loss AFTER existing protection, BEFORE blue defense.
+// Pure, single calculation of the loss AFTER existing protection.
 export function damagePlan({mode,time,count,direct,protectedReturn=false,stun=0},tier){
  const rules=impact(mode,tier,count,direct),opening=mode!=='hard'&&time<30&&!count;
  const loss=opening?0:protectedReturn?Math.min(rules.loss,Math.max(0,count-1)):rules.loss;

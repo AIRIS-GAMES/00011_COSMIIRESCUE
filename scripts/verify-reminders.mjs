@@ -1,0 +1,35 @@
+import {chromium,expect} from '@playwright/test';
+import assert from 'node:assert/strict';
+const browser=await chromium.launch({channel:'chrome',headless:true});
+try{
+ for(const [width,height] of [[568,320],[390,844]]){
+  const page=await browser.newPage({viewport:{width,height}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.addInitScript(()=>{
+   window.reminderCalls=[];window.reminderState={enabled:false,permission:'prompt'};window.reminderTaps=[];
+   window.webkit={messageHandlers:{bridge:{}}};
+   window.Capacitor={getPlatform:()=> 'ios',isNativePlatform:()=>true,PluginHeaders:[{name:'CosmiiReminders',methods:['status','enable','disable','played','consumeTaps','openSettings'].map(name=>({name,rtype:'promise'}))}],nativePromise:async(plugin,method,options)=>{
+    reminderCalls.push({method,options});
+    if(method==='status')return {...reminderState};
+    if(method==='enable'){reminderState={enabled:true,permission:'granted'};return {granted:true};}
+    if(method==='disable'){reminderState.enabled=false;return {};}
+    if(method==='consumeTaps'){const taps=reminderTaps;reminderTaps=[];return {taps};}
+    return {};
+   }};
+  });
+  await page.goto('http://localhost:5180/?opening=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});
+  await page.evaluate(async()=>{window.events=[];(await import('/src/analytics.js')).analytics.send=(...args)=>events.push(args);});
+  await expect(page.locator('#reminder-settings')).toBeInViewport({ratio:1});
+  assert.equal(await page.evaluate(()=>reminderCalls.some(c=>c.method==='enable')),false);
+  await page.locator('#reminder-settings').click();await expect(page.locator('.reminder-status')).toContainText('OFF');await page.locator('.reminder-toggle').click();await expect(page.locator('.reminder-status')).toContainText('ON');
+  await page.screenshot({path:`test-results/reminders-${width}.png`});
+  await page.locator('.reminder-close').click();await page.locator('#start').click();await page.locator('.face-transition').waitFor({state:'hidden'});await page.locator('#pause').click();
+  assert.ok(await page.evaluate(()=>reminderCalls.some(c=>c.method==='played'&&c.options.active===true)));assert.ok(await page.evaluate(()=>reminderCalls.some(c=>c.method==='played'&&c.options.active===false)));
+  await page.locator('#quit').click();await page.locator('.result-social-back').click();await page.locator('#home').click();await page.locator('.face-transition').waitFor({state:'hidden'});
+  await page.locator('#reminder-settings').click();await page.locator('.reminder-toggle').click();await expect(page.locator('.reminder-status')).toContainText('OFF');await page.locator('.reminder-close').click();
+  await page.evaluate(()=>{reminderState.permission='denied';reminderTaps=[{kind:'d1'}];document.dispatchEvent(new Event('cosmiiReminderOpened'));});
+  await page.locator('#reminder-settings').click();await expect(page.locator('.reminder-ios')).toBeVisible();await expect(page.locator('.reminder-toggle')).toBeHidden();await page.locator('.reminder-ios').click();
+  assert.equal(await page.evaluate(()=>events.filter(e=>e[1]==='Reminder:v1:opened:d1').length),1);
+  assert.deepEqual(errors,[]);await page.close();console.log('PASS reminder settings and mocked native lifecycle',width,height);
+ }
+ const web=await browser.newPage();await web.goto('http://localhost:5180/?opening=off&analytics=off');await web.locator('#boot-screen').waitFor({state:'hidden'});await expect(web.locator('#reminder-settings')).toHaveCount(0);
+}finally{await browser.close();}

@@ -1,0 +1,43 @@
+D1/D7のお知らせ（2026-11-03）
+
+仕様
+・iOSアプリ専用のローカル通知。Supabase/APNs/広告媒体の設定は不要。
+・ホーム上部のベル「お知らせの設定」→「お知らせを受け取る」→iOS通知許可。
+・初回起動時のATT許可と重ならないよう、通知許可はユーザーがベルから選んだ時だけ要求。
+・基準は最後のプレイ。開始／終了／一時停止／再開／プレイ中のバックグラウンド移行で更新。ホームを開いただけでは更新しない。
+・D1は24時間後、D7は168時間後。各1回。再プレイ時には同じ2つの識別子の予約を更新。
+・D1「コスミーが待ってるよ」／「またいっしょに、仲間を助けにいこう！」
+・D7「コスミーが待ってるよ」／「ひさしぶり！コスミーたちに会いにきてね。」
+・プレイ前に許可した場合は最初のプレイから予約。許可した時点で過去になった通知は即時配信しない。
+・アプリ内OFFで予約と配信済みのお知らせを削除。対象はこの機能の通知IDだけ。
+・前面で遊んでいる時には通知バナーを表示しない。通知タップではアプリを開く。
+・Web版（スマホブラウザを含む）ではベルを表示せず、通知しない。
+
+GameAnalytics
+Reminder:v1:permission_request / permission_granted / permission_denied / disabled
+Reminder:v1:opened:d1 / opened:d7
+通知タップは保存してJS起動後に回収。起動時と通知コールバックの重複は抑止。
+予約回数や配信成功率は計測していない。openedは通知から開いた回数で、D1/D7継続率そのものではない。
+
+Mac担当者の作業
+1. 最新iosフォルダを取得し、Xcodeで通常ビルド。
+   CosmiiReminders.swiftはproject.pbxprojのSourcesへ登録済み。
+   UserNotificationsのローカル通知のみなのでPush Notifications capability追加は不要。
+2. 実機のDebug Scheme → Run → Arguments Passed On Launch に
+   -CosmiiReminderTesting
+   を追加すると、DebugビルドだけD1=60秒、D7=180秒になる。
+3. 実機でホームのベルから許可。1プレイしてホームへ戻り、アプリをバックグラウンドへ。
+   約60秒後・180秒後に各1回表示されることを確認。
+4. 途中で再プレイし、旧時刻でなく新しい基準時刻から予約されることを確認。
+5. OFFにして以後通知が来ないこと、iOS側で拒否した場合に「iPhoneの設定を開く」が出ることを確認。
+6. 通知タップでのコールド起動・起動済みアプリ復帰の両方を確認。
+7. Releaseビルドの配信は必ず24時間・168時間。Debug引数は公開時に不要。
+
+検証範囲
+WindowsではXcodeビルドと実通知の確認はできないため、上記実機検証が必要。
+iOSの集中モード、通知要約、利用者の設定によって表示タイミングが変わる。
+既に公開済みのアプリは更新版をリリースするまで通知機能が増えない。
+
+公式資料
+https://developer.apple.com/documentation/usernotifications/untimeintervalnotificationtrigger
+https://developer.apple.com/documentation/usernotifications/unusernotificationcenter/requestauthorization(options:completionhandler:)

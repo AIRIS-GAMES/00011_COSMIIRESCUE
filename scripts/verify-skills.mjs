@@ -10,7 +10,8 @@ try{for(const [width,height,base] of [[568,320,''],[844,390,'/dist'],[390,844,''
  for(let kind=0;kind<4;kind++){
   await page.evaluate(async({base,kind})=>{
    const {game:g}=await import(base+'/src/main.js');g.start('normal');g.world.extend=()=>{};g.incoming.update=()=>{};g.homes=[];g.friends=[];g.obstacles=[];g.cooldown=999;
-   for(let i=0;i<3;i++)g.rescue(g.spawnFriend({x:g.player.x+80,y:g.player.y,kind}));
+   const {SKILL_REQUIREMENTS}=await import(base+'/src/skills.js');
+   for(let i=0;i<SKILL_REQUIREMENTS[kind];i++)g.rescue(g.spawnFriend({x:g.player.x+80,y:g.player.y,kind}));
   },{base,kind});
   const button=page.locator(`#skill-bar button[data-kind="${kind}"]`);await expect(button).toBeEnabled();await expect(button).toBeInViewport({ratio:1});
   if(kind===0){
@@ -34,6 +35,6 @@ try{for(const [width,height,base] of [[568,320,''],[844,390,'/dist'],[390,844,''
  assert.equal(await page.evaluate(async base=>(await import(base+'/src/main.js')).game.skillLeft[3],base),remaining);
  await page.locator('#resume').click();await expect(page.locator('#skill-bar')).toBeVisible();
  await expect(page.locator('#skill-bar button[data-kind="3"]')).toHaveAttribute('data-active','false',{timeout:7000});
- await expect(page.locator('#skill-bar button[data-kind="3"] span')).toHaveText('0/3');
+  await expect(page.locator('#skill-bar button[data-kind="3"] span')).toHaveText('0/6');
  assert.deepEqual(errors,[]);console.log('PASS skill buttons, four activations, cutin, pause:',width,height,base);await page.close();
 }}finally{await browser.close();}

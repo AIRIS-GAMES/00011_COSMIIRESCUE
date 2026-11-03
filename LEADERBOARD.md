@@ -1,44 +1,38 @@
-# イベントランキング（Supabase）
+# 救出数ランキング（Supabase）
 
-NORMAL専用、イベント別の上位20件です。リザルトでニックネームを入力し、本人が「登録」を押したスコアだけを公開します。途中終了も対象です。未送還の仲間は加点しません。個人のMY TOP 5は従来どおり端末内に保存されます。
+## 現在の仕様：2026-11-03
 
-## 初回セットアップ
+初回に名前を公開して参加し、以降はNORMALの自己ベスト更新時に自動送信します。匿名認証のユーザーIDごとに1枠を保持し、同点・低いスコアでは上書きしません。
 
-1. Supabaseでプロジェクトを作成します。
-2. SQL Editorで `supabase/migrations/202609300001_event_leaderboard.sql` を実行します。
-3. プロジェクトのConnect画面／API KeysからProject URLと **Publishable key (`sb_publishable_...`)** を取得します。
-4. `src/leaderboard-config.js` の `url` と `publishableKey` に設定します。URL末尾の `/` は不要です。`eventId` はSQLに登録した `cosmii-event-01` と一致させます。
-5. ローカルサーバーはページを再読み込みすれば反映します。配信版は `npm run build` で更新してください。
+- 新テーブル：`cosmii_player_bests`。新RPC：`cosmii_player_top_scores` / `cosmii_player_submit_score`。
+- イベントIDは `cosmii-rescue-v1` のまま。旧テーブルは保管し、新ランキングには混ぜません。
+- 投稿者はJWTの `auth.uid()` で決定します。名前やクライアント指定のユーザーIDで所有者を決めません。
+- 未送信の最高記録を端末に保持し、再起動・オンライン復帰・再表示・60秒間隔で再送します。
+- データ消去や再インストール、別端末への引継ぎはアカウント連携未実装のため対象外。
+- 手順：[SUPABASE-AUTO-RANKING-SETUP.txt](SUPABASE-AUTO-RANKING-SETUP.txt)。2026-11-03にユーザーがSQL適用成功を報告。読み取り確認で匿名サインイン有効・新ランキングRPC HTTP 200（0件）を確認済み。本番投稿は未検証。
+- 検証：`tests/player-ranking.test.mjs` と `scripts/verify-auto-ranking.mjs`。
 
-設定前でもゲームは動きます。登録フォームは非表示で、ランキングのEVENT TOP 20には「準備中」と表示します。接続後、NORMALのリザルトに登録フォームが出ます。HARDは端末内の記録だけです。
+## 旧版の仕様・導入履歴
 
-公開キーはブラウザから利用するためのものです。Secret key、service_role、データベースのパスワードは、この設定ファイルに入れないでください。テーブルはRLSと権限で直接アクセスを禁止し、公開する2つのRPCだけを呼び出します。
+NORMALの1プレイでHOMEへ届けた数を、本人が結果画面から登録します。途中終了も対象です。
+HARD・練習はオンライン登録しません。飛距離は参考表示、累計帰還はふれあいや解放に使います。
 
-## イベント運用
+- 新イベントID：`cosmii-rescue-v1`。旧 `cosmii-event-01` は削除・変換しません。
+- 同数は同順位（1・1・3位）。同順位内は登録日時順。表示は最大20件です。
+- `score = rescued` の制約をDBにも適用。UUIDによって通信失敗後の重複登録を防ぎます。
+- 公開項目は順位・名前・帰還数。テーブルの直接参照・書き込みは禁止し、専用RPCを利用します。
+- クライアント申告の数値であり、不正スコアの完全な検証は行いません。
 
-- スコア降順。同点の場合は先に登録されたプレイが上位です。
-- 通信失敗時は「再試行」を押してください。同じプレイIDでは重複登録・上書きしません。送信結果が不明な場合も、同じ名前で再試行します。
-- 登録前／通信失敗中にリザルトを閉じると、そのプレイをオンライン登録する操作はできなくなります。端末のMY TOP 5には通常どおり記録されます。
-- 「1人1回」と15分の時間管理はスタッフ運用です。本人確認・端末制限・自動終了は実装していません。共有端末でも次の人がプレイできます。
-- この版はクライアントが計算した得点を登録します。スコアの改ざん防止／サーバーでのプレイ検証はありません。プレゼント判定にはスタッフが実プレイとリザルトを確認してください。
-- ニックネームは全員に公開されます。投稿の削除はSupabase管理画面から行えます。
+導入SQLと反映状況は [RANKING-DEPLOY.md](RANKING-DEPLOY.md) を参照してください。
+公開キーを `src/leaderboard-config.js` に設定します。秘密鍵・service_roleキーは含めません。
 
-受付終了（表示は継続）:
-
-```sql
-update public.cosmii_events set accepting_scores=false where id='cosmii-event-01';
-```
-
-別イベントを開始するときは、過去の記録を削除せず新しいIDを作り、設定ファイルの `eventId` を変更します。
+受付終了後も閲覧を残す場合：
 
 ```sql
-insert into public.cosmii_events(id) values ('cosmii-event-02');
+update public.cosmii_events set accepting_scores=false where id='cosmii-rescue-v1';
 ```
 
-## 検証
+新しい開催回を設ける場合は、設定のIDだけでなく、専用RPCのイベント制限とDB制約も移行SQLで更新してください。
 
-`npm test` は接続処理と、PGlite（PostgreSQL）上でのSQL実行・権限制御・二重送信・順位計算を検証します。実際のSupabaseプロジェクトへの接続は設定後に確認が必要です。
-
-ローカルサーバー起動中に `node scripts/verify-leaderboard.mjs` を実行すると、ブラウザとローカルPostgreSQLを使い、登録・読み込み・通信失敗後の再送信・スマホの縦横表示を確認します。Supabase本番にはデータを送信しません。
-
-公式資料: [API keys](https://supabase.com/docs/guides/getting-started/api-keys)、[Database functions](https://supabase.com/docs/guides/database/functions)、[Row Level Security](https://supabase.com/docs/guides/database/postgres/row-level-security)。
+検証は `npm test` と `node scripts/verify-leaderboard.mjs`。
+後者はブラウザとローカルPostgreSQL互換環境を接続し、本番には記録を送信しません。

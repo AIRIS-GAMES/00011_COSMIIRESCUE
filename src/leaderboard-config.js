@@ -2,5 +2,6 @@
 export const leaderboardConfig={
   url:'https://dtokebihzpnkkrzrttus.supabase.co',
   publishableKey:'sb_publishable_kwmTx8tgqhD8_CBIu400SQ_pvDgeX--',
-  eventId:'cosmii-event-01',
+  eventId:'cosmii-rescue-v1',
+  playerBests:true,
 };

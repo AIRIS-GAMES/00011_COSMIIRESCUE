@@ -1,4 +1,7 @@
+import {installReminders} from './reminders.js';
+import {SkillUI} from './skill-ui.js';
 import {GameNotices} from './game-notices.js';
+import {setupModeRules} from './mode-rules.js';
 import {ResultSocialPopup} from './result-social.js';
 import {collaboration} from './collaboration-config.js';
 import {CommunityUI} from './community-ui.js';
@@ -10,48 +13,59 @@ import {CollaborationUI} from './collaboration-ui.js';
 import {GameSettings} from './settings.js';
 import {analytics,initializeAnalytics} from './analytics.js';
 import {FaceTransition} from './transition.js';
-import {RescueGame,returnValue,distance,VIEW_W} from './engine.js';
+import {RescueGame,distance,VIEW_W} from './engine.js';
 import {stage} from './stage.js';
 import {hero,friends} from './characters.js';
 import {Renderer} from './renderer.js';
 import {GameAudio} from './audio.js';
 import {RescueStorage} from './storage.js';
 import {LeaderboardUI} from './leaderboard-ui.js';
-import {characterCollection,collectionStatus,returnReactions} from './collection.js';
+import {characterCollection,collectionStatus} from './collection.js';
 import {PsfProgress,psfMeasure,kinds} from './psf.js';
 import {characterNames} from './character-profiles.js';
 export const progress=new PsfProgress();
 const measure=(name,value=1,variant='normal',kind='group')=>psfMeasure(analytics,name,value,variant,kind);
 const $=id=>document.getElementById(id),audio=new GameAudio(),settings=new GameSettings();
+// One delegated click handler covers menu buttons, keyboard activation and links.
+document.addEventListener('click',event=>{
+ const button=event.target.closest?.('button,a[href],[role="button"]');
+ if(!button||button.disabled||button.getAttribute('aria-disabled')==='true'||button.closest('[inert]'))return;
+ audio.unlock();audio.effect('uiPlop');
+});
+document.addEventListener('cosmii-celebration-sound',event=>{
+ if(event.detail==='start'){audio.unlock();audio.effect('applause');}else audio.stopEffect('applause');
+});
+$('carry-bar').addEventListener('animationend',()=> $('carry-bar').classList.remove('pulse'));
+const reminders=installReminders((name,kind)=>analytics.notification(name,kind));
 const notices=new GameNotices($('toast'));
 const resultSocial=new ResultSocialPopup((name,data)=>analytics.community(name,data));
-const shieldStatus=document.createElement('span');shieldStatus.id='blue-status';$('carry-bar').append(shieldStatus);
 const modeStores={normal:new RescueStorage(undefined,'psf'),hard:new RescueStorage(undefined,'hard')};
 let selectedMode='normal',storage=modeStores.normal;
-function selectMode(mode){selectedMode=mode;storage=modeStores[mode];for(const name of ['normal','hard'])$('mode-'+name).setAttribute('aria-pressed',String(name===mode));$('mode-rule').textContent=mode==='hard'?'0 FRIENDS / HEAVY HIT = END':'3 LIVES';$('title-best').textContent=storage.data.best.toLocaleString();}
+function selectMode(mode){selectedMode=mode;storage=modeStores[mode];for(const name of ['normal','hard'])$('mode-'+name).setAttribute('aria-pressed',String(name===mode));$('mode-rule').textContent=mode==='hard'?'HARDのルールを見る ⓘ':'NORMALのルールを見る ⓘ';$('title-best').textContent=storage.data.best.toLocaleString();}
+setupModeRules(()=>selectedMode);
 const endlessGame=new RescueGame(stage,Math.random,collaboration),trainingGame=new TrainingGame();
 export let game=endlessGame;
+const skillUI=new SkillUI(kind=>{if(screen==='playing'&&!paused&&!transition.busy&&game.activateSkill(kind)){clearInput();$('live').textContent=['するり抜け','ふわふわガード','はね飛ばし','おたすけキャッチ'][kind]+'発動';}});
 const collaborationUI=new CollaborationUI(endlessGame);
-const leaderboardUI=new LeaderboardUI();
-export const communityUI=new CommunityUI(show,{progress,measure:(name,data)=>analytics.community(name,data)});
-const titleTotal=document.createElement('strong');titleTotal.id='title-total-returned';titleTotal.innerHTML='<span class="total-label">累計帰還<small>NORMAL</small></span><span class="total-value"><b>0</b>体</span>';$('start').after(titleTotal);
-const resultTotal=$('result-rescued-stat');resultTotal.previousElementSibling.textContent='累計帰還（NORMAL）';resultTotal.title='NORMALでHOMEへ届けた仲間の累計。今回までの保存済み帰還数。';
-function updateTotalReturned(){const total=progress.totalReturned.toLocaleString();titleTotal.querySelector('b').textContent=total;titleTotal.setAttribute('aria-label',`累計帰還 ${total}体（NORMAL）`);titleTotal.title='HOMEへ届けた仲間の累計。練習・HARDは含みません。';resultTotal.textContent=total+'体';}
+const leaderboardUI=new LeaderboardUI({getBgm:()=>audio.enabled,setBgm:enabled=>{audio.unlock();audio.enabled=enabled;settings.muted=!enabled;settings.save();audio.music(screen==='playing'&&!paused);soundLabel();}});
+export const communityUI=new CommunityUI(show,{progress,measure:(name,data)=>{analytics.community(name,data);analytics.engagement(name,data);}});
+const titleTotal=document.createElement('button');titleTotal.type='button';titleTotal.onclick=()=>communityUI.open('returns',titleTotal);titleTotal.id='title-total-returned';titleTotal.innerHTML='<img class="menu-icon" src="./Asset/ui/menu/returns.png" alt=""><span class="menu-label">累計帰還</span><span class="total-value"><b>0</b>体</span>';$('open-social').before(titleTotal);
+const resultTotal=$('result-rescued-stat');resultTotal.previousElementSibling.textContent='累計帰還';resultTotal.title='NORMALでHOMEへ届けた仲間の累計。今回までの保存済み帰還数。';
+function updateTotalReturned(){const total=progress.totalReturned.toLocaleString();titleTotal.querySelector('b').textContent=total;titleTotal.setAttribute('aria-label',`累計帰還を見る ${total}体（NORMAL）`);titleTotal.title='HOMEへ届けた仲間の累計。練習・HARDは含みません。';resultTotal.textContent=total+'体';}
 updateTotalReturned();
 export const presentation=presentationFlags();
 export const rescueTutorial=new RescueTutorial({start:()=>changeScene(()=>startNow(),true),title:()=>changeScene(homeNow)});
-export const openingUI=new OpeningUI({enabled:presentation.opening,show:()=>show('opening-screen'),close:source=>{if(source==='replay'){changeScene(()=>show('title'));return;}progress.mark('intro');changeScene(()=>startTraining('onboarding'),true);},measure:(name,data)=>analytics.presentation(name,data)});
-const openingReplay=document.createElement('button');openingReplay.id='intro-preview';openingReplay.type='button';openingReplay.textContent='▶ プロローグを見る';openingReplay.hidden=!presentation.opening;openingReplay.onclick=()=>openingUI.open('replay',openingReplay);$('title').append(openingReplay);
-const practiceButton=document.createElement('button');practiceButton.id='practice-start';practiceButton.textContent='遊び方';practiceButton.onclick=()=>changeScene(()=>startTraining('optional'),true);$('title').append(practiceButton);
+export const openingUI=new OpeningUI({enabled:presentation.opening,show:()=>show('opening-screen'),close:(source,skipped)=>{if(source==='replay'||skipped){if(source!=='replay')progress.mark('intro');changeScene(()=>show('title'));return;}progress.mark('intro');changeScene(()=>startTraining('onboarding'),true);},measure:(name,data)=>analytics.presentation(name,data)});
+const openingReplay=document.createElement('button');openingReplay.id='intro-preview';openingReplay.type='button';openingReplay.innerHTML='<img class="menu-icon" src="./Asset/ui/menu/prologue.png" alt=""><span class="menu-label">プロローグ</span>';openingReplay.setAttribute('aria-label','プロローグを見る');openingReplay.hidden=!presentation.opening;openingReplay.onclick=()=>openingUI.open('replay',openingReplay);$('title').querySelector('.community-entry').append(openingReplay);
+const practiceButton=document.createElement('button');practiceButton.id='practice-start';practiceButton.innerHTML='<img class="menu-icon" src="./Asset/ui/menu/practice.png" alt=""><span class="menu-label">あそび方</span>';practiceButton.setAttribute('aria-label','あそび方');practiceButton.onclick=()=>changeScene(()=>startTraining('optional'),true);$('title').querySelector('.community-entry').append(practiceButton);$('title').querySelector('.community-entry').append($('open-games'));
 const memory=document.createElement('div');memory.id='return-memory';$('unbanked').after(memory);
 function resultMemory(){
  memory.replaceChildren();if(game.mode!=='normal')return;
  game.delivered.forEach((count,i)=>{if(!count)return;
-  const row=document.createElement('div'),img=document.createElement('img'),text=document.createElement('span'),button=document.createElement('button');
+  const row=document.createElement('div'),img=document.createElement('img'),button=document.createElement('button');
   img.src=friends[i].src;img.alt=characterNames[kinds[i]]+'の仲間';
-  text.textContent=`${characterNames[kinds[i]]}の仲間：${returnReactions[kinds[i]]}${i===1&&game.blueUsed?' 今回、クッションで守ってくれた。':''}${characterCollection(kinds[i],progress.data).achieved?' ★収集記念達成':''}`;
   button.textContent='この子を知る';button.onclick=()=>{analytics.interest('result_detail',{source:'result',characterType:kinds[i],status:collectionStatus(characterCollection(kinds[i],progress.data))});communityUI.open('characters',button,{source:'result',character:kinds[i],returnTo:()=>show('result')});};
-  row.append(img,text,button);memory.append(row);
+  button.prepend(img);row.append(button);memory.append(row);
  });
 }
 let practiceSource='optional',practiceStep=-1,practiceActive=false;
@@ -77,7 +91,7 @@ function endRun(){
 }
 let bootComplete=false;
 const bootStarted=performance.now();
-function orientationUI(){document.documentElement.classList.toggle('landscape-auto',bootComplete&&innerHeight>innerWidth);document.querySelector('.arcade').inert=!bootComplete;if(ready)clearInput();renderer?.resize();}
+function orientationUI(event){if(event?.type==='resize'&&document.querySelector('.ranking-name-dialog[open]'))return;document.documentElement.classList.toggle('landscape-auto',bootComplete&&innerHeight>innerWidth);document.querySelector('.arcade').inert=!bootComplete;if(ready)clearInput();renderer?.resize();}
 let screen='title',ready=false,paused=false,last=0,accumulator=0,tutorialLeft=0,pointer=null;
 const pressed=new Set();audio.enabled=!settings.muted;
 // Run synchronously in trusted input, before transitions or animation-frame events.
@@ -89,17 +103,17 @@ function toast(text,duration=2.5,priority=10){notices.push(text,{duration,priori
 function clearInput(){pointer=null;pressed.clear();resetStick();}
 function startTraining(source='optional'){
   exitPractice();practiceSource=source;practiceStep=-1;practiceActive=true;measure('practice_start',1,source);
-  analytics.end(game,'quit');game=trainingGame;game.startPractice();paused=false;clearInput();audio.resume();audio.restart();renderer.snap(game);accumulator=0;tutorialLeft=0;notices.reset();$('tutorial').hidden=true;$('toast').hidden=true;rescueTutorial.lastStep=-1;show('playing');$('flap').focus();
+  analytics.end(game,'quit');game=trainingGame;game.startPractice();reminders.played(true);paused=false;clearInput();audio.resume();audio.restart();renderer.snap(game);accumulator=0;tutorialLeft=0;notices.reset();$('tutorial').hidden=true;$('toast').hidden=true;rescueTutorial.lastStep=-1;show('playing');$('flap').focus();
 }
 function startNow(){if(!ready||!bootComplete)return;audio.unlock();clearInput();paused=false;audio.resume();analytics.end(game,'retry');
   exitPractice();
-  game=endlessGame;game.start(selectedMode);storage.beginRun();analytics.start(game);
+  game=endlessGame;game.manualSkills=true;game.start(selectedMode);reminders.played(true);storage.beginRun();analytics.start(game);
   game.psfRules=selectedMode==='normal';game.firstReturnProtection=game.psfRules&&!progress.data.returned;
   if(game.psfRules){game.normalAttempt=progress.beginNormal();measure('normal_attempt',1,game.normalAttempt);if(progress.mark('started'))measure('first_start');}
   analytics.community('play',{mode:selectedMode});
   leaderboardUI.beginRun();audio.restart();renderer.snap(game);accumulator=0;tutorialLeft=0;notices.reset();$('tutorial').hidden=true;$('toast').hidden=true;show('playing');if(document.hidden)background();$('live').textContent='救出開始。左手で左右の向き、右手タップで上昇。仲間を道中のHOMEへ。';}
-function homeNow(){notices.reset();exitPractice();analytics.end(game,'quit');audio.music(false);audio.stopEffects();clearInput();paused=false;game=endlessGame;game.reset();renderer.snap(game);show('title');$('tutorial').hidden=true;$('toast').hidden=true;}
-function pause(){if(game.state!=='playing'&&game.state!=='ending')return;paused=!paused;clearInput();show(paused?'pause-screen':'playing');accumulator=0;if(!paused){if(document.hidden){paused=true;show('pause-screen');return;}audio.resume();}if(paused)audio.stopEffects();audio.music(!paused);}
+function homeNow(){if(game.state==='playing')reminders.played(false);notices.reset();exitPractice();analytics.end(game,'quit');audio.music(false);audio.stopEffects();clearInput();paused=false;game=endlessGame;game.reset();renderer.snap(game);show('title');$('tutorial').hidden=true;$('toast').hidden=true;}
+function pause(){if(game.state!=='playing'&&game.state!=='ending')return;paused=!paused;reminders.played(!paused);clearInput();show(paused?'pause-screen':'playing');accumulator=0;if(!paused){if(document.hidden){paused=true;show('pause-screen');return;}audio.resume();}if(paused)audio.stopEffects();audio.music(!paused);}
 function processEvents(){audio.setRainbow(game.state==='playing'&&game.powered);const sounds=new Set();let rescued=false;for(const e of game.drain()){
   renderer.event(e,game);sounds.add(e.type==='collaborationStart'?'rainbowStart':e.type==='collaborationEnd'?'rainbowEnd':e.type);if(!game.isTraining)analytics.event(e,game);
   if(e.type==='rescue')rescued=true;
@@ -107,7 +121,6 @@ function processEvents(){audio.setRainbow(game.state==='playing'&&game.powered);
     if(e.type==='rim'&&game.protectedReturn&&!game.rimGuideShown){game.rimGuideShown=true;toast('リングの横へ回って、中央を通ろう',3,60);}
     if(e.type==='rescue'&&progress.mark('rescued'))measure('first_rescue',game.time);
     if(e.type==='itemCollected')progress.collect(storage.runId,e.sequence,e.item);
-    if(e.type==='blueDefense'){measure('blue_defense');toast('水色の仲間がクッションで守ってくれた！',2,80);}
     if(e.type==='return'){
       const first=!progress.data.returned,before=kinds.map(id=>characterCollection(id,progress.data));
       if(progress.commit(storage.runId,e.sequence,e.delivered)){
@@ -117,38 +130,38 @@ function processEvents(){audio.setRainbow(game.state==='playing'&&game.powered);
           if(!before[i].unlocked&&after.unlocked)analytics.interest('profile_unlock',data);
           if(!before[i].achieved&&after.achieved)analytics.interest('goal_complete',data);
         });
-        const kind=game.blueUsed&&e.delivered[1]>0?1:e.delivered.findIndex(n=>n>0);
-        if(kind>=0){game.lastReturnKind=kind;notices.push(returnReactions[kinds[kind]],{duration:1.8,priority:100,portrait:friends[kind].src,kind:kinds[kind]});}
       }
     }
   }
   if(e.type==='return')$('live').textContent=`RESCUED ${e.count}. SCORE +${e.total}`;
 
-  if(e.type==='finish'){$('tutorial').hidden=true;}
+  if(e.type==='finish'){reminders.played(false);$('tutorial').hidden=true;}
   if(e.type==='gameOver'){
     leaderboardUI.result(game);
     const best=storage.record(game);show('result');$('toast').hidden=true;$('result-rescued').textContent=game.rescued;updateTotalReturned();
     $('result-score').textContent=game.score.toLocaleString();$('result-best').textContent=storage.data.best.toLocaleString();$('result-carry').textContent=`${game.maxCarry}`;
-    $('result-return').textContent=`${game.bestReturn.toLocaleString()} pt`;$('new-best').hidden=!best;
-    $('result-eyebrow').textContent=(game.mode==='hard'?'HARD · ':'')+(best?'NEW BEST!':'WELCOME HOME!');$('unbanked').textContent=game.carry.length?`UNBANKED ${game.carry.length}`:'';
+    $('result-return').textContent=`${game.bestReturnCount}匹`;$('result-distance').textContent=`${Math.floor(game.travel).toLocaleString()} m`;$('new-best').hidden=!best;
+    $('result-eyebrow').textContent=(game.mode==='hard'?'HARD · ':'')+(best?'✦ 自己ベスト！':'おかえり！');$('unbanked').textContent='';
     $('live').textContent=`${game.rescued}匹を救出。スコア${game.score}。`;if(best){sounds.add('best');renderer.event({type:'best'});}
     notices.reset();resultMemory();measure('result_shown',1,game.mode);resultSocial.open();
   }
 }
   // Only POP, power-up end, and new-record events play sound effects.
   for(const type of sounds)if(['rescue','rainbowEnd','best'].includes(type))audio.effect(type);
-  if(rescued){$('carry-bar').classList.remove('pulse');void $('carry-bar').offsetWidth;$('carry-bar').classList.add('pulse');}
+  if(rescued)$('carry-bar').classList.add('pulse');
 }
 function hud(){
-  document.querySelector('.score label').textContent='SCORE';document.querySelector('.timer label').textContent='DISTANCE';document.querySelector('.return-preview>span').textContent='HOME BONUS';
+  document.querySelector('.score label').textContent='救出スコア';document.querySelector('.timer').hidden=true;
   $('score').textContent=String(game.score).padStart(5,'0');$('timer').textContent=`${Math.floor(game.travel)} m`;
   const p=game.player,h=game.stage.home,d=distance(p,h),angle=Math.atan2(h.y-p.y,h.x-p.x),arrows=['→','↘','↓','↙','←','↖','↑','↗'],index=(Math.round(angle/(Math.PI/4))+8)%8;
   $('home-direction').hidden=d>900&&!game.carry.length;$('home-direction').textContent=`${arrows[index]} HOME · ${Math.round(d/10)} m · リング中央を通過`;
-  $('hearts').textContent=game.time<30?`♥ ♥ ♥ ⛨`:'♥ '.repeat(game.hearts)+'♡ '.repeat(3-game.hearts);$('hearts').setAttribute('aria-label',`ライフ${game.hearts}${game.time<30?'、練習シールド中':''}`);
-  if(game.mode==='hard'){$('hearts').textContent='HARD';$('hearts').setAttribute('aria-label','HARD: 仲間が0、または強い障害物が主人公に直撃すると終了');}
-  if(game.protectedReturn){$('hearts').textContent='⛨ 仲間1体を保護中';$('hearts').setAttribute('aria-label','初回帰還まで仲間1体とライフを保護');}
-  shieldStatus.hidden=game.mode!=='normal'||game.isTraining||!game.blueUsed&&!game.carry.some(f=>f.kind===1&&!Number.isInteger(f.collaborationKind));shieldStatus.textContent=game.blueUsed?'水色クッション：使用済み':'水色クッション：あと1回';
-  $('carry-count').textContent=game.carry.length;$('return-value').textContent=`+${returnValue(game.carry).reduce((a,b)=>a+b,0).toLocaleString()}`;
+  const lives=Math.max(0,Math.min(3,game.hearts)),protectedLife=game.time<30||game.protectedReturn,lifeKey=game.mode+':'+lives+':'+protectedLife;
+  if($('hearts').dataset.state!==lifeKey){
+   $('hearts').dataset.state=lifeKey;$('hearts').dataset.mode=game.mode;
+   $('hearts').innerHTML=game.mode==='hard'?'<span class="life-hard">HARD</span>':'<span class="life-images" aria-hidden="true">'+[0,1,2].map(i=>'<img src="./Asset/ui/life/'+(i<lives?'full':'empty')+'.png" alt="">').join('')+'</span>'+(protectedLife?'<span class="life-protection">保護中</span>':'');
+   $('hearts').setAttribute('aria-label',game.mode==='hard'?'HARD: 仲間が0、または強い障害物が主人公に直撃すると終了':'ライフ'+lives+' / 3'+(protectedLife?'、ライフ保護中':''));
+  }
+  $('carry-count').textContent=game.carry.length;
 }
 let leftPointer=null;
 function updateDirection(){game.setDirection(Number(pressed.has('ArrowRight')||pressed.has('KeyD'))-Number(pressed.has('ArrowLeft')||pressed.has('KeyA')));}
@@ -167,7 +180,7 @@ function directionAt(event){
 $('game').addEventListener('pointerdown',event=>{
   if(transition.busy||!ready||event.target.closest('.modal-screen'))return;
   if(event.target.closest('button')&&!event.target.closest('#flap'))return;
-  if(screen!=='playing'||paused||game.isTraining&&game.practiceStep===4)return;
+  if(screen!=='playing'||paused||game.skillCutin||game.isTraining&&(game.practiceStep===4||game.practiceStep===6))return;
   event.preventDefault();const axis=horizontalInput(event,$('game'));
   if(axis.position<axis.width*.5){if(leftPointer!==null)return;leftPointer=event.pointerId;directionAt(event);}
   else{game.flap();$('flap').classList.remove('tap');void $('flap').offsetWidth;$('flap').classList.add('tap');}
@@ -195,22 +208,25 @@ function background(){audio.suspend();if(!paused&&(game.state==='playing'||game.
 window.addEventListener('blur',background);
 // Capacitor's built-in scene lifecycle event; keep the existing tap-to-resume flow.
 document.addEventListener('pause',background);
-$('mode-normal').onclick=()=>selectMode('normal');$('mode-hard').onclick=()=>selectMode('hard');$('start').onclick=start;$('retry').onclick=start;$('home').onclick=home;$('quit').onclick=endRun;$('pause').onclick=pause;$('resume').onclick=resume;
+$('mode-normal').onclick=()=>selectMode('normal');$('mode-hard').onclick=()=>selectMode('hard');$('start').onclick=start;$('home').onclick=home;$('quit').onclick=endRun;$('pause').onclick=pause;$('resume').onclick=resume;
 $('retry').onclick=()=>{if(transition.busy)return;measure('retry',1,selectedMode);start();};
 function soundLabel(){$('sound').textContent=audio.enabled?'♪':'♪̸';$('sound').setAttribute('aria-label',audio.enabled?'BGMをオフにする（効果音はON）':'BGMをオンにする（効果音はON）');}
 $('sound').onclick=()=>{audio.unlock();audio.enabled=!audio.enabled;settings.muted=!audio.enabled;settings.save();audio.music(screen==='playing'&&!paused);soundLabel();};
 $('records').onclick=()=>{show('records-screen');leaderboardUI.open(storage);};$('close-records').onclick=()=>show('title');
 document.addEventListener('visibilitychange',()=>{if(document.hidden)background();last=0;accumulator=0;});
 window.addEventListener('resize',orientationUI);
+window.screen.orientation?.addEventListener('change',()=>requestAnimationFrame(()=>orientationUI()));
+// Another tab saved progress or scores: refresh the shown totals.
+window.addEventListener('storage',()=>{progress.load();for(const store of Object.values(modeStores))store.load();updateTotalReturned();$('title-best').textContent=storage.data.best.toLocaleString();});
 window.addEventListener('pagehide',event=>{if(!event.persisted)exitPractice();background();analytics.pageHide(game,event.persisted);});
 window.addEventListener('pageshow',event=>{if(event.persisted){last=0;accumulator=0;orientationUI();}});
 $('boot-retry').onclick=()=>location.reload();
 initializeAnalytics();
 analytics.presentation('variant',presentation);
 function frame(now){const dt=Math.min(.06,(now-(last||now))/1000);last=now;
-  if(game.isTraining&&practiceActive&&game.practiceStep!==practiceStep){practiceStep=game.practiceStep;measure('practice_step',practiceStep,practiceSource);if(practiceStep===4){progress.mark('practice');measure('practice_complete',1,practiceSource);practiceActive=false;}}
+  if(game.isTraining&&practiceActive&&game.practiceStep!==practiceStep){practiceStep=game.practiceStep;measure('practice_step',practiceStep,practiceSource);if(practiceStep===6){progress.mark('practice');measure('practice_complete',1,practiceSource);practiceActive=false;}}
   if(!document.hidden&&!audio.suspended&&!paused&&!transition.busy){accumulator+=dt;while(accumulator>=1/120){game.update(1/120);accumulator-=1/120;}processEvents();if(tutorialLeft>0){tutorialLeft-=dt;if(tutorialLeft<=0)$('tutorial').hidden=true;}}
   notices.update(!document.hidden&&!audio.suspended&&!paused&&!transition.busy?dt:0,screen==='playing');
-  collaborationUI.update(screen);rescueTutorial.update(game,screen);hud();audio.setRainbow(game.state==='playing'&&game.powered);audio.music(game.state==='playing'&&!paused&&!transition.busy);renderer.draw(game,dt,screen==='title'||screen==='records-screen'||screen==='community-screen'||screen==='opening-screen',paused||transition.busy);requestAnimationFrame(frame);
+  skillUI.update(game,screen==='playing'&&!paused);collaborationUI.update(screen);rescueTutorial.update(game,screen,renderer);hud();audio.setRainbow(game.state==='playing'&&game.powered);audio.music(game.state==='playing'&&!paused&&!transition.busy);renderer.draw(game,dt,screen==='title'||screen==='records-screen'||screen==='community-screen'||screen==='opening-screen',paused||transition.busy);requestAnimationFrame(frame);
 }
-try{const [heroImage,friendImages,art,flapFrames,collaborationImages]=await Promise.all([loadImage(hero.src),Promise.all(friends.map(f=>loadImage(f.src))),Promise.all(Object.entries(stage.art).map(async([key,src])=>[key,await loadImage(src)])),Promise.all(hero.frames.map(loadImage)),collaborationUI.loadImages(loadImage)]);renderer=new Renderer($('canvas'),{hero:heroImage,flapFrames,collaborationImages,friends:friendImages,...Object.fromEntries(art)},stage);ready=true;renderer.snap(game);show('title');soundLabel();requestAnimationFrame(frame);await Promise.all([$('boot-logo').decode(),new Promise(resolve=>setTimeout(resolve,Math.max(0,1800-(performance.now()-bootStarted))))]);bootComplete=true;$('boot-screen').hidden=true;$('loading').hidden=true;orientationUI();if(!progress.data.intro&&presentation.opening)openingUI.open('startup');}catch(error){audio.suspend();ready=false;bootComplete=false;$('boot-screen').hidden=false;$('boot-status').textContent='LOAD FAILED';$('boot-retry').hidden=false;console.error(error);}
+try{const [heroImage,friendImages,art,flapFrames,collaborationImages]=await Promise.all([loadImage(hero.src),Promise.all(friends.map(f=>loadImage(f.src))),Promise.all(Object.entries(stage.art).map(async([key,src])=>[key,await loadImage(src)])),Promise.all(hero.frames.map(loadImage)),collaborationUI.loadImages(loadImage),document.fonts.load('16px "Mochiy Pop One"')]);renderer=new Renderer($('canvas'),{hero:heroImage,flapFrames,collaborationImages,friends:friendImages,...Object.fromEntries(art)},stage);ready=true;renderer.snap(game);show('title');soundLabel();requestAnimationFrame(frame);await Promise.all([$('boot-logo').decode(),new Promise(resolve=>setTimeout(resolve,Math.max(0,1800-(performance.now()-bootStarted))))]);bootComplete=true;$('boot-screen').hidden=true;$('loading').hidden=true;orientationUI();if(!progress.data.intro&&presentation.opening)openingUI.open('startup');}catch(error){audio.suspend();ready=false;bootComplete=false;$('boot-screen').hidden=false;$('boot-status').textContent='LOAD FAILED';$('boot-retry').hidden=false;console.error(error);}

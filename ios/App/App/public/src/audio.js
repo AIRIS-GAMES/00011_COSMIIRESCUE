@@ -2,11 +2,11 @@ export const BGM_SRC='./Asset/audio/bgm/Hypnoticcuping in the Wind.mp3';
 export const RAINBOW_BGM_SRC='./Asset/audio/bgm/rainbow-24s.mp3';
 export const SFX_SOURCES=Object.fromEntries([
   'rainbowStart','rainbowEnd','rescue','bank','return','lost','bump','turn',
-  'flap','coin','pass','near','break','hit','best',
+  'flap','coin','pass','near','break','hit','best','uiPlop','applause',
 ].map(name=>[name,`./Asset/audio/sfx-mp3/${name}.mp3`]));
 // WAV files are offline masters only; iPhone playback uses MP3 throughout.
 export const SFX_WAV_SOURCES=Object.fromEntries(Object.keys(SFX_SOURCES).map(name=>[name,`./Asset/audio/sfx/${name}.wav`]));
-export const SFX_VOLUMES={rainbowStart:.5,rainbowEnd:.4,rescue:.6,bank:.45,return:.5,lost:.5,bump:.4,turn:.3,flap:.6,coin:.35,pass:.4,near:.5,break:.55,hit:.6,best:.5};
+export const SFX_VOLUMES={uiPlop:.7,applause:.85,rainbowStart:.5,rainbowEnd:.4,rescue:.6,bank:.45,return:.5,lost:.5,bump:.4,turn:.3,flap:.6,coin:.35,pass:.4,near:.5,break:.55,hit:.6,best:.5};
 const MAX_SFX=4;
 const POP_GROUP_MS=150;
 
@@ -24,7 +24,7 @@ export class GameAudio {
     this.initializedMedia=new WeakSet();this.lastError=null;
   }
   get enabled(){return this._enabled;}
-  // The existing sound switch currently controls BGM only for device diagnosis.
+  // BGM preference does not mute effects; suspend() still silences all audio.
   set enabled(value){this._enabled=!!value;if(!this._enabled)this.stopMusic();}
   unlock(){
     this.unlocked=true;this.blocked=false;
@@ -44,6 +44,7 @@ export class GameAudio {
   suspend(){this.suspended=true;this.active=false;this.stopMusic();this.stopEffects();}
   resume(){this.suspended=false;this.unlock();}
   stopMusic(){this.generation++;this.pending=null;this.bgm.pause();}
+  stopEffect(type){const audio=this.sfx[type];if(!audio)return;audio.pause();audio.currentTime=0;this.voices.delete(audio);}
   stopEffects(){for(const audio of Object.values(this.sfx)){audio.pause();audio.currentTime=0;}this.voices.clear();this.lastPop=-Infinity;}
   setRainbow(enabled){
     if(this.rainbow===enabled)return;
@@ -58,6 +59,8 @@ export class GameAudio {
     // Group nearby POPs across animation frames without delaying the first one.
     if(type==='rescue'&&this.now()-this.lastPop<POP_GROUP_MS)return;
     for(const [voice,state] of this.voices)if(!state.pending&&(voice.paused||voice.ended))this.voices.delete(voice);
+    // Let short POP/UI sounds finish instead of repeatedly seeking their MP3 decoder.
+    if((type==='rescue'||type==='uiPlop')&&this.voices.has(audio)&&!audio.paused&&!audio.ended)return;
     // Rescue wins over tapping, including while its play() is still pending.
     if(type==='flap'&&this.voices.has(this.sfx.rescue))return;
     if(type==='rescue'&&this.voices.has(this.sfx.flap)){
@@ -69,7 +72,7 @@ export class GameAudio {
     this.voices.delete(audio);
     if(this.voices.size>=MAX_SFX){const oldest=this.voices.keys().next().value;oldest.pause();oldest.currentTime=0;this.voices.delete(oldest);}
     // Restart the same element on rapid repeats, as in CosmiiCannon's playSfx.
-    audio.pause();audio.currentTime=0;
+    if(!audio.paused)audio.pause();if(audio.currentTime!==0)audio.currentTime=0;
     const state={pending:true};this.voices.set(audio,state);
     try{Promise.resolve(audio.play()).catch(error=>{if(this.voices.get(audio)===state){if(type==='rescue')this.lastPop=-Infinity;this.mediaError(error,audio);}}).finally(()=>{
       if(this.voices.get(audio)!==state)return;

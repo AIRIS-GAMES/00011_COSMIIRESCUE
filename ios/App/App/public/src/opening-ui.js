@@ -20,13 +20,14 @@ export class OpeningUI {
   const status=el('p','opening-video-status');status.setAttribute('role','status');status.hidden=true;
   const play=()=>{if(video.error)video.load();video.muted=false;video.volume=1;this.playVideo(video,status);};
   video.onclick=play;video.onkeydown=e=>{if(['Space','Enter'].includes(e.code)){e.preventDefault();e.stopPropagation();play();}};
-  const skip=el('button','opening-video-skip','SKIP');skip.id='opening-skip';skip.type='button';skip.setAttribute('aria-label','プロローグをスキップ');skip.onclick=()=>this.finish(true);this.nextButton=skip;
+  const startup=this.source==='startup';
+  const skip=el('button',startup?'opening-video-skip':'opening-video-skip back-button');if(startup)skip.textContent='SKIP';else skip.innerHTML='<span aria-hidden="true">↩</span><small>もどる</small>';skip.id='opening-skip';skip.type='button';skip.setAttribute('aria-label',startup?'プロローグをスキップ':'プロローグを終了してホームにもどる');skip.onclick=()=>this.finish(true);this.nextButton=skip;
   video.onplay=()=>{status.hidden=true;};
   video.onended=()=>{if(this.active&&this.video===video)this.next();};
-  video.onerror=()=>{if(this.video===video){status.hidden=false;status.textContent='読み込めませんでした。画面をタップして再試行、またはSKIP';}};
+  video.onerror=()=>{if(this.video===video){status.hidden=false;status.textContent='読み込めませんでした。画面をタップして再試行、または'+(startup?'SKIP':'「もどる」');}};
   this.root.append(video,status,skip);this.playVideo(video,status);
  }
  playVideo(video,status){video.play()?.catch(()=>{if(this.active&&this.video===video&&!video.error){status.hidden=false;status.textContent='画面をタップして音声つきで再生';}});}
  next(){if(!this.active)return;if(this.index===openingVideos.length-1){this.finish(false);return;}this.index++;this.disposeVideo();this.renderVideo();this.video.focus();}
- finish(skipped){if(!this.active)return;this.active=false;this.disposeVideo();this.measure?.(skipped?'story_skip':'story_complete',{source:this.source});this.root.hidden=true;this.onClose(this.source);this.opener?.focus();}
+ finish(skipped){if(!this.active)return;this.active=false;this.disposeVideo();this.measure?.(skipped?'story_skip':'story_complete',{source:this.source});this.root.hidden=true;this.onClose(this.source,skipped);this.opener?.focus();}
 }

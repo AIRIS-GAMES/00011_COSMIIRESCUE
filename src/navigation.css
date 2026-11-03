@@ -1,0 +1,24 @@
+/* One return control, anchored to the game surface (including portrait rotation). */
+#game .back-button{position:absolute;inset:auto auto 10px 12px;z-index:20;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:0;width:54px;height:54px;min-width:54px;min-height:54px;aspect-ratio:1;margin:0;padding:3px;border:3px solid #aa758d;border-radius:15px;background:#fff9e9;color:#805665;font-family:var(--game-font);font-size:12px;line-height:1;font-weight:400;letter-spacing:0;box-shadow:0 3px 0 #b1d2c8;text-shadow:none;pointer-events:auto;touch-action:manipulation}
+#game .back-button span{font-size:29px;line-height:29px}
+#game .back-button small{font-size:10px;line-height:14px}
+#game .back-button:active{transform:translateY(2px);box-shadow:0 1px 0 #b1d2c8}
+#game .back-button:focus-visible{outline:3px solid #17616a;outline-offset:3px}
+#game .community-screen{padding-bottom:70px}
+#game .community-footer{display:none}
+#game .community-screen[data-mode="room"]{padding-bottom:6px}
+#game .room-toolbar{min-height:58px;padding-left:68px;gap:6px}
+#game .room-toolbar .room-selected-info{min-width:0;flex:1}
+#game .room-toolbar button{min-width:0;flex:1;padding-inline:6px}
+#game .room-closeup{padding:0}
+#game .room-closeup>.community-back,#game .community-screen:has(.room-celebration)>.community-back{display:none}
+#game .room-focus{border-radius:0}
+#game .mode-rules-overlay,#game #records-screen,#game .collaboration-details{padding-bottom:74px}
+#game.training #direction-pad{margin-left:76px}
+#game #result .result-actions{grid-column:1/-1;grid-row:auto;position:sticky;bottom:-8px;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#fff6df;padding:6px 0 8px;margin-bottom:-8px}
+#game #result .result-actions #retry,#game #result .result-actions #home{grid-column:auto;grid-row:auto;min-height:44px;margin:0}
+@container(max-width:650px){
+ #game .community-screen[data-mode="social"] .community-intro{display:none}
+ #game .community-screen[data-mode="social"] .external-note{position:absolute;left:82px;right:12px;bottom:24px}
+ #game .community-screen[data-mode="social"] .social-panel h3{font-size:16px;line-height:1.4}
+}

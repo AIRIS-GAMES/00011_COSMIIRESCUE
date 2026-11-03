@@ -15,6 +15,18 @@ globalThis.Audio=Media;
 globalThis.document={hidden:false};
 const settle=()=>new Promise(resolve=>setImmediate(resolve));
 
+test('POP and button feedback finish without decoder restarts during long tap bursts',async()=>{
+ let now=0;const a=new GameAudio(()=>now);a.unlock();
+ for(const type of ['rescue','uiPlop']){
+  const media=a.sfx[type];media.calls=[];a.effect(type);await settle();
+  media.time=.1;
+  for(let i=0;i<20;i++){now+=160;a.effect(type);await settle();}
+  assert.deepEqual(media.calls,['play']);
+  media.paused=true;media.ended=true;now+=200;a.effect(type);await settle();
+  assert.deepEqual(media.calls,['play','seek','play']);
+ }
+});
+
 test('rescue interrupts tapping and suppresses taps until rescue ends',async()=>{
   const a=new GameAudio();a.unlock();let ready;
   a.effect('flap');
@@ -34,7 +46,7 @@ test('a burst of matching effects starts one decoder until playback is ready',as
   media.result=()=>new Promise(resolve=>{ready=resolve;});
   for(let i=0;i<30;i++)a.effect('rescue');
   assert.equal(media.calls.filter(c=>c==='play').length,1);
-  ready();await settle();media.result=()=>Promise.resolve();now=150;a.effect('rescue');
+  ready();await settle();media.result=()=>Promise.resolve();now=150;a.sfx.rescue.ended=true;a.sfx.rescue.paused=true;a.effect('rescue');
   assert.equal(media.calls.filter(c=>c==='play').length,2);await settle();
 });
 
@@ -42,8 +54,8 @@ test('nearby POPs across frames play once without extra pause or seek, then reco
   let now=0;const a=new GameAudio(()=>now);a.unlock();a.sfx.rescue.calls=[];
   a.effect('rescue');await settle();
   for(now=16;now<150;now+=16){a.effect('rescue');await settle();}
-  assert.deepEqual(a.sfx.rescue.calls,['pause','seek','play']);
-  now=150;a.effect('rescue');await settle();
+  assert.deepEqual(a.sfx.rescue.calls,['play']);
+  now=150;a.sfx.rescue.ended=true;a.sfx.rescue.paused=true;a.effect('rescue');await settle();
   assert.equal(a.sfx.rescue.calls.filter(c=>c==='play').length,2);
   a.restart();a.effect('rescue');await settle();
   assert.equal(a.sfx.rescue.calls.filter(c=>c==='play').length,3);
@@ -66,7 +78,7 @@ test('fever stops ongoing and pending effects, keeps BGM, and restores effects a
 test('effects restart in order, cap overlap, BGM OFF keeps effects, suspend silences all',async()=>{
   const a=new GameAudio();a.effect('flap');assert.equal(a.sfx.flap.calls.length,0);
   a.unlock();a.sfx.flap.calls=[];a.effect('flap');await settle();a.effect('flap');
-  assert.deepEqual(a.sfx.flap.calls,['pause','seek','play','pause','seek','play']);
+  assert.deepEqual(a.sfx.flap.calls,['play','pause','play']);
   for(const name of ['bank','rescue','best','hit'])a.effect(name);
   assert.equal(a.voices.size,4);assert.equal(a.sfx.flap.paused,true);
   a.enabled=false;assert.equal(a.sfx.hit.paused,false);
@@ -95,13 +107,13 @@ test('autoplay rejection retries only after a gesture; mute wins over pending pl
   a.unlock();let resolve;a.bgm.result=()=>new Promise(r=>{resolve=r;});a.music(true);a.enabled=false;resolve();await settle();assert.ok(a.bgm.paused);
 });
 
-test('every WAV is valid short mono PCM with conservative baked-in headroom',async()=>{
+test('every WAV is valid short PCM with conservative baked-in headroom',async()=>{
   for(const src of Object.values(SFX_WAV_SOURCES)){
     const b=await readFile(new URL('../'+src,import.meta.url));
     assert.equal(b.toString('ascii',0,4),'RIFF');assert.equal(b.toString('ascii',8,12),'WAVE');
-    assert.equal(b.readUInt16LE(20),1);assert.equal(b.readUInt16LE(22),1);assert.equal(b.readUInt32LE(24),44100);assert.equal(b.readUInt16LE(34),16);
+    assert.equal(b.readUInt16LE(20),1);assert.equal(b.readUInt16LE(22),src.endsWith('/applause.wav')?2:1);assert.equal(b.readUInt32LE(24),44100);assert.equal(b.readUInt16LE(34),16);
     let peak=0;for(let i=44;i<b.length;i+=2)peak=Math.max(peak,Math.abs(b.readInt16LE(i))/32768);
-    assert.ok(peak>0&&peak<=.10,src);assert.ok((b.length-44)/88200<1,src);
+    assert.ok(peak>0&&peak<=.10,src);assert.ok((b.length-44)/b.readUInt32LE(28)<(src.endsWith('/applause.wav')?5:1),src);
   }
 });
 
@@ -119,8 +131,17 @@ test('each media element loads during the gesture, then effects can play outside
     a.effect('rescue');await settle();assert.equal(a.sfx.rescue.paused,false);assert.equal(a.lastError,null);
     gesture=true;a.unlock();gesture=false;assert.ok(media.every(m=>m.calls.filter(c=>c==='load').length===1));
     // Model a later browser interruption: keep diagnostics and retry on next tap.
-    now=150;a.sfx.rescue.authorized=false;a.effect('rescue');await settle();assert.equal(a.lastError.name,'NotAllowedError');
+    now=150;a.sfx.rescue.ended=true;a.sfx.rescue.paused=true;a.sfx.rescue.authorized=false;a.effect('rescue');await settle();assert.equal(a.lastError.name,'NotAllowedError');
     gesture=true;a.unlock();gesture=false;a.effect('rescue');await settle();assert.equal(a.sfx.rescue.authorized,true);
     assert.equal(a.sfx.flap.calls.filter(c=>c==='load').length,1);assert.equal(a.sfx.rescue.calls.filter(c=>c==='load').length,2);
   }finally{globalThis.Audio=original;}
+});
+
+test('BGM OFF preserves button and applause effects; suspension silences all',async()=>{
+ const a=new GameAudio();a.unlock();a.effect('applause');await settle();a.effect('uiPlop');await settle();
+ assert.equal(a.sfx.applause.paused,false);assert.equal(a.sfx.uiPlop.paused,false);
+ a.stopEffect('applause');assert.equal(a.sfx.applause.paused,true);assert.equal(a.sfx.uiPlop.paused,false);
+ a.enabled=false;assert.equal(a.sfx.uiPlop.paused,false);a.effect('uiPlop');a.effect('applause');await settle();
+ assert.equal(a.sfx.uiPlop.paused,false);assert.equal(a.sfx.applause.paused,false);assert.equal(a.bgm.paused,true);
+ a.enabled=true;a.effect('applause');await settle();assert.equal(a.sfx.applause.paused,false);a.suspend();assert.equal(a.sfx.applause.paused,true);
 });

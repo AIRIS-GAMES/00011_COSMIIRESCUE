@@ -10,7 +10,14 @@
 #skill-bar button[data-active=true] img{width:27px;height:27px}
 .skill-time{display:none;position:absolute;left:0;bottom:0;height:4px;width:var(--remaining);background:var(--skill-color)}
 #skill-bar button[data-active=true] .skill-time{display:block}
-#game.has-skills .carry-bar{bottom:86px;left:50%;right:auto;translate:-50% 0;padding:4px 10px;white-space:nowrap}
+#game .carry-bar{left:50%;right:auto;translate:-50% 0;height:30px;padding:2px 10px;border-radius:14px;white-space:nowrap;box-shadow:0 2px 0 #54344235}
+#game .carry-bar>div{display:flex;align-items:center;gap:7px}
+#game .carry-bar>div>span{font-size:9px;line-height:1}
+#game .carry-bar b{display:flex;align-items:baseline;gap:4px;font-size:10px;line-height:1}
+#game .carry-bar strong{font-size:19px;line-height:1}
+#game.has-skills .carry-bar{bottom:calc(max(12px,env(safe-area-inset-bottom)) + 71px)}
+#game[data-screen="playing"] .hud-top .controls{margin-left:auto;gap:6px}
+#game[data-screen="playing"] .controls .icon-button{width:44px;height:44px;font-size:23px}
 #skill-cutin{position:absolute;inset:0;z-index:15;display:flex;align-items:center;justify-content:center;flex-direction:column;pointer-events:auto;overflow:hidden;background:radial-gradient(ellipse,#ffdaedee,#e2519e88);isolation:isolate}
 #skill-cutin[data-kind="1"]{background:radial-gradient(ellipse,#ddf8ffee,#4bafd888)}#skill-cutin[data-kind="2"]{background:radial-gradient(ellipse,#fff0c7ee,#ff655a99)}#skill-cutin[data-kind="3"]{background:radial-gradient(ellipse,#f3e5ffee,#985ddb99)}
 #skill-cutin img{width:clamp(100px,22cqw,200px);height:clamp(100px,22cqw,200px);object-fit:contain;filter:drop-shadow(0 6px 0 #fff9);z-index:1}

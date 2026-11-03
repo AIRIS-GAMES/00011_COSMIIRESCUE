@@ -13,7 +13,7 @@ try{for(const base of ['','/dist']){
   await p.waitForFunction(()=>[...document.querySelectorAll('#result-social-popup img')].every(i=>i.complete&&i.naturalWidth));
   for(const size of [{width:568,height:320},{width:390,height:844}]){await p.setViewportSize(size);await p.waitForTimeout(100);assert.ok(await p.locator('.result-social-back').isVisible());const fits=await p.locator('.result-social-card').evaluate(e=>e.scrollHeight<=e.clientHeight+1);assert.ok(fits,'popup fits small landscape / rotated portrait');}
   if(mode==='normal')await p.screenshot({path:`test-results/result-social${base?'-dist':''}.png`});
-  await p.locator('.result-social-close').focus();await p.keyboard.press('Shift+Tab');await expect(p.locator('.result-social-back')).toBeFocused();await p.keyboard.press('Escape');await expect(popup).toBeHidden();assert.equal(await p.locator('#result').evaluate(e=>e.inert),false);
+  await p.locator('.result-social-back').focus();await p.keyboard.press('Shift+Tab');await expect(p.locator('.result-social-card a').last()).toBeFocused();await p.keyboard.press('Escape');await expect(popup).toBeHidden();assert.equal(await p.locator('#result').evaluate(e=>e.inert),false);
   if(mode==='normal'){await p.locator('#return-memory button').click();await p.locator('.community-back').click();await expect(popup).toBeHidden();}
   await p.locator('#home').click();await p.locator('.face-transition').waitFor({state:'hidden'});
  }

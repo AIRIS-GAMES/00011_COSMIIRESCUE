@@ -1,11 +1,11 @@
 import {friends} from './characters.js';
-import {skillNames,SKILL_SECONDS} from './skills.js';
+import {skillNames,SKILL_SECONDS,SKILL_REQUIREMENTS} from './skills.js';
 export class SkillUI {
  constructor(activate){
-  this.bar=document.createElement('div');this.bar.id='skill-bar';this.bar.hidden=true;this.bar.setAttribute('role','group');this.bar.setAttribute('aria-label','仲間の技：各色3匹で発動');
+  this.bar=document.createElement('div');this.bar.id='skill-bar';this.bar.hidden=true;this.bar.setAttribute('role','group');this.bar.setAttribute('aria-label','仲間の技：ピンク3匹、水色4匹、赤5匹、紫6匹で発動');
   this.buttons=friends.map((friend,kind)=>{
    const button=document.createElement('button');button.type='button';button.dataset.kind=kind;
-   button.innerHTML=`<img src="${friend.src}" alt=""><span>0/3</span><small></small><i class="skill-time" aria-hidden="true"></i>`;button.title=skillNames[kind];
+   button.innerHTML=`<img src="${friend.src}" alt=""><span>0/${SKILL_REQUIREMENTS[kind]}</span><small></small><i class="skill-time" aria-hidden="true"></i>`;button.title=skillNames[kind];
    button.onclick=()=>activate(kind);this.bar.append(button);return button;
   });
   this.cutin=document.createElement('div');this.cutin.id='skill-cutin';this.cutin.hidden=true;this.cutin.setAttribute('aria-hidden','true');
@@ -13,16 +13,16 @@ export class SkillUI {
   document.getElementById('game').append(this.bar,this.cutin);
  }
  update(game,visible){
-  this.bar.hidden=!visible||game.isTraining;
-  document.getElementById('game').classList.toggle('has-skills',visible&&!game.isTraining);
+  const show=visible&&(!game.isTraining||game.practiceStep>=2);this.bar.hidden=!show;
+  document.getElementById('game').classList.toggle('has-skills',show);
   this.buttons.forEach((button,kind)=>{
    const active=game.skillLeft[kind]>0;
-   const ready=game.skillCharge[kind]===3&&!active;
-   button.disabled=!visible||game.state!=='playing'||!ready||!!game.skillCutin;
-   const label=active?`${game.skillLeft[kind].toFixed(1)}秒`:ready?'発動':`${game.skillCharge[kind]}/3`;
+   const ready=game.skillCharge[kind]===SKILL_REQUIREMENTS[kind]&&!active;
+   button.disabled=!show||(game.isTraining&&game.practiceStep!==4)||game.state!=='playing'||!ready||!!game.skillCutin;
+   const label=active?`${game.skillLeft[kind].toFixed(1)}秒`:ready?'発動':`${game.skillCharge[kind]}/${SKILL_REQUIREMENTS[kind]}`;
    button.querySelector('span').textContent=label;button.querySelector('small').textContent=active?'発動中':'';button.style.setProperty('--remaining',`${game.skillLeft[kind]/SKILL_SECONDS*100}%`);button.dataset.ready=String(ready);button.dataset.active=String(!!active);
    button.setAttribute('aria-label',`${skillNames[kind]}：${active?'発動中・残り':''}${label}`);
-   button.style.setProperty('--charge',`${game.skillCharge[kind]/3*100}%`);
+   button.style.setProperty('--charge',`${game.skillCharge[kind]/SKILL_REQUIREMENTS[kind]*100}%`);
   });
   this.cutin.hidden=!visible||!game.skillCutin;
   if(game.skillCutin){

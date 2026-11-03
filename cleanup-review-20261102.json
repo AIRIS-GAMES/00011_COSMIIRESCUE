@@ -1,0 +1,3809 @@
+{
+  "date": "2026-11-02",
+  "removedFiles": [
+    {
+      "path": "output\\life-hearts\\raw.png",
+      "bytes": 1341041,
+      "sha256": "37d3362f145e6c8f67ed0469291d264ba516f83c12cc807ff350ad228ac1c45a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\practice-raw.png",
+      "bytes": 1374999,
+      "sha256": "b63a38adbba53f5c03dc50344de2c5dbce56ab4d4688d01989b4fc5a1c23823d",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\prologue-raw.png",
+      "bytes": 1427561,
+      "sha256": "14f7d157c478a9fc69199ed12a27e8a87b2b5b01738f123597cefb5566900098",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\raw.png",
+      "bytes": 1570303,
+      "sha256": "3449d2309f464863ced6f76b8d9d41bb881ea101b869d3a1f1eec2ce320206f8",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\room-fixed-raw.png",
+      "bytes": 1070783,
+      "sha256": "5c8c3c7de3f749316c7412446e37c2ad52b2d178b2bec64d742e103272718beb",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\blue-raw.png",
+      "bytes": 1767067,
+      "sha256": "d5f8591d00b4a81ec18e622f5da04254331e8a9ba9d5d9536e1381cd34a70a88",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\dressed-raw.png",
+      "bytes": 1688672,
+      "sha256": "4e9f77425b0a5190cbd3f596c1cd2b530c13a0fee99a34521f3d7a69399d76ea",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\green-raw.png",
+      "bytes": 1547907,
+      "sha256": "f7d0111123b0c57f81195d2ca221afdd5fd56000f401b442ab1a6526eca5d71e",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\layered-preview.png",
+      "bytes": 1329908,
+      "sha256": "23e7b56b7359b644238ca47f350b4800ccb24e6bb7c13a06605f9429cab6eb07",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\pink-raw.png",
+      "bytes": 1580438,
+      "sha256": "6dd235edafe2b69b77d9bd11ebcebf04b46b289038b5900ac8c94c0fe61c54dc",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\props-raw.png",
+      "bytes": 1446408,
+      "sha256": "96ba6272bfef8b1131051451c3ccbe4578dd49757e60b060f93d9f92bf9d2cb4",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\purple-raw.png",
+      "bytes": 1594500,
+      "sha256": "bfb55969cd1250cbd6b785c6f89234371f54069bfafea599bf942cac1a29e921",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\reactions-preview.png",
+      "bytes": 437262,
+      "sha256": "8e5ba5b3b1a8aabbcd4bfe77b840870354d2c1bd0118f82551fbb5db24d569fb",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\red-raw.png",
+      "bytes": 1569423,
+      "sha256": "2b3985cbc0c6dffb513f0c7bfb98aab928836bf238eb357eb507bb55083863d2",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\blue-raw.png",
+      "bytes": 1681170,
+      "sha256": "eb087a1c4090a27964257fea5813086ed84c1754b3002cb020a649e44991b697",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\green-raw.png",
+      "bytes": 1499747,
+      "sha256": "825c7228e5ddda0dbe9999b9b7e96b25b5f39f4f3927f4cd50065a6d7cf1f8fa",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\pink-raw.png",
+      "bytes": 1617700,
+      "sha256": "b5e67e99a74a79c7d8ca01dc7c718344aab47c4eaee3519224702798a85c07af",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\preview.png",
+      "bytes": 665292,
+      "sha256": "0660f3cf50982732397b9c4e6c4feb1bd2b27e717dc07514d9ce2c0c35bf0253",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\purple-raw.png",
+      "bytes": 1558543,
+      "sha256": "b81f0bf97319cc8d38106731ea5ed95bd754a34017b0f2452cc17d63ee2ef33b",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\red-raw.png",
+      "bytes": 1549426,
+      "sha256": "606226fc33d2e884d9f64c8763129f68b707234a54c8b1fe2557edf17c95f09f",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue-raw.png",
+      "bytes": 1639776,
+      "sha256": "e7e7ecb16c232afa04f1b375056eca826b4691df88c042d7b415f69d7074903b",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue-reaction-raw.png",
+      "bytes": 1657010,
+      "sha256": "143f9a41393bc60fe028142ac3913468bb58c09d58dd2eb1137df98afc74e316",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green-raw.png",
+      "bytes": 1500039,
+      "sha256": "ea8cb73eb7c59ecc2d04789f3666453c12df7b5d561684f461adc82d5fbcf6d8",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green-reaction-raw.png",
+      "bytes": 1505487,
+      "sha256": "f97356342f65f70becf70132a6588d16a32fea7414074274ba25019c5d02de17",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink-raw.png",
+      "bytes": 1595702,
+      "sha256": "8036227daf354f93472adfb2fa34e9b27ade585a245ddbe6a0cddbdd5fa1f9d0",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink-reaction-raw.png",
+      "bytes": 1594418,
+      "sha256": "496e1fa41f616034618ba06113924263675bdcb00dd78b9c662292bbae08c420",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\preview.png",
+      "bytes": 637848,
+      "sha256": "42352c356fc35af69d8cb2eb8e2fbc7d6833d94d6e5e4fc29f8f5e66ad0681a8",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple-raw.png",
+      "bytes": 1518373,
+      "sha256": "7941a3f10c6fceed98149ed956dc7e679eb080ec19edf11c38f2d200e54e9fb6",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple-reaction-raw.png",
+      "bytes": 1526678,
+      "sha256": "7c567dc7475072c569e78281d50be2f055128229c02c77f8ba9abaa8596d3e0f",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\reaction-preview.png",
+      "bytes": 649379,
+      "sha256": "516118ab6d26c952a2e7920a522b5c3e6516e8fb3e50d088374a8d5cb9419dec",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red-raw.png",
+      "bytes": 1523742,
+      "sha256": "73a334a3978131a004ed90dc89fbacb5663f02eb685ebc13a1acb4050f9c8a4f",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red-reaction-raw.png",
+      "bytes": 1521607,
+      "sha256": "2d3d96d4dfeee17a7a167ca6d15a42d80c24acdff8b690aba3df5c44923b1b34",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\blue-raw.png",
+      "bytes": 1559504,
+      "sha256": "6b588af7be40ed821a4e63283bae883e7be856f4e5f08d8e79479f4e3b8f41be",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\green-raw.png",
+      "bytes": 1515194,
+      "sha256": "16c558c844395d8b167a50c8c810b7b10d929fd9f15e09eacfccd5bfd792f930",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\pink-raw.png",
+      "bytes": 1626775,
+      "sha256": "5d163c6ab6bb445271830c780aceb66b7559b19b63168cd9fbf0bcbf1fb08b33",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\preview.png",
+      "bytes": 626872,
+      "sha256": "a209a36da79b46d4ab3ffd0291455826decf2a4dd968182fe6f510a2499ad119",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\purple-raw.png",
+      "bytes": 1585059,
+      "sha256": "6576c5b31dad988a23ea506eb1ebde50417c54cc4abba0bd01dca4c9e7c40d4a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\red-raw.png",
+      "bytes": 1429107,
+      "sha256": "192b4012a31f8f84d748c75765f411c566a8e09ed01d265ded5bc2c000c04e7a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\life-hearts\\processed\\animation.gif",
+      "bytes": 15693,
+      "sha256": "efabaa881224c7eee2dbbd59b785aaf320282e77a740d60b0762eaabd777be5c",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\life-hearts\\processed\\idle-1.png",
+      "bytes": 17501,
+      "sha256": "6318f9440ec64526e9d6b3346735b481a97d9f255fb2a1a674f51d64274d9c51",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\life-hearts\\processed\\idle-2.png",
+      "bytes": 17883,
+      "sha256": "53031350e1a46b1d1aa6eb28f4d30dcfb4cbd2eee0c8b21bf9080c7ea75f4943",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\life-hearts\\processed\\raw-sheet-clean.png",
+      "bytes": 609512,
+      "sha256": "a94e8241eb63a4001ff6a1f1e6497a984f40a5447d521622f104b4cbb80b091e",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\life-hearts\\processed\\raw-sheet.png",
+      "bytes": 1239202,
+      "sha256": "3bccad203513f37fb9e9e18f9ac2f00dfd78a28f1e065b4756cad84f566746f3",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\life-hearts\\processed\\sheet-transparent.png",
+      "bytes": 34528,
+      "sha256": "92ea199abeeac6ef79bcce3751cacb7bccbe4c7b6578ad144b85d4fa72a70fd3",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\practice\\animation.gif",
+      "bytes": 25898,
+      "sha256": "6d6b3a7b304452a1746d37d383afb8afdca6680640fd974ead65b39f6c82d8d5",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\practice\\idle-1.png",
+      "bytes": 55746,
+      "sha256": "1c9f22af8114ed1146b0f992569310352b016cb52b4ad13682685826fc3ac800",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\practice\\raw-sheet-clean.png",
+      "bytes": 700141,
+      "sha256": "b4b305375f65ba02889f8e3f92379dc436d04cf6feacf06c95deb3e3e4455318",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\practice\\raw-sheet.png",
+      "bytes": 1322555,
+      "sha256": "577ee9ca95f04d2716229d89912075a5ca2a91d9d45cb8a811cf659fae6c6d14",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\practice\\sheet-transparent.png",
+      "bytes": 54946,
+      "sha256": "42896ae61a5af5e93ef9d243923b96b8234454d976ab7814a9865d1429bff509",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\processed\\animation.gif",
+      "bytes": 96566,
+      "sha256": "94c31f957c4bdf6e7a6127ffbf3bc42d1e9dd0b112e33fd8ae65b6eb3898d4a8",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\processed\\idle-1.png",
+      "bytes": 77578,
+      "sha256": "20c5f2ef1f18b0ce8a77bd62b77b0cb8f69eca55bb701cf4c6203225b1b38950",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\processed\\idle-2.png",
+      "bytes": 68917,
+      "sha256": "8fc6ed57661ef3370fff42672284856ea06690346a9c67ad72924b8713823889",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\processed\\idle-3.png",
+      "bytes": 58006,
+      "sha256": "ddadd55cbab89ba97d5242cbad8a1322654a1fd987eec250316b20a4bc8fdad2",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\processed\\idle-4.png",
+      "bytes": 53549,
+      "sha256": "01425bad885643656cada01cc0186d385c18b6f60fa15df5ca5d39517bcef2b1",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\processed\\raw-sheet-clean.png",
+      "bytes": 1067876,
+      "sha256": "07f76e8180991e0e1f8dd4a6677006a4025fe7c3d2e96d8ae2c9dcd2c90950dd",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\processed\\raw-sheet.png",
+      "bytes": 1628879,
+      "sha256": "4574f266cbac3f7fc93f4d092cf7731585db79006efc856bdb154769ea4fa4f5",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\processed\\sheet-transparent.png",
+      "bytes": 253487,
+      "sha256": "7c2992a95a3375beadc7e5461dd0e06358f676fc40266ed717379db584e1e043",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\prologue\\animation.gif",
+      "bytes": 35595,
+      "sha256": "aafda5b5790701770052bb79a7ea07f907b3ab3d5cbf818defd7882e5bde93cb",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\prologue\\idle-1.png",
+      "bytes": 78958,
+      "sha256": "6995958e7d94a09a6b41dd2e46d10a589bce3801f627cfa6c30405df87e3bb97",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\prologue\\raw-sheet-clean.png",
+      "bytes": 788588,
+      "sha256": "cdc6f0b5d92c2945eddb85d26d2d5aa76c83ada3e884b49fbc5620ac9752f3c9",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\prologue\\raw-sheet.png",
+      "bytes": 1402707,
+      "sha256": "30116443a15f267a49ba96f2b10b8a5c1e01b4d21d58aa0c6f937b6414cde92e",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\prologue\\sheet-transparent.png",
+      "bytes": 77730,
+      "sha256": "f6cf645d24a543e4c83cad0ab830cbaa48eccf283e8bed3063c209463ee2835f",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\room-fixed\\animation.gif",
+      "bytes": 30730,
+      "sha256": "e28dedf9d106853d7f91d95bfbd012970b43a27ad372508e1721fa490759eaee",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\room-fixed\\idle-1.png",
+      "bytes": 69121,
+      "sha256": "8e53c51061f465dec28ca51ca8c3fa3255b04e4388d072dd1ef332f1a996a996",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\room-fixed\\raw-sheet-clean.png",
+      "bytes": 978840,
+      "sha256": "2b8f7e7e31b1c8b7ffe216fe76ee68db0f3513ddad5e712bb07a2380e76da968",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\room-fixed\\raw-sheet.png",
+      "bytes": 978848,
+      "sha256": "cf25816a7c8017c03325adf8317f8ae0b892f8968989e8e6a781bb831c43b2bd",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\menu-icons\\room-fixed\\sheet-transparent.png",
+      "bytes": 68892,
+      "sha256": "8842fe4bc6229905e03d448bf0f006c69d810ee45aae703c1708fca234293e66",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\blue\\animation.gif",
+      "bytes": 231438,
+      "sha256": "8fda1faf5eb016e10d808a688f6c814806189341fa0b61391cf07cc14eedbd8a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\blue\\idle-1.png",
+      "bytes": 132840,
+      "sha256": "80962d0d7744a782fc361e099da0669727ad6d4b76ce868cd18d89cb0f158339",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\blue\\idle-2.png",
+      "bytes": 131117,
+      "sha256": "b9da4d972027f784eabfc6f03fa7134c79b5b02d481875998ac0bbab7a4e8e97",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\blue\\idle-3.png",
+      "bytes": 129596,
+      "sha256": "55d15aa6b8ac64056b9f27c85c010947a4c1b1a5de9922a124c3eb22b1b0c533",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\blue\\idle-4.png",
+      "bytes": 132845,
+      "sha256": "c8d19036f60d40aef60a4ba7dd72fbe3403866d14be4cadf11670f903aab044a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\blue\\raw-sheet-clean.png",
+      "bytes": 1434144,
+      "sha256": "4eb5d355b5e8af19faa7ae241553bcb5fcc7f77a2e23f0a3fb41e21504a43f84",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\blue\\raw-sheet.png",
+      "bytes": 1895598,
+      "sha256": "818e53639f262b271f14fe9b356a945c5d4edb020f93652311f38ec0b8967138",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\blue\\sheet-transparent.png",
+      "bytes": 514913,
+      "sha256": "04163ecaf6c177a7c9ee667f5f513e9038ea8711dcd710440cafc2ade706d318",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\green\\animation.gif",
+      "bytes": 247035,
+      "sha256": "f9e1b9a080eebcdacd976e7a84ac13274f8a6c02f8b6090146d913ab15b9cb29",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\green\\idle-1.png",
+      "bytes": 122464,
+      "sha256": "f22db59e37c691a36de0eaa18cdf54d0c01fae0fcf419c50692918b492c890ea",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\green\\idle-2.png",
+      "bytes": 122480,
+      "sha256": "0739e84a5f4a5cf4859abc164fea0b4435c234198b8617e31e9d7e9ffb68b16b",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\green\\idle-3.png",
+      "bytes": 124523,
+      "sha256": "6a82cf96149f338227d3728a4e123d82293dafc056d61708e5bbd9fdddf98e88",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\green\\idle-4.png",
+      "bytes": 126044,
+      "sha256": "da45a91befd00486c1af7f719be9e56c67cf54a6e2e3b685718d2999847a59d2",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\green\\raw-sheet-clean.png",
+      "bytes": 1021265,
+      "sha256": "3956d5ebb4b0ddb2ae33ea77faa885585b15946833176e5860945f7b097c9772",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\green\\raw-sheet.png",
+      "bytes": 1588869,
+      "sha256": "f577bef4d411dcd55abe47b8919fb11c1cfd21cbbfa0b34969a3eecc71e2afa3",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\green\\sheet-transparent.png",
+      "bytes": 481380,
+      "sha256": "48605aa64e1ec9fb1b1f9943bcb89af890a3270a1e11aa4aad72c255b9a7c7f4",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\pink\\animation.gif",
+      "bytes": 217945,
+      "sha256": "f45210e1e2c38b3a3558bab500ff7a306844d97b0c8fc78c401a7017f16beb18",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\pink\\idle-1.png",
+      "bytes": 118839,
+      "sha256": "96c1792d6600f684e5c40f9b1952239b9c33259a2e987420341219902bfbf531",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\pink\\idle-2.png",
+      "bytes": 117227,
+      "sha256": "9dcc7eed2fc8937e27413b6f761093fe1fa3eb1d00380fcf45dc0d33ea868e4a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\pink\\idle-3.png",
+      "bytes": 116159,
+      "sha256": "a7bb1dbe42ed888c715df22e3dc65b29e0773273e527b343e5a5c053706159e2",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\pink\\idle-4.png",
+      "bytes": 120810,
+      "sha256": "49d8e79b01b1ea03b3d57e8dcabbd36717e24404e7df4f909c19487e37ffd4d2",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\pink\\raw-sheet-clean.png",
+      "bytes": 1009216,
+      "sha256": "e362550f928f73af91f8f30bd8d9d0a9a99587694b2f0cdbd17a77948d05366c",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\pink\\raw-sheet.png",
+      "bytes": 1632623,
+      "sha256": "3522f0a4c9ee516fba6908df84e98e907c1a0abdd9e7972ea10ace8df7fb2781",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\pink\\sheet-transparent.png",
+      "bytes": 460120,
+      "sha256": "829ce7c111bc4d14a794e9f2b10a11c321ce22346087ace8741d5c1be661a9ce",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\props\\animation.gif",
+      "bytes": 124012,
+      "sha256": "00cb8585dce0bf9671584230541ae8185af3bf2330ce7ee2020066c492438a0b",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\props\\idle-1.png",
+      "bytes": 84267,
+      "sha256": "1a41b1e3281e1f1391d18e034423414d58b29c0955bb537e8cadc900055e0322",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\props\\idle-2.png",
+      "bytes": 88642,
+      "sha256": "f71dfd9b2b36f19eabc2234770657ba7a6a06ea94efad7679318119b715e1825",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\props\\idle-3.png",
+      "bytes": 114995,
+      "sha256": "fe0bef672146d0c52cc022541adbf68671efd0619691e11dd4f8daede2f6cc62",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\props\\idle-4.png",
+      "bytes": 78895,
+      "sha256": "ca35f5776b17c266124715dd5e20c7f5cb1dac2ab2ace0ed2600ecc89216ff37",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\props\\raw-sheet-clean.png",
+      "bytes": 736701,
+      "sha256": "e06f5b1c8e677e2953557b6414833961be03c1e91c25d4beaeacbe45966b5b2c",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\props\\raw-sheet.png",
+      "bytes": 1434927,
+      "sha256": "e07a9dbcecfe3ae3ec18a045d1e69e8b3d8b1416ab80b95e9eda8deff303c558",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\props\\sheet-transparent.png",
+      "bytes": 360362,
+      "sha256": "72003f8a1b026204c446402fbcfc38f7f676a61792085bc456a6d0e3cfa30a3e",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\purple\\animation.gif",
+      "bytes": 199528,
+      "sha256": "e645188b39700111421ada883026b114a8f446ce7b43108126d069ff6bdc627b",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\purple\\idle-1.png",
+      "bytes": 108480,
+      "sha256": "32b9d3a5eeeb071280238f9552d203c3c413d2cb8989e673b8c4a5b2330980a1",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\purple\\idle-2.png",
+      "bytes": 104887,
+      "sha256": "a4cb36686467abd44c29ed3b2df90fcd2c0cd63e87f2d0e8f3f176764acbc972",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\purple\\idle-3.png",
+      "bytes": 102317,
+      "sha256": "164d01da02087cccee21b18cb05858662309d52f78eb0dd291668d850483c83f",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\purple\\idle-4.png",
+      "bytes": 108806,
+      "sha256": "66b17f069a0c9388127fdb0bb4f4998c5849d6149dcf7dc3422b12550939bae1",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\purple\\raw-sheet-clean.png",
+      "bytes": 1068494,
+      "sha256": "5ed34e655dcb3a96dfd98ad569da73637c08f3cea69d78c0fd55d497497d1a1e",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\purple\\raw-sheet.png",
+      "bytes": 1649953,
+      "sha256": "247e8ff08fa45953c322128569d4acf3ab7404b380e821d39f4db54baaf9440a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\purple\\sheet-transparent.png",
+      "bytes": 411921,
+      "sha256": "98041ec654cec6a3964d600c5d7991efb47baf7e2917da59799306a346b1b541",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\red\\animation.gif",
+      "bytes": 207434,
+      "sha256": "087e83a31a055771d72ef068f171ab15a8e1d58dfe26e3e24cfdfbb98ddfd8ec",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\red\\idle-1.png",
+      "bytes": 109224,
+      "sha256": "9177ceba2401f4cc863099ae8cd99481e0335768b60bd1768c3371dc912b85f2",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\red\\idle-2.png",
+      "bytes": 107490,
+      "sha256": "c00796e21ac86ffd07a5527b34edf7dc37e154885348e94870f1506f6c102978",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\red\\idle-3.png",
+      "bytes": 110792,
+      "sha256": "ea29b44e4f070aa379594e55cad2a50de8314e79bc858335ef421bb4da7e063f",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\red\\idle-4.png",
+      "bytes": 113567,
+      "sha256": "715418bacebde92f435cb328480f05b550c7bcc1f429fd87e5d449bf9becebfb",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\red\\raw-sheet-clean.png",
+      "bytes": 1069029,
+      "sha256": "f56d2744fcf265fd67b48c167424584d3fe3992bf88eb458794408895c5fdc2d",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\red\\raw-sheet.png",
+      "bytes": 1615295,
+      "sha256": "24e090423aa2f36cec748f52cf9d950cb0fb8e615aa9795027a5ff8572e39125",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-art\\red\\sheet-transparent.png",
+      "bytes": 429054,
+      "sha256": "b1d639d15a9a99d4160474c21cfdb86755d5a13cd5b2e51f18b6f6a77d9f959b",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\blue\\animation.gif",
+      "bytes": 246168,
+      "sha256": "7e02078fb475b42d0e58d1d18df1cdcbf68cfe1c006cc361da5968a1b2e05fa1",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\blue\\idle-1.png",
+      "bytes": 143021,
+      "sha256": "fe8a8a143c242a0e2995579d356e71ee646fedcb41b87cf5ab199434b2dc8675",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\blue\\idle-2.png",
+      "bytes": 138088,
+      "sha256": "01b2fc498a1f40a75e39418be74aed11f636e0f49ecdc626b0b0801b25336e96",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\blue\\idle-3.png",
+      "bytes": 142696,
+      "sha256": "ff16a3b482a84ee06034762019816fc64b14fff765b80193730aa2db2a967b5d",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\blue\\idle-4.png",
+      "bytes": 142184,
+      "sha256": "d6d1a1b0c1c7f44a77e8f720978f176d1f61cb2b5632ee093e16e3248686d7a7",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\blue\\raw-sheet-clean.png",
+      "bytes": 1208027,
+      "sha256": "6f6cddac4c5637568d093b9cd7a210ec8b89a5ab337dad3b2d71dc0a2c9f7115",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\blue\\raw-sheet.png",
+      "bytes": 1776593,
+      "sha256": "1377c4186e5488c316a7ea3d1f3fefd8fe8b0771de4901316afcb1b9bb99b030",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\blue\\sheet-transparent.png",
+      "bytes": 552726,
+      "sha256": "33ec5ca8caa0e7be520891c253d3ec3246be1d0e0e4260e148a4352f39dcb5ed",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\green\\animation.gif",
+      "bytes": 243592,
+      "sha256": "9cb5c7df492859d463cb6ae8a261b250cd24a8f729a6fdf9fb33f7ec758997c3",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\green\\idle-1.png",
+      "bytes": 122462,
+      "sha256": "569ca28cf05814051722eb519bad237292a844d6bca2ee73327ef94c0ff634d7",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\green\\idle-2.png",
+      "bytes": 118066,
+      "sha256": "d11b30fe5bd00e125329d7672d445ae252de88d023afef89ba97315a2ee29723",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\green\\idle-3.png",
+      "bytes": 119847,
+      "sha256": "4974e898dd2cb7e2bfdd5d4515d1cc757000b10eae1faba01171bdbfe018fbfa",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\green\\idle-4.png",
+      "bytes": 120001,
+      "sha256": "f72234a9373ef2948426bfd18b8edd30829ee8afb04d6578fe1eb45742fcb3ae",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\green\\raw-sheet-clean.png",
+      "bytes": 905905,
+      "sha256": "3f81fc0cf2869a13c74df42e75a580d61ef24c649c1720ea6c168c719a8297d5",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\green\\raw-sheet.png",
+      "bytes": 1525213,
+      "sha256": "2c4d9b9b34d8f716877d2bfdb2d1b1a097a8ff5546645dedfdd4a8b957c46401",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\green\\sheet-transparent.png",
+      "bytes": 466905,
+      "sha256": "7ee400c7eff17f60a18a0b6dfb3a4264d23ed1ed9143660fa2884d1dd3f70c9d",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\pink\\animation.gif",
+      "bytes": 264979,
+      "sha256": "00bc3e013943d8bbd4f795de7cb41e9ab27804fa7d1bbc4ffa0a205f08249044",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\pink\\idle-1.png",
+      "bytes": 140878,
+      "sha256": "e32d0e60ef7bf9cafb6f3cee814f0a996d8661706457956a8b23e35d7388f6ea",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\pink\\idle-2.png",
+      "bytes": 142024,
+      "sha256": "7e60c8b0de2935a5dda857a35fed2008f879ead41b4d02eea239dd3aa592c8a3",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\pink\\idle-3.png",
+      "bytes": 150175,
+      "sha256": "bc65ae3995032360d001282f7078241124409cfbd582688bec3b3c48f0b122bc",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\pink\\idle-4.png",
+      "bytes": 150602,
+      "sha256": "b6fed6c105a0d1a8ea8ba832133532355d957cdcf26c292d913641dd850dcf3e",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\pink\\raw-sheet-clean.png",
+      "bytes": 1077059,
+      "sha256": "4894eb177c41e7a33f85d162f81ee9d282395f14eacd6fec3f98113c4e0e77d0",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\pink\\raw-sheet.png",
+      "bytes": 1682178,
+      "sha256": "fbed6ea24bac82334f34d5bd33c52aac6323080624b27f83df1312c7eef805c8",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\pink\\sheet-transparent.png",
+      "bytes": 569106,
+      "sha256": "db6189c1168a5043b28c90222521a1b747bf2ccf8e1ce2362f809b247b06d813",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\purple\\animation.gif",
+      "bytes": 254638,
+      "sha256": "81dafba6725ef19ca9f73bf00633de8ac7b9bd7d688c73682eb94833090f4f64",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\purple\\idle-1.png",
+      "bytes": 133151,
+      "sha256": "3964c7f9a21be291b7a882a8ff9fd920d37042cede1e107e14114961027987e5",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\purple\\idle-2.png",
+      "bytes": 130605,
+      "sha256": "311c17533244217e9b6aafe192b6d452196d4ec214c3cb66fa3d5e920a0d781a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\purple\\idle-3.png",
+      "bytes": 133389,
+      "sha256": "96dce25c883c2b754e7a10402642bf3cd4943f32be1c4feebbfc420718a7427d",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\purple\\idle-4.png",
+      "bytes": 133320,
+      "sha256": "7f68bee6bd674409ad347a2cb0eeab432573d08439d13c9ab874e37bf84e3018",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\purple\\raw-sheet-clean.png",
+      "bytes": 1017353,
+      "sha256": "3bcc0d745199344c241bd2c740b2733c03013b38d0ad9fcf08a09cd3c48962ad",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\purple\\raw-sheet.png",
+      "bytes": 1601881,
+      "sha256": "7b6a3f24565cd5849df1fda597bffd3309e2b7808640009ab9a44546d443292c",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\purple\\sheet-transparent.png",
+      "bytes": 516490,
+      "sha256": "61f025fcf89b0e64b26ef52b8c40d79b8b6840dd18ea425835f08b1eae971f91",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\red\\animation.gif",
+      "bytes": 227501,
+      "sha256": "b7747a9a84271135847c038d788c5539526266be33d8d5dd6a16637ffd571fab",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\red\\idle-1.png",
+      "bytes": 119862,
+      "sha256": "faa1e6d8329e5b785f8b6eb621230882780c7e73c582a531ba74973861ec7ea4",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\red\\idle-2.png",
+      "bytes": 121644,
+      "sha256": "52e02ba84a65e457ac8e224c0641fc53f40121ed86d514ec9ac92d48e4825c0b",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\red\\idle-3.png",
+      "bytes": 121596,
+      "sha256": "d5e7004fa437b236f759883c9b244d483e73121fe298045ef1fe1ff53661998c",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\red\\idle-4.png",
+      "bytes": 122096,
+      "sha256": "1bed4d9c1da3a8d870e55bd5197a7648b3acbc3273d469772afb269bf6fd8c9d",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\red\\raw-sheet-clean.png",
+      "bytes": 958068,
+      "sha256": "113f3001d896fc4ded8f2c53e8613424c153459eb30e4de57f7867186ae41a7b",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\red\\raw-sheet.png",
+      "bytes": 1584368,
+      "sha256": "5b27ba7fbc44eadb904cf65b665b5adc87dd3aa0b2911f90d270c7932172e475",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-moods\\red\\sheet-transparent.png",
+      "bytes": 471706,
+      "sha256": "d62619711fa8eaf17a907c8928a5bca955149d71874dc9e1b17fc7992699771a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue\\animation.gif",
+      "bytes": 239293,
+      "sha256": "d0a7c09a538dc6f0d18317d49a7636ad29173768679cd9bb8a30c6dd99f5e1f0",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue\\raw-sheet-clean.png",
+      "bytes": 1078412,
+      "sha256": "75da22ed55727a027796fb3d7d73f225900d5fceaf3dc102bedc0c0b44a4a8fa",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue\\raw-sheet.png",
+      "bytes": 1708707,
+      "sha256": "808262aac007466a5d06c245ff0e6fd53515c83c677f499ebf8988ce1128d711",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue\\sheet-transparent.png",
+      "bytes": 533520,
+      "sha256": "ef0991ce3f14e72c84f90d7b876549f0da57981b7dc34ae01d09dccd6822b63e",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue\\walk-1.png",
+      "bytes": 136495,
+      "sha256": "2dcab3247f840f824c50c1d4fe769483694aae525723af3d8f4634f1d0bff6d2",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue\\walk-2.png",
+      "bytes": 133693,
+      "sha256": "7a344fcef8d4572f0820fea829fd072e399b059c4486cda39cb6992a3aa79d3d",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue\\walk-3.png",
+      "bytes": 139324,
+      "sha256": "d2c750df789aaa9b10413f77079d3e7a1ff9b093ce7a5374fdaa446e1b564bf6",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue\\walk-4.png",
+      "bytes": 137023,
+      "sha256": "de2becea7b69ebb9849048e6f25f23647721774f7618c0f8abadc6e554befdbb",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue-reaction\\animation.gif",
+      "bytes": 247190,
+      "sha256": "69d868162fc352ef3ca6d6c9ba2be0085fc8bba6bb39e77269db295ad970f41c",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue-reaction\\idle-1.png",
+      "bytes": 138624,
+      "sha256": "3b7f394fb60e30b54ebb1c034932b7df5e00a477a7917ae62b6a071dbd41bf23",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue-reaction\\idle-2.png",
+      "bytes": 136124,
+      "sha256": "735a19d6d89cf2ec392c7ef7fe07547da66435e7af71a6aebcaf6c4c8690b05a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue-reaction\\idle-3.png",
+      "bytes": 136845,
+      "sha256": "b170cf305d4732a18632370d7a22bb6bbfde9a716be7a6b2c24ad5905a68c0a7",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue-reaction\\idle-4.png",
+      "bytes": 140140,
+      "sha256": "a4ed5a59d75c6ea12a4b70c19b6a65d1de1b877d1b12fb3a77e7475b0d7afde7",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue-reaction\\raw-sheet-clean.png",
+      "bytes": 1158723,
+      "sha256": "fdcf36eed3d45f03e6c7de302d944a8432647d553eec19d37d1b938e71bec684",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue-reaction\\raw-sheet.png",
+      "bytes": 1744216,
+      "sha256": "49b0c294a07f3523a163b089bfebb4095dd9278cb5b445d53d449c1e7fdebac3",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\blue-reaction\\sheet-transparent.png",
+      "bytes": 539389,
+      "sha256": "1029159328651573c9020c6d2a19d7d6c325a7eb3986ee35b133b6454ba8913e",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green\\animation.gif",
+      "bytes": 237189,
+      "sha256": "e04ecd3a387be66c805e7d611e2416d1fb9e9446bac680b07b198be2d2f33d8d",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green\\raw-sheet-clean.png",
+      "bytes": 877297,
+      "sha256": "0253e41235b65e4ac1c1861cc7272d957da67e9d178323caf87d82766097a9c4",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green\\raw-sheet.png",
+      "bytes": 1519095,
+      "sha256": "1de8142643527d51fad56e32019b1b5a42a8b5e908135d8f0e3cfabaaac7a55b",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green\\sheet-transparent.png",
+      "bytes": 461881,
+      "sha256": "ae1c920edfbfb14ce72efa7bcf4bbde04e12ffb27e00714e97402a7487d93176",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green\\walk-1.png",
+      "bytes": 118776,
+      "sha256": "f2e96ac1dfa30dc7e9c5d0eae13c85441b3ed0ef5ce152f3b62c778d1e8980d8",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green\\walk-2.png",
+      "bytes": 118670,
+      "sha256": "43d6b2297de0243b61ef01ab4294d9e6b415a88d7e16ff77149cb1bf2227895a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green\\walk-3.png",
+      "bytes": 119693,
+      "sha256": "6638e1b6cfb04b4a9f1451d7bfc3652a37faf266e7728fc584ed55f7634ed440",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green\\walk-4.png",
+      "bytes": 118943,
+      "sha256": "3fa863e8987288570cedcb70c7d349cbeeb409564328dd484be32bc315c5e39c",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green-reaction\\animation.gif",
+      "bytes": 240034,
+      "sha256": "a9e6045bf59d2a17ad2039d5efe8727c563ee597630d9e60bc3c4a39cf1c77ed",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green-reaction\\idle-1.png",
+      "bytes": 117884,
+      "sha256": "e8b96890225e7d3f53c3a5411e94503c3db19bfe77c80ad7e263344a67365bbd",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green-reaction\\idle-2.png",
+      "bytes": 120246,
+      "sha256": "8fc428cb40f673d1deaecc4312bc123d14d69527143fd1458929fde370ec6dbb",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green-reaction\\idle-3.png",
+      "bytes": 117243,
+      "sha256": "6faa96665e4bb76a9448fe8802bdfc10c96ac0a2d75c155f4d0011ab81ef849c",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green-reaction\\idle-4.png",
+      "bytes": 119367,
+      "sha256": "d1d31862123219e4ee7d7cb4008e8c2f37e3af7116c992d74a764f6c53b9eefc",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green-reaction\\raw-sheet-clean.png",
+      "bytes": 909492,
+      "sha256": "94bffbbeece6790747d15c59d6cb09519f865378ef7065661968a4eb2b1002df",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green-reaction\\raw-sheet.png",
+      "bytes": 1528047,
+      "sha256": "2f4813b2b8f993ccd282ec9794e33278e62096c198ed0a01b30251e560949c00",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\green-reaction\\sheet-transparent.png",
+      "bytes": 461737,
+      "sha256": "1eea2accd425c79da1f0e2bf3778a4768e55d476b8022c22eb6fe235af687029",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink\\animation.gif",
+      "bytes": 244203,
+      "sha256": "6ad211d3edb8cd2cc097409bc02b504dd0c63cf8814a7d0e11cfa07ca10b0b87",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink\\raw-sheet-clean.png",
+      "bytes": 1030165,
+      "sha256": "642dc7dbb6eb2aec7c3b7fd72993754f5dbb6444f654425e6c6a05c46e818fdc",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink\\raw-sheet.png",
+      "bytes": 1655131,
+      "sha256": "db34757636d9626b49f4234f81bc63e60e4081d35cd504969a26c53c445d0241",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink\\sheet-transparent.png",
+      "bytes": 523686,
+      "sha256": "7fde01a9a238f2094b5fd36a0cb673f6bf82c639896c4a2969caade2c599daba",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink\\walk-1.png",
+      "bytes": 136135,
+      "sha256": "02a32ae3e5693fe501dcb02579cfc40c3ea18dd2e4364ece3e45ca05b7d6a495",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink\\walk-2.png",
+      "bytes": 128202,
+      "sha256": "7359c040673434ee8a498d53ccc0647178df1f582565ccc7223e4cd0fba27b31",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink\\walk-3.png",
+      "bytes": 137722,
+      "sha256": "cc4dc4756a3fba654e498a9fa7e79fcb6ebc3d1365d0930e27895024f8b18bdc",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink\\walk-4.png",
+      "bytes": 135516,
+      "sha256": "b4207f37098b2c6c5e23cb74f2a444ccc70f6072556d349578e5f8f67e3e5e94",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink-reaction\\animation.gif",
+      "bytes": 263181,
+      "sha256": "ccc5d5b3bc46f15175633348e4a611d9191f04a95e5d3d4d5e9fb3af3e0de3be",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink-reaction\\idle-1.png",
+      "bytes": 142708,
+      "sha256": "51f6a5d78fb63b159755a34359e86df4d10eb143b010145ca3316acc76f8be02",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink-reaction\\idle-2.png",
+      "bytes": 136775,
+      "sha256": "1e7a32a18911b625ed35bf4726ca7fa51b6f0363775cdf62e6d13852ce3bb485",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink-reaction\\idle-3.png",
+      "bytes": 140267,
+      "sha256": "375b9e2283bee642334651694be8829e06fa71d21737ba72aa21494d8b265978",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink-reaction\\idle-4.png",
+      "bytes": 143775,
+      "sha256": "875e823619b352ce5dea862b1538c420baaa1dfb3892a1f37e2ba9b866dae691",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink-reaction\\raw-sheet-clean.png",
+      "bytes": 1044966,
+      "sha256": "ee96ee17850cac0f1b152ad7c43b4403a444d09df29d3b5d56aa14a7709dc6cb",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink-reaction\\raw-sheet.png",
+      "bytes": 1652946,
+      "sha256": "f5711f8d28566448ceba1ebee99b567d4a82ab7de6e40ba483f77484232baf51",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\pink-reaction\\sheet-transparent.png",
+      "bytes": 548860,
+      "sha256": "2d5686aa9a87467d5177e38442d0f4d8ad36f1d8c673df1671c8aeaba09f2a96",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple\\animation.gif",
+      "bytes": 256058,
+      "sha256": "aca6922b681a0ea22a52e6c115a39b5238d68cdce7dc4128d24895eba4523678",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple\\raw-sheet-clean.png",
+      "bytes": 867859,
+      "sha256": "c914bdc2b60273c4c1e82f22c14b13b23528e3db149b22836cde1bad7fd81323",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple\\raw-sheet.png",
+      "bytes": 1537063,
+      "sha256": "0e02243112fdd1785a573960e55d1ddc97ac8d0efde8a3603853cc9355de6e1c",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple\\sheet-transparent.png",
+      "bytes": 523745,
+      "sha256": "173d84a6e2c2c7abc4a5a21ad074334df892797801ca3d0ccc979fee8a32ae89",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple\\walk-1.png",
+      "bytes": 137571,
+      "sha256": "d0e6bb0dcb1545c832b3adc2b33e0e5e50c2c3baf0d8568e0ccc0f2efa2630c9",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple\\walk-2.png",
+      "bytes": 129144,
+      "sha256": "6cbcf706216a9571de9ba87d44613bd6d0f5dcdab4d7194805d79bec50236cb4",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple\\walk-3.png",
+      "bytes": 136288,
+      "sha256": "f6eddc6da7bc60211d70c395b2ec170679c09cdf7259932f3f6aa9fe1ee9f059",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple\\walk-4.png",
+      "bytes": 134336,
+      "sha256": "74e232ac69f7a30bceec8ff6252cce141a6a8bb72cdf14be2c445bee6f253d09",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple-reaction\\animation.gif",
+      "bytes": 269107,
+      "sha256": "4692948733b58a742ce33579c539e860e6b8ac75fdbf4df4f4a6db0dd8707e4c",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple-reaction\\idle-1.png",
+      "bytes": 139504,
+      "sha256": "2371a39ab383d910a11e1f301730407442cc5bcc7d8405bbb2bd2c9d7edb2889",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple-reaction\\idle-2.png",
+      "bytes": 134102,
+      "sha256": "e4f9c2594fda0cdc6d9b58437d78f28bbee8a006b26a07d52572dd5d4982405a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple-reaction\\idle-3.png",
+      "bytes": 135997,
+      "sha256": "39a756be3ecebdec758abcf9aef65b3d94e958bcf2e30f6399c92e33ae6c96b6",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple-reaction\\idle-4.png",
+      "bytes": 139310,
+      "sha256": "415e31054ccfa2f58e40c13b866e73b0a347518296549b176524fce76b96a81e",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple-reaction\\raw-sheet-clean.png",
+      "bytes": 944160,
+      "sha256": "be8e14f4e3085668010c79c7cfa70edb5771d3b864c1703b22a4d83b0d373f8b",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple-reaction\\raw-sheet.png",
+      "bytes": 1558027,
+      "sha256": "01e658c5d573b3d5d6eb69ce344a39dca04d80685807adf87780738c4f7e4fb6",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\purple-reaction\\sheet-transparent.png",
+      "bytes": 535859,
+      "sha256": "e3af9453e1e31008fb7857d1a460f453de67c8e97cba3bbab145661f83c40099",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red\\animation.gif",
+      "bytes": 211191,
+      "sha256": "fd4bfb3e623dfcc89a26f9f793e085df86f7cabd78f33103f675ad4acf7e0757",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red\\raw-sheet-clean.png",
+      "bytes": 913479,
+      "sha256": "faee01340522b521c8acb650d988a2e74fc62ca5d1e2d89dc92a4ffd8b5d83fc",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red\\raw-sheet.png",
+      "bytes": 1545558,
+      "sha256": "48ba2a35dbce76ac35784d7dd0e318b50e9df921f11443ab6866edccd3c8fdee",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red\\sheet-transparent.png",
+      "bytes": 452367,
+      "sha256": "b5b5e5dbccc7ce23687ce00a8ef9d461ad050c2ddd20d93c90dd5c25289c3720",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red\\walk-1.png",
+      "bytes": 119477,
+      "sha256": "e02d9872b5045de38a1238cedc180f3c867539e52cfa771c1b17dea84accda42",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red\\walk-2.png",
+      "bytes": 112022,
+      "sha256": "0031eb41ddbbefc91fffa44f5e9072e72b037d255dd907e1ec3cbf54b9cfb310",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red\\walk-3.png",
+      "bytes": 117728,
+      "sha256": "577be34890255fd322fad2fde66f9c6dcbc03c51fffd9ab452467f379e521212",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red\\walk-4.png",
+      "bytes": 115412,
+      "sha256": "57e40cf6832a3c501ba58b685d931d4ef4a28a7a05e09fdd91995ea441b2f16d",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red-reaction\\animation.gif",
+      "bytes": 212605,
+      "sha256": "4eff34fe84d9c6f892ca38e14732abd545034eff9f42056cb65adaff57f45edb",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red-reaction\\idle-1.png",
+      "bytes": 113269,
+      "sha256": "027e7ba51201a34c1c7ce00e7bc7489aee744684aa218a69943d93e49ca7fea1",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red-reaction\\idle-2.png",
+      "bytes": 112096,
+      "sha256": "91db2d64cbf748fa00d239ebd9a0f16a890d4530fb1b0a9f97f8e53ee78a8f3b",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red-reaction\\idle-3.png",
+      "bytes": 111552,
+      "sha256": "7c18096df23620fb445679d7efadd06cdf4be7800b746f7e658ba70b90717af1",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red-reaction\\idle-4.png",
+      "bytes": 113472,
+      "sha256": "330146b11c9fbf5d539fe6f136ec6077c1f161730ee06d74dbc7368f786e9fed",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red-reaction\\raw-sheet-clean.png",
+      "bytes": 908469,
+      "sha256": "20222511b06a757f70683d29acbadbb24d7f1875c373c8f2183c51aaa89a5282",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red-reaction\\raw-sheet.png",
+      "bytes": 1544851,
+      "sha256": "739847a6cb21c97b7e4faaef8071f9f0e17dea38775e1924c7d4b1922f5ddd52",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-squat\\red-reaction\\sheet-transparent.png",
+      "bytes": 438465,
+      "sha256": "667679d20ddb02994b72617b095def1bd1fdb97d968267150278ee87d7e387dd",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\blue\\animation.gif",
+      "bytes": 256061,
+      "sha256": "c4b5d763bf28c465eb198f9211c7d5fdca05a3a33c477c70b6a4e84b32f927c9",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\blue\\raw-sheet-clean.png",
+      "bytes": 780662,
+      "sha256": "3bdc95ead87a635c35f44b9f64e258a68b6e9311e0fac1019b35d7fd35edc63e",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\blue\\raw-sheet.png",
+      "bytes": 1574798,
+      "sha256": "a7a8b130619c022b3a9c9889a708b6a0d853cc85ba8254e24a82ebd7edbc1ebd",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\blue\\sheet-transparent.png",
+      "bytes": 625230,
+      "sha256": "aa6abff7c17a5135adfde3cb45839366e45567a640e55b46ebbe8769bf58c0e4",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\blue\\walk-1.png",
+      "bytes": 161817,
+      "sha256": "bd5cb93ada240892535c95e95d35bf2ec1feaeebb415ff9e8b4b3bff7dad5d85",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\blue\\walk-2.png",
+      "bytes": 155207,
+      "sha256": "9b4c5506131e0b4fa8b17d9e915bd12927d4b7a7f08d0ed14e5f4244c4c3ec5b",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\blue\\walk-3.png",
+      "bytes": 162742,
+      "sha256": "6003e49d454f4c8b69439d5c0025a9d38f5a5c35058c91f4ad37092317d9e8f5",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\blue\\walk-4.png",
+      "bytes": 160316,
+      "sha256": "227a5ceee863a6df9934ba33b3d575f1cb2da6ad8f7636f3a2ed67de8ccd5aa6",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\green\\animation.gif",
+      "bytes": 208241,
+      "sha256": "81c3adc93df219c637afb7e6c819dffcac44b2dccda809f931be5a48752dd1da",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\green\\raw-sheet-clean.png",
+      "bytes": 912124,
+      "sha256": "6a8d7a84aa561827188ebcac60f36ab24ba63f97427ed7d3d19c6e81026d9ff2",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\green\\raw-sheet.png",
+      "bytes": 1546250,
+      "sha256": "a650a40cb95b37b0ed2bcfbb9deb363e16ac027072244805cfb443fa74b4108d",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\green\\sheet-transparent.png",
+      "bytes": 403271,
+      "sha256": "a600ec25833b9c9e85e6dc6410fd5d9e21f20820acdfa115ffd990d55afa5cf8",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\green\\walk-1.png",
+      "bytes": 105083,
+      "sha256": "0258f70a7cab6c8e08d4bf09063e5fc8ed5f8824a0007c743b932eb263b50d11",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\green\\walk-2.png",
+      "bytes": 103205,
+      "sha256": "ca187f0efc26ac407a956359fce534e1fcb44d0227d67ccd2c53a786b7f469ee",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\green\\walk-3.png",
+      "bytes": 107975,
+      "sha256": "1a8229f96ef1e130a2aaaae729a5a02d85583026a46e35017dddabd3621c0570",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\green\\walk-4.png",
+      "bytes": 101334,
+      "sha256": "ff26700d714b6efdc047999771a8ac4e1348b921b585fe5b153eb307edaf9cfc",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\pink\\animation.gif",
+      "bytes": 197497,
+      "sha256": "f4af77a430ff9874980a975f1ee81c7f6177f5d46367ad6a950d05e67f1551e6",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\pink\\raw-sheet-clean.png",
+      "bytes": 1032097,
+      "sha256": "637270616071e8d87def0ba4d7bad156bbb1ffd501e08f2602a305450102c0fb",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\pink\\raw-sheet.png",
+      "bytes": 1695071,
+      "sha256": "5a51577e8173dcf798437682f3585d00d792467a026cb8f0be488c2e1411eb44",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\pink\\sheet-transparent.png",
+      "bytes": 468537,
+      "sha256": "f5b9ac414bead3222b35785741ff8c42080cd0446d4640005c4e54b8fa8f5185",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\pink\\walk-1.png",
+      "bytes": 124998,
+      "sha256": "0989ec4bb0811bcd5a06635fa530da59870f80ef827c5fef86ce4feb1a8285a1",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\pink\\walk-2.png",
+      "bytes": 114823,
+      "sha256": "0e3a3e5d5e796cb147f017b6d584f0e00fd3f6eb1d4985692bcdec47fc29e79d",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\pink\\walk-3.png",
+      "bytes": 123771,
+      "sha256": "10274963910f1381a853f27ee0232a133f9888abeeaf768e6221d5412554ca1a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\pink\\walk-4.png",
+      "bytes": 118393,
+      "sha256": "e181288ff33f41c208876264f0a88833f6b8ece1278758b7a1767a3ceb77ba7c",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\purple\\animation.gif",
+      "bytes": 210636,
+      "sha256": "e00d972c8c14fd5c711d8704a06b37c066019cf82fd5f3881a1ba3e8640fc097",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\purple\\raw-sheet-clean.png",
+      "bytes": 991337,
+      "sha256": "18c578f8b7bf3ee21e42a4b09111d8978c3ab5fca4e773c3dafd23e1e0157a48",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\purple\\raw-sheet.png",
+      "bytes": 1635730,
+      "sha256": "b804bc11bf2fb93f6469569400e32a6f5217541e3a46f47d728f0a3f026aa756",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\purple\\sheet-transparent.png",
+      "bytes": 435846,
+      "sha256": "a45a4297154d19b11c6d529bba0c2793f9831a7dc0c776f8ce13a27f402f3488",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\purple\\walk-1.png",
+      "bytes": 115113,
+      "sha256": "d56e401c66e5b3ad50ce11cb1506ef4c0aae7e7cc550f430ac4a2f3d2b2075a8",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\purple\\walk-2.png",
+      "bytes": 109050,
+      "sha256": "ad782730cb200ed8a7f67616c8fba209e232403d423edd29803877fd39b8603e",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\purple\\walk-3.png",
+      "bytes": 114319,
+      "sha256": "10161ac8ed14eec87e97331c71f902d316e0333ecfa8cd89417eb8d60574b091",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\purple\\walk-4.png",
+      "bytes": 112060,
+      "sha256": "b309feb62bba72c0c500d2d0f0639c9b1e379fe057835750ca93775e1d09015a",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\red\\animation.gif",
+      "bytes": 224696,
+      "sha256": "c425c1281e415cb587b252a63bdb7e7857aa37d7b5622f2cdc7c1d7c411f24ec",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\red\\raw-sheet-clean.png",
+      "bytes": 560897,
+      "sha256": "8a0c07d0dee641f470711f08b1a1a390926c585d8c45697fb9ac1b1f4b16c485",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\red\\raw-sheet.png",
+      "bytes": 1398065,
+      "sha256": "65de129458c34f410c065d3b978d3c902dab5356bfc847d906824c5038522182",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\red\\sheet-transparent.png",
+      "bytes": 502902,
+      "sha256": "001e1bd66cf285d08181f6aa2876caf17591a24f5b01066aa53f2b0b6bfb9ed4",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\red\\walk-1.png",
+      "bytes": 132576,
+      "sha256": "66ce8a732492f3aacdd6ef4a7c80b432a207aaea49a317b38e16975034924c28",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\red\\walk-2.png",
+      "bytes": 123152,
+      "sha256": "bd13f3f57ad12c665b930cce8bbd8048fceab3eba86461c5a8891d6d136e6a30",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\red\\walk-3.png",
+      "bytes": 132346,
+      "sha256": "fd40d0b5ef0490848326e2c30ffce0b52fe97a7638e25f663bfa43fe39b86f4f",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "output\\room-walk\\red\\walk-4.png",
+      "bytes": 128353,
+      "sha256": "30c53668b322c36d6b0575f85a74d79a4c3b02f83c5a0ec07af2d39cd4814906",
+      "reason": "generated art intermediates and previews; runtime assets preserved"
+    },
+    {
+      "path": "test-results\\auto-landscape-menu.png",
+      "bytes": 1019072,
+      "sha256": "93f1aca2f437da2184032b899af5fb4600c8020abbb0448b162ecca30fd71b6f",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\auto-landscape-play.png",
+      "bytes": 1011723,
+      "sha256": "949d98f6b3305c0d478cd11d27b92930881a5e7baf6ce5d2d5d70ab294733ced",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\auto-landscape-small.png",
+      "bytes": 704593,
+      "sha256": "60f4393e38325fb85efd092fc6204589de232eceed75455cd6cd695f80a3109a",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\cabinet-decor-390.png",
+      "bytes": 260469,
+      "sha256": "852b9a195f0fc2c3214c3e32686839f0fab0eb7836bd2b1d151d2ce435fe2136",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\cabinet-decor-568.png",
+      "bytes": 147816,
+      "sha256": "3d6acc96d9427af199c576bc89e810c673b1ed39e5d09f15f46abc06bb232395",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\cabinet-decor-844.png",
+      "bytes": 243074,
+      "sha256": "bf27f2370bb7e23876ea5a7cdbcca5d80c117ac663078839d0af270b9788c713",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\cabinet-furnished-390.png",
+      "bytes": 336427,
+      "sha256": "02ef48787573283c862b4dba2a499773aee7ff07beb83df5efbd273f5a717334",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\cabinet-furnished-568.png",
+      "bytes": 187819,
+      "sha256": "145b0b4026da18c1f095ee5e831e4152903a7bd734f3c8fe03c45c06aa978cb6",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\cabinet-furnished-844.png",
+      "bytes": 325797,
+      "sha256": "fdf6d0c4353ebe8862334c3ff123f11a7de19b37f7a73ee3f8d808e17b9996a9",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\cabinet-room-390.png",
+      "bytes": 326694,
+      "sha256": "5b53763d98a5ab2a30f21bca195361fa14c009dec0f60649338013a3bcc4c32a",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\cabinet-room-568.png",
+      "bytes": 181749,
+      "sha256": "7653ba3c5c4c9d382f4e18ed7f11238f63e10efc899f8bb760af9dc86b8361e2",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\cabinet-room-844.png",
+      "bytes": 313738,
+      "sha256": "b82944fef8bf3ea5a4abbf466e5c90ee9cd042c0a8166d592f2834cffe8d1c60",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\cabinet-touch-390.png",
+      "bytes": 331613,
+      "sha256": "80776645b0ac2113f60c9aee2e9e92e30ef4d9724ea04860b3965b9ccc940116",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\cabinet-touch-568.png",
+      "bytes": 203287,
+      "sha256": "590ee376e2c961c2d68a976ee32d54d1318bd916d2d07bd67649ad6814890b7f",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\cabinet-touch-844.png",
+      "bytes": 332331,
+      "sha256": "166e726ad2b4d98b50e6125ed21f69f3b136766ff571887ac95ae9c0dc36f636",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\capture-left-ui.mjs",
+      "bytes": 2513,
+      "sha256": "1d21a20ffb98762b2fc85a8e3dd8e0a0347c5e2f7089036ae4439702a0e4d124",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\capture-score.mjs",
+      "bytes": 1977,
+      "sha256": "1ccaa857207075e1a118c3099ea0a9c3665eeb2d0a437d2df3d4597ae36a256a",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\check-banner.mjs",
+      "bytes": 1117,
+      "sha256": "e7e6b3b87d423023557073e5421044ea8e8db93d11a06a5ab18bd6a34efd71f9",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collaboration-banner-below-records.png",
+      "bytes": 873744,
+      "sha256": "2de03289d069d1dc0a691b595af76a8aa2e7aecd5eac81084529a0fc72d5bead",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collaboration-details.png",
+      "bytes": 98164,
+      "sha256": "ce26dcabbd94f562a210373e622dc8edc79bacb69235cc74bf834fea76de8966",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collaboration-fever.png",
+      "bytes": 274307,
+      "sha256": "9133e456c68a01415a5a826828213c42f63768d445ef8dc86bfcc1bbe54d0321",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collaboration-off.png",
+      "bytes": 252455,
+      "sha256": "0884fe95e6eccbcc6973c18fad2cbe82299c208266427f4e27947fda8533632b",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collaboration-portrait.png",
+      "bytes": 297110,
+      "sha256": "4fc548d83f167d3bf326e91490897e7406fda3777b5bdf76af54c546b15ea8b7",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collaboration-result.png",
+      "bytes": 105291,
+      "sha256": "ecb80099466d86130c36c5a7c8b8da9597f7db3d72c92624341b1ca1bd331bae",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collaboration-title.png",
+      "bytes": 261636,
+      "sha256": "28e8158b846ca13b9c48c75c038e83dffa2674384b35841a3c327a570138f348",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collection-items-390-dist.png",
+      "bytes": 213753,
+      "sha256": "297d1f983276cef6305daeac3bddc47ad9247e9d3bde8aa6f2b75717e90a9fc6",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collection-items-390.png",
+      "bytes": 213753,
+      "sha256": "297d1f983276cef6305daeac3bddc47ad9247e9d3bde8aa6f2b75717e90a9fc6",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collection-items-568-dist.png",
+      "bytes": 111739,
+      "sha256": "a7225b9971e50e8c7c7ff08a57527c1cf15364fb3cbe0080928c4eca6c4f5850",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collection-items-568.png",
+      "bytes": 111739,
+      "sha256": "a7225b9971e50e8c7c7ff08a57527c1cf15364fb3cbe0080928c4eca6c4f5850",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collection-locked-dist.png",
+      "bytes": 203794,
+      "sha256": "0a3946d6c81723f951c2fda6b426de56073c726d05d466bba3ecd7c47e407ffd",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collection-locked.png",
+      "bytes": 203794,
+      "sha256": "0a3946d6c81723f951c2fda6b426de56073c726d05d466bba3ecd7c47e407ffd",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collection-open-dist.png",
+      "bytes": 259461,
+      "sha256": "12e6c4416d9bb9f90bfa2f4d9b708cd468bdb6c6c84c4ace65c0eccccc45afea",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collection-open.png",
+      "bytes": 259461,
+      "sha256": "12e6c4416d9bb9f90bfa2f4d9b708cd468bdb6c6c84c4ace65c0eccccc45afea",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\community-characters-1280.png",
+      "bytes": 521579,
+      "sha256": "8fdecc069aa54689cf442175b22082f3b5997a4e8aa56e4c399b659e7523db51",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\community-characters-390.png",
+      "bytes": 259561,
+      "sha256": "7228ddc8ff48ee35bb57d02b80b36f4fd04b3e494a12927e9e7156483973a60b",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\community-characters-568.png",
+      "bytes": 141634,
+      "sha256": "5aaf23f5787c35868c9799a10db6832a961702b25f416c6af0ccdd8d3b6c8cdf",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\community-characters-844.png",
+      "bytes": 239358,
+      "sha256": "a89629cbc8d0401a1a1c517f89a2b27cb4bffc703e2c064ef67bdc795ac7e851",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\community-social-1280.png",
+      "bytes": 530986,
+      "sha256": "18eadef286d7a3c119bed47648c7dae7cc6b61d8826f94edd9886550e3cfa5bc",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\community-social-390.png",
+      "bytes": 274513,
+      "sha256": "50dbd5c298fbe54bcfe793c28510395cd3150c53be7927e15d0b13a09572fe06",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\community-social-568.png",
+      "bytes": 152332,
+      "sha256": "b74acee6cb639a3aed340a2ac48d247035ef01a3ccb3c22771c8d242b01edfe9",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\community-social-844.png",
+      "bytes": 247435,
+      "sha256": "d36eca98e6f050842b42c5029b47109bf999286a953e2dd7888b975316519f21",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\community-title-1280.png",
+      "bytes": 767303,
+      "sha256": "b779ed337b55de260aa97f05ad24dc5cbbb47bfa38f0bf4750bc15f695bc882a",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\community-title-390.png",
+      "bytes": 344415,
+      "sha256": "1e6df9f65b2934d218530f4e3edb122f1fc2124e7094c9f701a1ec1449522fca",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\community-title-568.png",
+      "bytes": 194505,
+      "sha256": "db6b5cbc236b41fe2cea60ebc8b84788286717e578dce795e037da0a9ce4f99d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\community-title-844.png",
+      "bytes": 324890,
+      "sha256": "04144e48eec65072ac4cc8fd4baf4d8d73f7c5079df72b1e9ec878b83fefb8ad",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\current-game-image-reference.png",
+      "bytes": 982955,
+      "sha256": "19990a198c1a614a48a439990c627898f5af64c57572b5b8471e9fb8dc310703",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\font-home-390.png",
+      "bytes": 371137,
+      "sha256": "e6aeb9857325090393051e8d6f62f002bf65e26991be113d1d143814c1e7c8f5",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\font-home-568.png",
+      "bytes": 209242,
+      "sha256": "a9f68d2a985e531c13b9dfdfd1ef141eef13dbe94c93c03d31f7fecc58f37525",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\font-home-844.png",
+      "bytes": 338818,
+      "sha256": "11209e790c7da8552672b0c0cbcb7960fa863c2c3a843ee152ac86c31678d7d2",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\font-room-390.png",
+      "bytes": 158595,
+      "sha256": "c52bbe6da2521a024d4c897b1d75510debaef604a482f8e7bdf066b0bdae38b0",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\font-room-568.png",
+      "bytes": 104013,
+      "sha256": "8639d49287294d40f028990b602434eac4f92777b5d60b5bc64411a253d669b6",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\font-room-844.png",
+      "bytes": 235552,
+      "sha256": "844458ce656af4dba84a48924f9d0cd968f62a3a85918c296183a7fc926c0013",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\font-rules-390.png",
+      "bytes": 109763,
+      "sha256": "dd688e626344647f0ee43168880b157b03801a06ffaaa1967e90ddb1a3690837",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\font-rules-568.png",
+      "bytes": 69507,
+      "sha256": "0b2f34876f8b635f13bd7352e5704864aadef06b6f4e481ecbd03f178ddd780c",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\font-rules-844.png",
+      "bytes": 103331,
+      "sha256": "876d9aef19787751e6fa564156aa8aea59b0f6cb2684b4d57650477f6fe9e6e3",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\hard-menu-small.png",
+      "bytes": 224072,
+      "sha256": "9187293d2b485bdc3b6bcc18f321e22af2b2e3f71c0f5faeb7fa45ef9e9ca801",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\hard-menu.png",
+      "bytes": 326027,
+      "sha256": "acb3eef7da639c6a681e837750e7401b3a0fd4de6f11980655a5f99161dfe2e0",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\hazard-rules-390.png",
+      "bytes": 81616,
+      "sha256": "4ab165246e057c8510fc89a2166ace871d7418d7c36a7791cc0c631c85519b80",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\hazard-rules-568.png",
+      "bytes": 52598,
+      "sha256": "881cc03023c5887d9e6c7f537f88e7f50dbb10160f1936eb3e94aeab7ce77120",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\hazard-rules-844.png",
+      "bytes": 79056,
+      "sha256": "9511741236791c253baff2119f3963ea6d15d099ed59b1ae6705dd210cf201ad",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\home-icons-390.png",
+      "bytes": 360826,
+      "sha256": "00a2b76a1208b7da06f61c22a3fa221e25cd8482ad180218dc01cd62ea0a6c32",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\home-icons-568.png",
+      "bytes": 201074,
+      "sha256": "914ca1a8a49bf3fd0351ee30501b4b9a00013e6c08a5b63a2f3b64e81255a5bd",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\home-icons-844.png",
+      "bytes": 326629,
+      "sha256": "34d38e4920228bf429dbe5185685d6c45f283d8446b10509fd63c7a00f45e239",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\home-returns-390.png",
+      "bytes": 510031,
+      "sha256": "17bee02d06c3aed6e7d997c14e2b81b4e4f7518dbe11c893093dc6910388deb2",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\home-returns-568.png",
+      "bytes": 185155,
+      "sha256": "1f85d7ed08e9f9f66131418573088b3f88c04898f0c747b49666d14827df299e",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\home-returns-844.png",
+      "bytes": 404437,
+      "sha256": "a70e9890d8b606b7fb1f71a4b7e1f123bffc5d10aa76ff0da771505772c91b24",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\intro-390.png",
+      "bytes": 153272,
+      "sha256": "f413c21f19951387d5c2f8ea75ee773e5e76617f664a8611c5e64f2e2e39e46e",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\intro-568.png",
+      "bytes": 61884,
+      "sha256": "7730855b14ab8a9c21436f16aa6d5e11415ae1fcbff1ad41097b4ff2f5dacdb4",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\intro-awake.png",
+      "bytes": 101050,
+      "sha256": "fab0f5c0d4cbde1deb34563ed8d49e7a71d216d3efb54b53823d8ebcf2f6d008",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\intro-phase-1.png",
+      "bytes": 114124,
+      "sha256": "57ebfe5292f61f12bbf376324d1802f45aeb1e034697e53cb0b3a8f7da2d6fb7",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\intro-phase-2.png",
+      "bytes": 116775,
+      "sha256": "18f662dd84b8f61869e29334e07fdc4832388c2aa0b74ad8a532d13d46ba21f9",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\intro-phase-3.png",
+      "bytes": 60134,
+      "sha256": "2768482374e271c12f616ded2388a147dd3610493d8ae033042285f67b401d34",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\item-teasers-dist.png",
+      "bytes": 245498,
+      "sha256": "87f8bfe80513aa9d208bdfa47ae85a29116157ca45bf5eab58c13aa21fe22de0",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\item-teasers.png",
+      "bytes": 245498,
+      "sha256": "87f8bfe80513aa9d208bdfa47ae85a29116157ca45bf5eab58c13aa21fe22de0",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\joystick-landscape.png",
+      "bytes": 266758,
+      "sha256": "cf726a6c3ba2a956423975c6f98d50c3bd408f1c98e86841ac7f885d631d1bf2",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\joystick-rotated.png",
+      "bytes": 311163,
+      "sha256": "91d549782ef3530e220432bc6e45672a07a452b406ce5422c7a4180aecf26c1d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\left-ui-after.png",
+      "bytes": 863568,
+      "sha256": "322596c231063191b13dddbdf9909382b2435433aa65d0a526d640095b2c32cb",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\left-ui-before.css",
+      "bytes": 28020,
+      "sha256": "cee7c87e752ead8845bc9ee7832e71b2db6382a8c6333dd74ab54cc565bd73cc",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\left-ui-before.png",
+      "bytes": 865735,
+      "sha256": "9e1fe210c8dbe5d185ec0141d1ee0076819ac7b9da9341810efd57e36676c4c4",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\life-hearts-390.png",
+      "bytes": 353210,
+      "sha256": "11a90c815d6a97f11a2322754e032e6fa8fea826b095ffa9df1293d984c5dd7a",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\life-hearts-568.png",
+      "bytes": 189530,
+      "sha256": "5e6d431d8248ff46e82bf5b9a13ce372845804bf6fb456d743a683850efe6d88",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\life-hearts-844.png",
+      "bytes": 316550,
+      "sha256": "e10514b32c08b529386b4fd8e7f5e09a520790cb0100d407dd939c850a9ac49a",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\line-popup-check.png",
+      "bytes": 57680,
+      "sha256": "33e5b2670792dac19dfd5b6fdc56aebde060073bd04b6eb79e6cac1c80578eb7",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\line-social-dist.png",
+      "bytes": 156679,
+      "sha256": "446c0c5377fca7a9b203f3dad97879d2b6a5114e5e9af1e4a5682ce4aeaecc30",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\line-social.png",
+      "bytes": 156679,
+      "sha256": "446c0c5377fca7a9b203f3dad97879d2b6a5114e5e9af1e4a5682ce4aeaecc30",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\menu-font-dist.png",
+      "bytes": 199187,
+      "sha256": "2b91afa9b71d58068436617c833ce80c9fcdf6fe77e449ccabb9b3c0b99b7372",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\menu-font-portrait-dist.png",
+      "bytes": 349472,
+      "sha256": "f4211b12d26ecf636ee2c858595b7f708e787b434fc34fa5ef3468869866ff36",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\menu-font-portrait.png",
+      "bytes": 349472,
+      "sha256": "f4211b12d26ecf636ee2c858595b7f708e787b434fc34fa5ef3468869866ff36",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\menu-font.png",
+      "bytes": 199187,
+      "sha256": "2b91afa9b71d58068436617c833ce80c9fcdf6fe77e449ccabb9b3c0b99b7372",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\mode-rules-390-hard.png",
+      "bytes": 111721,
+      "sha256": "bf143de8fa324849bdc476d8dae1da26cd9979acbe1128b6fb79cbe30c10d5e4",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\mode-rules-390-normal.png",
+      "bytes": 111959,
+      "sha256": "91d3780b718c7097409fd44da4cb5890a7e92969cb297911e4e475909c3cf295",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\mode-rules-568-hard.png",
+      "bytes": 64324,
+      "sha256": "7c296103251e72659520016c0a4c3cd2a27f1a2284bb32c490e476af1fd86715",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\mode-rules-568-normal.png",
+      "bytes": 64324,
+      "sha256": "c12ace57819fdf83bb3abe13c8e32075150e51fb0015c456bf2d0e867ca82063",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\mode-rules-844-hard.png",
+      "bytes": 101087,
+      "sha256": "d8d566ea79824ac30f1076a96a743da187637ab5ca4ebc38920fa835b4b0efe9",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\mode-rules-844-normal.png",
+      "bytes": 101082,
+      "sha256": "c8c91f2fd144ad2b1871c01dfddb3f0a91039f9109bc7b63b24ebad4c3f89889",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\mode-rules-title-390.png",
+      "bytes": 341261,
+      "sha256": "e976c8f34f2611f0251d3775262ab7683d753bb56c95c180c4772ed87bf13851",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\mode-rules-title-568.png",
+      "bytes": 192340,
+      "sha256": "9c291fb54a91dfe228abb7c0b5a54c813740aae79a80b742d2897e2409980dee",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\mode-rules-title-844.png",
+      "bytes": 320455,
+      "sha256": "b6aa30abb36e50322faf7c8023c1b92c9850a09c140a33f1d280aa0aebc9d288",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\mode-selection-hard.png",
+      "bytes": 319105,
+      "sha256": "f774657f381b766d3370bf4ba1f4b954571bfeb6aae8393e4ed06613ed080ea6",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\mode-selection-normal.png",
+      "bytes": 318172,
+      "sha256": "dcc213531c9a76ca22c0781c8fe70f185d9a18e86c804d1ec0297f9c8c6f8702",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\natural-play-initial.json",
+      "bytes": 9545,
+      "sha256": "9266699734aed354105c1a897a135d41dbea3ecca5b594aab5e3cf1816cabcb2",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\natural-play.json",
+      "bytes": 5547,
+      "sha256": "df2b49ee1514a95643b6382db0127f034c58beff425a026237b17246a18f4a14",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\natural-return.png",
+      "bytes": 305906,
+      "sha256": "32eccce63fa446f492b135e9e178c2d08191bad9e88ea69c2247f0b9c6e6cae7",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\natural-rim.png",
+      "bytes": 325154,
+      "sha256": "bc031a39b61500f8d361b7775e5ed16a60f1e7330d35a16ee0dae8b4c9324b60",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\navigation-open-characters-390.png",
+      "bytes": 258180,
+      "sha256": "64a275b8dda1439055b584725cda4bed16ddc63046adab546c37abbcdd355dc9",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\navigation-open-characters-568.png",
+      "bytes": 137215,
+      "sha256": "61a49cadf86d800c20f4556830a4e3279f7ea04b753243a25ead5c5c16ba56b3",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\navigation-open-characters-844.png",
+      "bytes": 216403,
+      "sha256": "56affd7e64aeb5276cb5a7304e8db98c7fe0337e7c18213f80d845839f4514dd",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\navigation-open-room-390.png",
+      "bytes": 285012,
+      "sha256": "234bced3b065e42c2cb0ac2da9a4d374da3267d6874c505e85a45c6b179bf00c",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\navigation-open-room-568.png",
+      "bytes": 161968,
+      "sha256": "93cd9fa82c64f2fbe2d302ffb431ce6f693e3b1c36cb9f4d82ac75b302ffd2b0",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\navigation-open-room-844.png",
+      "bytes": 267169,
+      "sha256": "c0380aa711230915620d77ff2ac9eb3188a71c56abf667da75e835c804cd55af",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\navigation-open-social-390.png",
+      "bytes": 266240,
+      "sha256": "d59db35a5f40d7ee8b961ae62d01f8dd8b4d72c4273b0422ef42b068e11f1de0",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\navigation-open-social-568.png",
+      "bytes": 142456,
+      "sha256": "cfff171374329ab7c2d68234fbafacb7dd6686e58dcb2ca681d0f151e6a27706",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\navigation-open-social-844.png",
+      "bytes": 235892,
+      "sha256": "7eb4d0136cb5a460e22c2362b5222b570abc405e28936b3afeccd77b63ecf419",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\navigation-practice-390.png",
+      "bytes": 249794,
+      "sha256": "a8e545413a34e2a2d7e6a11768ca59555039275a1d63ff9a6fc38c827625c4cc",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\navigation-practice-568.png",
+      "bytes": 124063,
+      "sha256": "40bd9c0a7095b4d044459f9e1103171e5d99a48bcf73f4168cb0578cea3b0297",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\navigation-practice-844.png",
+      "bytes": 216524,
+      "sha256": "dad5ab6e97e001bba6954dba4e09410c39e354ff332024f584f04d7b8f161a13",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\neon-skill-0.png",
+      "bytes": 304705,
+      "sha256": "5207579d3f70c433aa039dda56fc36a5d1246245be9b3d5c40c36dd4ef071f9b",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\neon-skill-1.png",
+      "bytes": 298589,
+      "sha256": "84e90f312327fa0fbaf4d177be08f4bb7f50e71122e87a404550b71a3310ab27",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\neon-skill-2.png",
+      "bytes": 279779,
+      "sha256": "6d215c5bb75309d229074657e84399e9e3f9b005b5bc1075ce20162f6ec35e19",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\neon-skill-3.png",
+      "bytes": 261347,
+      "sha256": "04e18fbc72f4887e05871023dfd651630cba716346b47f411849ec1f63c484bb",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\neon-touch-390.png",
+      "bytes": 331666,
+      "sha256": "0ec75f1cc694edf902e18d094a27884e3445d7eb09ab89bf00b2287eb83f4490",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\neon-touch-844.png",
+      "bytes": 332369,
+      "sha256": "fcbbee42179793e4a5056c1222f9acb857e5d1b6e78c11fdbf71608e53c958de",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\normal-rule-390.png",
+      "bytes": 109391,
+      "sha256": "270e78d20d1dc0d7391963aa3a03f99ce05d9115c975737ca580734aa8cfff99",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\normal-rule-568.png",
+      "bytes": 68470,
+      "sha256": "4d2cee6b3869d29229d927a7ee5a581d6e133ae529c33b431da8adbeaa0e85dd",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\normal-rule-919.png",
+      "bytes": 96612,
+      "sha256": "bfdc72ff9d11acadec8408959284802988d2222d02c4cf84e719766a13ff7f46",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\open-characters-font-dist.png",
+      "bytes": 131677,
+      "sha256": "e11457f7926fb41dfa4047ce62a3e2bd339776b2ff9c056cfc1672fb36e581a5",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\open-characters-font.png",
+      "bytes": 131677,
+      "sha256": "e11457f7926fb41dfa4047ce62a3e2bd339776b2ff9c056cfc1672fb36e581a5",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\open-social-font-dist.png",
+      "bytes": 159046,
+      "sha256": "55a5f6a355ca29b3839bb7d981250af96771b196dc23f8cceaec1d7ce7b303da",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\open-social-font.png",
+      "bytes": 159046,
+      "sha256": "55a5f6a355ca29b3839bb7d981250af96771b196dc23f8cceaec1d7ce7b303da",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\opening-flow-complete.png",
+      "bytes": 219118,
+      "sha256": "47c24e60872732743dd7a37375decaa9f65e1120492fe06b7fcacb80a78fed48",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\opening-flow-escape.png",
+      "bytes": 219395,
+      "sha256": "c02432b75d197db5ec6c76937dbef13283feacd04d040a51eda36111e3aeaf98",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\opening-flow-skip.png",
+      "bytes": 219117,
+      "sha256": "546ea56d294c1ef5a2d7b42fa7020026ab844eebe11d2acc2ef2ea548f4d254a",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\opening-video-390.png",
+      "bytes": 191311,
+      "sha256": "c0e6ff0f6a99ff93ee3616d3ac564a261af574ca432321432a815ff25d9ae098",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\opening-video-568.png",
+      "bytes": 17062,
+      "sha256": "c35836a187412c656f9971e7fe0d3aa974f358fb4b5ff10372a3ea7abcf49b66",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\opening-video.png",
+      "bytes": 358850,
+      "sha256": "145f60ed1ded3f87c61719bb5f327f952659e8e3748db62f195f4da724443cf4",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\phase1-opening-1.png",
+      "bytes": 107379,
+      "sha256": "5ed28c5a5cf0902a3a464f0d3a0033e8d253691726a5973a709ea4999e725d75",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\phase1-opening-2.png",
+      "bytes": 130356,
+      "sha256": "a6f204edecdb074408f29545f1d9820cc38e72b24b3ade37a5b2333b4402645f",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\phase1-opening-3.png",
+      "bytes": 296052,
+      "sha256": "7e2066925a4e248f8ddf49e724ca83b5296665618cd1c7bcc540bed77b67a136",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\phase1-opening-390.png",
+      "bytes": 160290,
+      "sha256": "62a0b8222ae1aef86681113880f19e17b461716f12309785b74f08849efcf5b7",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\phase1-opening-4.png",
+      "bytes": 291251,
+      "sha256": "b274b34758d3b76b439bfdbff62e51c0c77d03f528377c6cdf20085e9ffbe7c0",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\phase1-opening-568.png",
+      "bytes": 79940,
+      "sha256": "f00cdea03703a2333d23f2a919825ad04c98a1b84bdfe998902dd728f43ab7cb",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\phase1-rescue.png",
+      "bytes": 259894,
+      "sha256": "49fe526103bad7255ea7343caec4d822784552ea28ffe49c3ff0c1be6c29e7d9",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\phase1-return-rainbow.png",
+      "bytes": 286223,
+      "sha256": "0e4b99391ebee5e9151b5c4a1b383bfd5659614395ac939011a3c1b32817045b",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\pickup-pop-dist.png",
+      "bytes": 246626,
+      "sha256": "e3bbad03c780fe3d7e1222d6d96114ba0f59fcc8a691d23548e82c2155a18406",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\pickup-pop.png",
+      "bytes": 245854,
+      "sha256": "f0bf1245b4b7ac51d1fc202cf0bb2a273446c13f0e1e0488a663bf69ba46a592",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\play-button-390.png",
+      "bytes": 344415,
+      "sha256": "1e6df9f65b2934d218530f4e3edb122f1fc2124e7094c9f701a1ec1449522fca",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\play-button-568.png",
+      "bytes": 194505,
+      "sha256": "db6b5cbc236b41fe2cea60ebc8b84788286717e578dce795e037da0a9ce4f99d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\play-button-844.png",
+      "bytes": 324890,
+      "sha256": "04144e48eec65072ac4cc8fd4baf4d8d73f7c5079df72b1e9ec878b83fefb8ad",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-390.png",
+      "bytes": 261537,
+      "sha256": "8623e2a5057031373f1b0cb5811806acf9f9c5f606746386761fa814454dcfa4",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-568.png",
+      "bytes": 132329,
+      "sha256": "57aa77aa899cc75ea360ef10a03fad27a1d6ef815550c5c4450041da486bb7f1",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-move-390.png",
+      "bytes": 249733,
+      "sha256": "b35e871dc3e3fcc8e7cf074103b64486362f078145fc818dab1fd2858112b728",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-move-844.png",
+      "bytes": 216673,
+      "sha256": "a22813ff9618369df84c8e9ed07d3d5d6213429129bcd07edc172961f5bb26b0",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-phase-390.png",
+      "bytes": 280479,
+      "sha256": "72fcb26e8409146384bb70e43f47411c4188c5e86911b1d98caaf56718ff7d3f",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-phase-844.png",
+      "bytes": 247059,
+      "sha256": "5868e15b58227af836156d78a6180d8f98c2f028a2a33c27a200eb50e31b2e7e",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-rescue-390.png",
+      "bytes": 268188,
+      "sha256": "b28b1f33300b5401e2803248cbe83583a70ac57652feffc757af37d18149dcce",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-rescue-844.png",
+      "bytes": 236196,
+      "sha256": "88968cfcbab9f3645169b7442af4b2c18f0ef28785f18836276da8b6a5a995a6",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-ring-390.png",
+      "bytes": 308448,
+      "sha256": "6f087a743078bab52a3d07fb2a7f15bad65bd6d139228c284756e69dad044cca",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-ring-844.png",
+      "bytes": 276934,
+      "sha256": "1a17a6fecf85e44a723d86067e588441b0907c486d6b77b490c13f843f0c57bb",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-skill-390.png",
+      "bytes": 286661,
+      "sha256": "b5878f17cb7e1043d37312a8bcfc26c75a3e0008a14767d48c34eaac2d4d635f",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-skill-844.png",
+      "bytes": 257275,
+      "sha256": "b6053dc07fe9d2de4b734b88a9eed4904507622c8d3f2373f6c543dbfa85f7bb",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-step-0.png",
+      "bytes": 219217,
+      "sha256": "590e478683431c48c43324ab12751c25a572859ed32aebed0f902ae69b4accac",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-step-1.png",
+      "bytes": 222966,
+      "sha256": "2e46f2b54b3eba7db2eace3aa4db3feda729ecce0d5c9ba0e9709e45c82db807",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-step-2.png",
+      "bytes": 231212,
+      "sha256": "363d8f5d6b405c455ad267dfb454a37c35032611c6520f1042af882275089553",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-step-3.png",
+      "bytes": 264657,
+      "sha256": "b5937600932fd8404dda18a6f2f3941d14cbb2bfeefc2a10f33159af2aacc202",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-step-4.png",
+      "bytes": 176683,
+      "sha256": "dc66e79d90c257a050ee9895e1dbd72626263eba00485f2f2d73e2c8d4593d96",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-twenty-390.png",
+      "bytes": 280628,
+      "sha256": "1c1227519dca37c7ded61474996219ac47c1e99cb4991316851290eb18d25e88",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\practice-twenty-844.png",
+      "bytes": 248258,
+      "sha256": "6799902dd5776f625ef0ca2fe193eb3c0d193fe8c862a0d61e365c9e3e154433",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf-defense-dist.png",
+      "bytes": 282164,
+      "sha256": "6c42fd35669257d326a0f18cefd26eb986011aac187381f301e73b58e502eedd",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf-defense.png",
+      "bytes": 282595,
+      "sha256": "cbe26d57013ebd1abe4d374c251cd15974afc64f189e51f104d04408a9eb19af",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf-result-dist.png",
+      "bytes": 89683,
+      "sha256": "c664a4f36f78b608396f0c9dd77bb1c1b74bdfc0e54641af33dc2f77172f1503",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf-result.png",
+      "bytes": 89387,
+      "sha256": "e39ed292b6980e73662f3c20db247fd25ae21a8e578d5d07f056907b1bb1afdd",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf-title-390-dist.png",
+      "bytes": 345371,
+      "sha256": "7455426caf9c6d66e2a9f8ba18ec2d3545c70ba5da6f1b775f0b3b731b077ae0",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf-title-390.png",
+      "bytes": 345371,
+      "sha256": "7455426caf9c6d66e2a9f8ba18ec2d3545c70ba5da6f1b775f0b3b731b077ae0",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf-title-568-dist.png",
+      "bytes": 196237,
+      "sha256": "121245a21117f19d8e0a4d7e0d08d52d72ecaabf7fc71fd003e0a02dd152c1ae",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf-title-568.png",
+      "bytes": 196237,
+      "sha256": "121245a21117f19d8e0a4d7e0d08d52d72ecaabf7fc71fd003e0a02dd152c1ae",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-basic-dist.png",
+      "bytes": 128642,
+      "sha256": "b82a1b2144e34f8070d36d753adff956f1e4c65902da21936b2dacafe5fa7b11",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-basic-rotated-dist.png",
+      "bytes": 235170,
+      "sha256": "7f762b8bbe7338c8d32a1e8c8870031ace2c7cab2e39f19dbaa2116a134c963f",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-basic-rotated.png",
+      "bytes": 235170,
+      "sha256": "7f762b8bbe7338c8d32a1e8c8870031ace2c7cab2e39f19dbaa2116a134c963f",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-basic.png",
+      "bytes": 128642,
+      "sha256": "b82a1b2144e34f8070d36d753adff956f1e4c65902da21936b2dacafe5fa7b11",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-capsule-dist.png",
+      "bytes": 175011,
+      "sha256": "fa1b2379ebc9f35450c9771074763b4b784a9cb6413ef6ca2231ed7db6ab8637",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-capsule.png",
+      "bytes": 176885,
+      "sha256": "79a43217f1289b081322a8dc42f7c27e595a0862a68870f1fa8757484d210451",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-preview-dist.png",
+      "bytes": 128699,
+      "sha256": "e03f0d9d7b58c6b124b6edce381b5a356362f569918b29a027737d3120bf02f9",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-preview.png",
+      "bytes": 128699,
+      "sha256": "e03f0d9d7b58c6b124b6edce381b5a356362f569918b29a027737d3120bf02f9",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-result-dist.png",
+      "bytes": 48798,
+      "sha256": "c0d35c73d57dc5f80393c1d312e60638aec3d35a801573bb76394181ffa2fe57",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-result-rotated-dist.png",
+      "bytes": 94225,
+      "sha256": "33bb660d099d6a125b53cd3c84020391e2080c93d8d91d9dea6918e451c800d0",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-result-rotated.png",
+      "bytes": 93913,
+      "sha256": "1ec69b33c7204c9bff75a35bbdfe848549a3ce7cb6f6df890926138db91beb7e",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-result.png",
+      "bytes": 48799,
+      "sha256": "67ba57bd5c0ad79f79830872e1ebbe1838bbbb2ddf7d4c44d1948ec681bc84ae",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-return-dist.png",
+      "bytes": 161690,
+      "sha256": "ebed4ef3e14c9fb9f57051634d5487d5489aecddf7451eadbe219fc3afe3be7d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-return-rotated-dist.png",
+      "bytes": 312034,
+      "sha256": "1a8f36df8897d21b387090b90af12468fcf7596ac9f1538536c1bc505b68698b",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-return-rotated.png",
+      "bytes": 312722,
+      "sha256": "d09ed757b23e4afbf58af1c6011db1c3424726cb827c110d0d3fe07fedfb473f",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\psf2-return.png",
+      "bytes": 161679,
+      "sha256": "b4f66d66e3eadeafeedfcf7f774e5fe355ffd095f1b0696754225562ce99625d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\rainbow-mode.png",
+      "bytes": 328960,
+      "sha256": "f78de2ac08a36900e41b1d323aa6421b858047b087e12620fb3adc0039716691",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\ranking-debug.png",
+      "bytes": 111625,
+      "sha256": "4b917e1d519b8f71e411e5010985335f75369c6b88369017393b7cc35f8a81c6",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\ranking-mobile.png",
+      "bytes": 99885,
+      "sha256": "d7eedaef0f1a49bba802cd7c54899d0b9489bf5eb6b776670758d6ec76555f44",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\ranking-name-portrait.png",
+      "bytes": 18533,
+      "sha256": "ae7a9e230d045bed59407a771adfcef2ead74ee78bb0cda0969863ba23a798ba",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\ranking-result-landscape.png",
+      "bytes": 104724,
+      "sha256": "d1caa2f56f5cda428c0544b19bc8aefc2cffe238bc6168b53e2f56bec8662f4a",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\ranking-result-mobile.png",
+      "bytes": 104284,
+      "sha256": "b470a9ebf39572321ae8363597cd40dcb3f50a78079342cff39d2f65919558d4",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\rescue-score-dist.png",
+      "bytes": 46297,
+      "sha256": "5e8a7d5f4e9475bbc8ef0194264b3b9d287a0f2ef74f70838e3b45f777c0fe25",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\rescue-score.png",
+      "bytes": 46315,
+      "sha256": "79be316fa40618308c915dcee390d927ecf79476ac4a2aefed4ad4b4443a0089",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\rescue-tutorial-390.png",
+      "bytes": 190260,
+      "sha256": "83296b178b8e791ff9ac6f5df8d4a15722af57e3467db4d8f2a19489cf8b9673",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\rescue-tutorial-568.png",
+      "bytes": 100088,
+      "sha256": "90d3164b9cbcabe8b354370f023f29898cab36fa8d508a7718769a8ebae59e45",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\rescue-tutorial-844.png",
+      "bytes": 158084,
+      "sha256": "a0fa915ef2708b6abdb79219a3f76a79c0a3fc83584797a6d15d6814cf591259",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\result-home-button-390.png",
+      "bytes": 125282,
+      "sha256": "b4120160d96f229a38ed109d6ce50ef0bfe03fe77ad79358a8eed09b138a5945",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\result-home-button-568.png",
+      "bytes": 60307,
+      "sha256": "b414266c8b97511faa9bf75915d647aae3858a214a41a61fc739f628da8455c9",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\result-social-dist.png",
+      "bytes": 91213,
+      "sha256": "1323bb43e7fcf544eb728e9dcdecc48f6443f95718fc9ce4e2ef17ddab6adefb",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\result-social.png",
+      "bytes": 90690,
+      "sha256": "788b73538e66c3ae00378141e7f841c2f15b2f7e39df46973d8b5c1a4aa65724",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\return-celebration-390.png",
+      "bytes": 513682,
+      "sha256": "05d9e7d37c6788e208ea8d3c4b5ec8c3ca829ba295ede479a04595d299160a38",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\return-celebration-568.png",
+      "bytes": 185922,
+      "sha256": "ff045842b0da610fda6b2d230d77e4e684d0f54b07669d8deb85e0949dab630c",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\return-celebration-844.png",
+      "bytes": 393051,
+      "sha256": "bac0d37292ffc7687b9f2ffe76d6bf9c9444ae6df3aaa6dd906a06ec3b2ac395",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\review-blue-attribution.png",
+      "bytes": 49046,
+      "sha256": "2598d518dd16688ac3501d39dc54e7e87957a126b98bd1ff177003dda2a78cc8",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\review-built-characters.png",
+      "bytes": 238257,
+      "sha256": "2b2cd9d280c9a2dfa6f91345dce6d9c424866f149bde6fd76c7897408eb775c7",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\review-built-title.png",
+      "bytes": 515706,
+      "sha256": "e73a465cfb226c4ebf706a1357676f8c2128b3a4fc6bf14042a5c95c9d628ef8",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\review-four-colors.png",
+      "bytes": 49603,
+      "sha256": "59450fbec5a83d754fa72343b624d83058422c3aff3a2b6a8b1465e160408d8e",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\room-390.png",
+      "bytes": 174216,
+      "sha256": "389f0f80723670a620f137a1d0104277289090f6b13b614ad653125ee1c75403",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\room-568.png",
+      "bytes": 111900,
+      "sha256": "c911f13aaf5af938b009ee421b24732f0203fae4516c53bc2a0309910842bf1d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\room-844.png",
+      "bytes": 157903,
+      "sha256": "c032c555e3fe9d8d803c409114446c34d3668ccd8809a89f8e7037a6b3a9b4ea",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\room-decor-390.png",
+      "bytes": 200838,
+      "sha256": "993d422799b5f2b446f30b4f57f4a8e133f03b596b49da138601236f3ae93931",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\room-decor-568.png",
+      "bytes": 129377,
+      "sha256": "a7119adca3bd21830d4b67a0a96961857320929b37072c581760695beb5ed88c",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\room-decor-844.png",
+      "bytes": 180653,
+      "sha256": "c1f23afd6fad72c7dc6965dfdc102b203a2c69726e4ae3aed030375561d9573d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\room-title-390.png",
+      "bytes": 344264,
+      "sha256": "8f9d62e0c62467a07cf7e041f9185882dc82eeff56352d9084e05410b30cfc33",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\room-title-568.png",
+      "bytes": 194416,
+      "sha256": "2ac818246fbd0f1df6767f176b607bee67cafbde3f22aab3c13b221a14756c62",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\room-title-844.png",
+      "bytes": 323662,
+      "sha256": "482247eee076da779743d2303b745c1ab079dc9806015aad92eec673c8bba206",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\rules-debug.png",
+      "bytes": 190465,
+      "sha256": "59502599b7b8c8a450f3e7b904dca79c2a7d5ff803d58b3dee20abdfc75a0f34",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\rules-inspect.png",
+      "bytes": 89879,
+      "sha256": "64b49cdafa49cb9866f1ca07a93d4e02f8df85ab68949843195e2b2a31fffd24",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\score-after.png",
+      "bytes": 859345,
+      "sha256": "63e83e34caf1001d7c75bb178ca6b32ae5cba6b8b00fdeddd0d68e8b32912979",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\score-before.css",
+      "bytes": 27915,
+      "sha256": "7ab26d77aaf19dd1818b55599e0c2f31b87be9a4fac5a8c93729aab714c9f9e9",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\score-before.png",
+      "bytes": 859231,
+      "sha256": "6152614602ed71c77ad1507e2c9729d16028246ba0a0b3bc259e9d1b8e364384",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\sharpness-desktop.png",
+      "bytes": 1262489,
+      "sha256": "5b85296d5e006485adef8b4988c5b6ae9c1e6240ab631d8a575792c85dee9012",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\sharpness-phone.png",
+      "bytes": 1693097,
+      "sha256": "8c2e90c1664aa0a036f1f4941a29a4b91234edec74ad172b69091d5fbc9af598",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\short-rules-390.png",
+      "bytes": 81771,
+      "sha256": "c792d5ac7c4f2e4ec8f62770e45f70f4b0a82d8ea4d856e9ebbeb717c59ff61d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\short-rules-568.png",
+      "bytes": 52238,
+      "sha256": "1e4157c4f155251488e9fd898fbe86abc7771823c3ee781ed610e08e619b8ad8",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\short-rules-844.png",
+      "bytes": 78614,
+      "sha256": "3a477126f75875d59911c81a9e17cbb0a071ca33906d85acee93e7e190198ba7",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\six-menu-390.png",
+      "bytes": 381298,
+      "sha256": "682530e95d63f7aa51adb9667afcd0c9c4d133168a22f39a6b49bf72678eea98",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\six-menu-568.png",
+      "bytes": 215275,
+      "sha256": "2ff4ac0dc529026be8e58a6b739d49f1244c73266c396640a778b2ecff727171",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\six-menu-844.png",
+      "bytes": 349691,
+      "sha256": "cff67302be0f221af4f7c519a246de24e21f475cffbae8b169f2ae13ad3f5e5d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\skills-active-390.png",
+      "bytes": 308313,
+      "sha256": "9dd7d611da5b1ae28fe809801c0b839f3376045df50f89a1c56d6436d6d8e818",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\skills-active-568.png",
+      "bytes": 159147,
+      "sha256": "f356f1bd015cb0e064a53a892d99c9de375c7acad033f30491069c1e00ead4ad",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\skills-active-844.png",
+      "bytes": 259985,
+      "sha256": "dbf1d9301661f243d9720f6fa869a5f7550135f9d43116cb4c4effd556c1a603",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\skills-buttons-390.png",
+      "bytes": 310876,
+      "sha256": "a1d43f78c760869d82758f3e90e02a7f73a564574d23108f590aacf1a8480f6a",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\skills-buttons-568.png",
+      "bytes": 162572,
+      "sha256": "874e909c5fa3260020963836cb387c5c35400f404444275398191dc96c26c8ce",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\skills-buttons-844.png",
+      "bytes": 266153,
+      "sha256": "91fca3013ffac9f74372eed78cbd81d102c61451e92bdb5cec811a8402e17484",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\skills-cutin-390.png",
+      "bytes": 297925,
+      "sha256": "a40c9f8b097ddfc4e2f1e87df3855bab35592cbddd0f749105e6265f7bb02ef3",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\skills-cutin-568.png",
+      "bytes": 182432,
+      "sha256": "4b1720d2a0d48afe5dc543298f2679410a3723a6619c20706cfff3d497f3d8d6",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\skills-cutin-844.png",
+      "bytes": 298240,
+      "sha256": "088ccaf5cfa95cddf367b0d8cb60092d58970e52712c72dd3f8a2034c9ae8039",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\skills-rules.png",
+      "bytes": 56312,
+      "sha256": "4fadfdda20e109bdc3e924e953e60279d94f90d247c43c4549cf9cb595de364d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\social-before.png",
+      "bytes": 158379,
+      "sha256": "a3b3b1ea525e79c596f82e62f293d6c2c2ddf5e6d44da54b93188338d01e96bf",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\social-compact-390.png",
+      "bytes": 235131,
+      "sha256": "f43fb157a98212bfc71d0946ab9f9ca72776a9f36c3460e963aaf84161a12587",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\social-compact-568.png",
+      "bytes": 134251,
+      "sha256": "b7d72eb8aea3e9a4b3123d2c9c49d5a3e62e3c18f24b9c29b0fd1fae59413f19",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\social-compact-844.png",
+      "bytes": 211485,
+      "sha256": "4023acf191fd38d73e5d332fe09801ae5d54a188f33db08defd6de8a87a6c707",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\social-fit-390.png",
+      "bytes": 264096,
+      "sha256": "561fdfb7c1f92e237099af4439a0a16301503ca1390460eaba0ebb211be106b9",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\social-fit-568.png",
+      "bytes": 145597,
+      "sha256": "1575920ffda6e78a024a4c6a35082085e6dd1faf67b24cc3c2c33fb52957ae22",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\social-fit-667.png",
+      "bytes": 192839,
+      "sha256": "5e394cab4482e94f2ddb344e2d85df5a54487969e669a2f17337e965ec475839",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\social-fit-844.png",
+      "bytes": 237561,
+      "sha256": "44d92203ce3409b197ec4ce809e3565758551f322d563e64d029f1e4f3c26843",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\social-logos-dist.png",
+      "bytes": 271070,
+      "sha256": "0ae11bf8c3d3837fadd1bcedede6803b93430c6826b0f3760e9142363535defc",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\social-logos.png",
+      "bytes": 271070,
+      "sha256": "0ae11bf8c3d3837fadd1bcedede6803b93430c6826b0f3760e9142363535defc",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\social-official-links.png",
+      "bytes": 149934,
+      "sha256": "5ba868161e26dd8858581fdb05114b7dd8358a17aa022b8d8165e8972d9811ba",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\startup-skip-390.png",
+      "bytes": 299919,
+      "sha256": "285ec56092955b3719da6b19af5ea61f6cd25158593052db09f9378bf3465954",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\startup-skip-568.png",
+      "bytes": 208166,
+      "sha256": "70515bbf1c72c1f7543bf3a21a4953f29d69911715ccadf1d6c14990409b64df",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-after-0.png",
+      "bytes": 100344,
+      "sha256": "51218a2650dc7c270d71e6e865a9c6f2cc772e1f0752054b1059d8191d1bf4f3",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-after-1.png",
+      "bytes": 111115,
+      "sha256": "f021d6674edba9afc1cabaf672cf53851d41224e617ddc23bd5a230145191506",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-after-2.png",
+      "bytes": 109899,
+      "sha256": "e74119d8b62cf77f8b2c68e2220d2cf8aefbf5ed7626e70877bb024fb748325f",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-arcade.png",
+      "bytes": 80223,
+      "sha256": "48b3cbea93a53e06409140fc715783365e86d3145cd39ba021d624a1901ac558",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-friendship.png",
+      "bytes": 196721,
+      "sha256": "c213bc818fa5e81c96229db96c5715001a02c1846a6b5da2d741c97c7400db92",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-home-final.png",
+      "bytes": 104210,
+      "sha256": "468156be41058eb7ad9026f7f2fc27eed00c405db3b2ace9ae70833522f5ae1d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-home-progress.png",
+      "bytes": 105308,
+      "sha256": "dfa8d12a4ff9bb7e09fc46fd0d9d2579da1459c9f26d65c3d3531ac7fd5c9d63",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-home.png",
+      "bytes": 104210,
+      "sha256": "468156be41058eb7ad9026f7f2fc27eed00c405db3b2ace9ae70833522f5ae1d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-playing.png",
+      "bytes": 241143,
+      "sha256": "bf5facd6636fa7abbbfaa98148773a698716c0ee3a51451900c115961a83ee64",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-portrait-final.png",
+      "bytes": 113283,
+      "sha256": "6b3c1c69fc48fd9c064da7746ab08f370d55a165d381d2261ee14b6ebe6ee962",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-portrait.png",
+      "bytes": 113283,
+      "sha256": "6b3c1c69fc48fd9c064da7746ab08f370d55a165d381d2261ee14b6ebe6ee962",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-profile-390.png",
+      "bytes": 217716,
+      "sha256": "af5208bfc863e7c33c8108e91ebc5bb7b802d0463227b1e191f90b683de2da62",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-profile-568.png",
+      "bytes": 116276,
+      "sha256": "98f9cca98155e9e286d0303c50727870556b7c1b2494ac703a073cd051e45abb",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-prologue.png",
+      "bytes": 55828,
+      "sha256": "111bf7c1591e3ef95b9ff6d6e64df66a257c67e4bb5b0e7433cd34efc9e4f06f",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-result-0.png",
+      "bytes": 70310,
+      "sha256": "2038177c1df38ef706d3fe40d3598c92eb7884a9d35360f1b3ce5b1f26a80e0c",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-result-1.png",
+      "bytes": 76005,
+      "sha256": "56a6219f0c4f762286c6e6cc5c047907f6437248a9c3d0a3360c3909d7f517e4",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-result-2.png",
+      "bytes": 76738,
+      "sha256": "9775555f6b0028bddf9dc88458755d3bfa252f85baad9c69edbfa641d8b9d380",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-return-0.png",
+      "bytes": 71388,
+      "sha256": "ea830e45f01687b1d85bf813ac329b8a905f66aa8a8ccde9b9beb62e6422e88d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-return-1.png",
+      "bytes": 81801,
+      "sha256": "348f411ce15346a5e5554454017ee85ea3f3f019fd93bbc7abeba2e71821b628",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-return-2.png",
+      "bytes": 86870,
+      "sha256": "0053a75de1f66e27ec38e8f36f52bd73fd774f8bfa0bf128e743e27867feb0d0",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-stages.png",
+      "bytes": 65095,
+      "sha256": "5f2081c242b4d9513f5c29a6bd85de1743be94e457a47600c84698cd6bacac47",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-title-final.png",
+      "bytes": 250624,
+      "sha256": "39de75707dfc2f500415e4d8099d59537074dc64eada5915a95715e0195a8eb1",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\story-title.png",
+      "bytes": 250624,
+      "sha256": "39de75707dfc2f500415e4d8099d59537074dc64eada5915a95715e0195a8eb1",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\title-layout-390.png",
+      "bytes": 272382,
+      "sha256": "8cd0d12a2318a7c1edf21c53c120b454c727f56fa1666acb9af24dcfe9ed41df",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\title-layout-667.png",
+      "bytes": 223972,
+      "sha256": "7b8abc241145084a8b864ad7ebf38dd6e452ef78dc023674bd48c2e9ab8893a2",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\title-layout-844.png",
+      "bytes": 324890,
+      "sha256": "04144e48eec65072ac4cc8fd4baf4d8d73f7c5079df72b1e9ec878b83fefb8ad",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\title-rotation-chrome.png",
+      "bytes": 1354563,
+      "sha256": "8960c2ac73c490dc9a353b7051a80ff2ecdecfbc0f7046f6ed224c35fb0fdfe8",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\title-rotation-webkit.png",
+      "bytes": 1299141,
+      "sha256": "5e5fa77eb8988f10cc2fb7eefab191f0054109d02a5d8eb773280eed2a5b6719",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\title-without-story.png",
+      "bytes": 301348,
+      "sha256": "b7877ec23c7b3d08b040293a751c6ace29d39f3b29339906da2d1d7604e2089b",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\total-play-390.png",
+      "bytes": 340765,
+      "sha256": "e50dac6e2bf01e023c2475ea5c57ca8c5fe0afc8a289ecfb691f8107f01a11ef",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\total-play-568.png",
+      "bytes": 192690,
+      "sha256": "703bcc5ae3c3953553fb98e1802024f643319c3da8de20c7781e9ba3d8947f7d",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\total-play-844.png",
+      "bytes": 320586,
+      "sha256": "d355ba2d72436b70160c021b1aa9650f7a43372da347ae6df272ef2801dd5e4b",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\total-returned-dist.png",
+      "bytes": 192955,
+      "sha256": "d57483d6e7af170acfeb86cebf66ca42c9346288703489ea6481005b245c1e62",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\total-returned.png",
+      "bytes": 192955,
+      "sha256": "d57483d6e7af170acfeb86cebf66ca42c9346288703489ea6481005b245c1e62",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\trust-badge-390.png",
+      "bytes": 306337,
+      "sha256": "e5df5f3317acbadeae6def4f13bd5fa0782093d1a727ebff703d2a3ab80c7df1",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\trust-badge-568.png",
+      "bytes": 173138,
+      "sha256": "fd405bc0d1635b696fc36d04f190c2f4013939227d5fa8e05d773bde4069ffe2",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\trust-badge-844.png",
+      "bytes": 287675,
+      "sha256": "6a7f9569ed8144193dd7efbba2bee5f03c80879edd7915f18f8e3c2fe57ebddf",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\unused-assets.json",
+      "bytes": 1761,
+      "sha256": "47ee66a66f7784012db6830d3247aaa71e9a28462ce328f445032c27bf963b6a",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\audio-check\\rescue.mp3",
+      "bytes": 4640,
+      "sha256": "1269af73468e38cf88c3043eb4048d4d33f21e841a28134ecb3a1e54e1209f26",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collab-before\\asset-hashes.json",
+      "bytes": 882,
+      "sha256": "c4238af9014b14b9348c87d58765e5c35465afe3dff151648bca2de3cd6c68cb",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\review\\opening-mobile.mp4",
+      "bytes": 34564329,
+      "sha256": "e690d144efa4a523f16d8f4329e349d67dcc752a5f355211edc593512f3c60f7",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collab-before\\scripts\\audit-unused-assets.mjs",
+      "bytes": 1322,
+      "sha256": "19887fbcaf7747a52db0c822a59a650fe29eb1d15762d6c4d56b801b030c640a",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collab-before\\scripts\\build.mjs",
+      "bytes": 1037,
+      "sha256": "ab962fd91fa4a3f4677d93ca8cf540a6bac7eb651e34744079e965cf1299994b",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collab-before\\src\\engine.js",
+      "bytes": 12285,
+      "sha256": "210464cb2997d6397ee165ac031df9ee78063f9ee6dace6df3abae2ed842a81e",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collab-before\\src\\incoming.js",
+      "bytes": 1988,
+      "sha256": "0a61b28a71c095d816c87c541d9fa5127cdbd5db8c3ae13162e06f5f81ca726e",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collab-before\\src\\main.js",
+      "bytes": 14210,
+      "sha256": "11c6faef3193df23f23dd5a6bb2572b6567fae3327078652cd70a08a4f2c62d4",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collab-before\\src\\renderer.js",
+      "bytes": 16964,
+      "sha256": "be22a1b05a9384269b57b750a07eed63c24ca137d1fe66ce74261400a473055c",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "test-results\\collab-before\\src\\style.css",
+      "bytes": 24286,
+      "sha256": "3cf4fd10da36980e7b1f5b944fdc236feec3a24b4b46faf3e60f964647cdc867",
+      "reason": "reproducible test output"
+    },
+    {
+      "path": "Asset\\audio\\click-candidates\\01-pote.wav",
+      "bytes": 15038,
+      "sha256": "b0f950f6a27f8b3321c8003d25c1fe18842bbf944f4223600e8608d7e709e9ed",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\click-candidates\\02-puni.wav",
+      "bytes": 21212,
+      "sha256": "773b408c4e65d2058a4561ed15faa1dd941ee6f09081625347eb52034cac2122",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\click-candidates\\03-koron.wav",
+      "bytes": 22976,
+      "sha256": "c6a4f3397babf2eda278c9577d9f073406bc68aeb0e9d654b7abcba5b86842c4",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\click-candidates\\04-poko.wav",
+      "bytes": 17684,
+      "sha256": "49c21c53c8dba74ab25bd9563b07b3b89ada5b1cfe4c11e1733035e0df836cb9",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\click-candidates\\05-kira.wav",
+      "bytes": 26504,
+      "sha256": "66bbab279e533549f42178c5f1da084befe8f319f77bcde415359a565efe811d",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\click-candidates\\06-fuwa.wav",
+      "bytes": 19448,
+      "sha256": "14af0b877c80ff4ee04d7d86050999a03783e3d2a04b0d77ae546bab05ad9a29",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\click-candidates\\index.html",
+      "bytes": 2634,
+      "sha256": "7c9fba7e6af4f56c1ce5d3d2eafc1f10e857a0f47a2ee6050570634098249ba8",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\celebration-candidates\\01-friends.wav",
+      "bytes": 564524,
+      "sha256": "0298558b293aa6e51740b3c1d61d3703ef4a41cf6b132f4bcdbfe061ba5f61ae",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\celebration-candidates\\02-party.wav",
+      "bytes": 705644,
+      "sha256": "fdbb72ab66c68947db5aac63d52d46e79342e00abc8bff38aaf2cc23de47fe22",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\celebration-candidates\\03-fanfare.wav",
+      "bytes": 635084,
+      "sha256": "17f48ea02de3c71168c5ebc446162d506ac6c0f1329ef9c6240f785ed5534eeb",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\celebration-candidates\\04-high-waa-once.wav",
+      "bytes": 564524,
+      "sha256": "1538cbdd5ec77fd0db342eab6b1085ec3fa1197e91f5e3f29fe1b48a0911bbb0",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\celebration-candidates\\04-high-waa-soft.wav",
+      "bytes": 564524,
+      "sha256": "4d03fef15a946bc53e7d79e23d0e7b3328eb3cefe58474ac4c6861eedee9a6af",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\celebration-candidates\\04-high-waa.wav",
+      "bytes": 564524,
+      "sha256": "a676a532f474a10caa9ef67836f47762a1687164d7b0d41dd5a191b8e2f3e48b",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\celebration-candidates\\05-tiny-waa-once.wav",
+      "bytes": 564524,
+      "sha256": "8c86d9eb5c8d3d5d460fb08131cd41c08833eafeabe43710db13d5d75e13c952",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\celebration-candidates\\05-tiny-waa-soft.wav",
+      "bytes": 564524,
+      "sha256": "6e6700cad2a044031205a3de2a24edd260bd7b7e598be1e3d2e98dbb7c8af0a2",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\celebration-candidates\\05-tiny-waa.wav",
+      "bytes": 564524,
+      "sha256": "3651c2d947d856a2799a7b30897d172a27fcf17faf9531594038d14484874270",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\audio\\celebration-candidates\\index.html",
+      "bytes": 2919,
+      "sha256": "c5a7f2dbba811fa3c72a4e3d74fa3e6495064f2c7a361dc25f81d27c1d066e81",
+      "reason": "audition candidates; selected game sound and source preserved"
+    },
+    {
+      "path": "Asset\\fonts\\MochiyPopOne-Regular.ttf",
+      "bytes": 5163948,
+      "sha256": "9e009430e1316c271a5f34759c6b65fc343c4e806f193042528887e7235a92c6",
+      "reason": "unused TTF; full WOFF2 and license preserved"
+    },
+    {
+      "path": "Asset\\fonts\\MochiyPopOne-menu.ttf",
+      "bytes": 12424,
+      "sha256": "f4f0bfe2eb15acd85eba64842d31215307e9a02e1b43518a4164472aaa8ae6e5",
+      "reason": "unused TTF; full WOFF2 and license preserved"
+    }
+  ],
+  "transforms": [
+    {
+      "path": "Asset\\movie\\Cosmii_Rescue_Opening.mp4",
+      "beforeBytes": 46865771,
+      "afterBytes": 34564329,
+      "beforeSha256": "0fff8d0969c6ba1cf5a41c74edfc3502fb02aeb15a5f46dbe357bccc884cd8e5",
+      "afterSha256": "e690d144efa4a523f16d8f4329e349d67dcc752a5f355211edc593512f3c60f7",
+      "ssim": 0.992991,
+      "audioUnchanged": true
+    }
+  ],
+  "removedBytes": 281012129,
+  "verificationArtifactsRemoved": [
+    {
+      "path": "test-results\\home-returns-390.png",
+      "bytes": 510604,
+      "sha256": "718ab04f6bc00254b228d8ae207bc35ec2fb2dd111c2883de9fb67c84e826a70"
+    },
+    {
+      "path": "test-results\\home-returns-568.png",
+      "bytes": 185155,
+      "sha256": "1f85d7ed08e9f9f66131418573088b3f88c04898f0c747b49666d14827df299e"
+    },
+    {
+      "path": "test-results\\home-returns-844.png",
+      "bytes": 402763,
+      "sha256": "2251551e03f8a73f2c5257da1ace88c9014d99ed7838cee237cce96cfa037053"
+    },
+    {
+      "path": "test-results\\navigation-open-characters-390.png",
+      "bytes": 258180,
+      "sha256": "68ac362c38dc992678218ce6fad1ebf137c64b0e8f77ef4fbd1a9a28ed5b4515"
+    },
+    {
+      "path": "test-results\\navigation-open-characters-568.png",
+      "bytes": 143925,
+      "sha256": "f95123211dc931d7c21bf293aa1a120f08b9c6e498c926a44265c92539940a04"
+    },
+    {
+      "path": "test-results\\navigation-open-characters-844.png",
+      "bytes": 231402,
+      "sha256": "00aaff4351e505b18cfa7837a04a8bcec100c9416e355b9e8cab7c07133f283e"
+    },
+    {
+      "path": "test-results\\navigation-open-room-390.png",
+      "bytes": 283756,
+      "sha256": "e2afaa8fc0330434ed39042c0edfda34084b26cbb67aa8e0c9792ac1c9ba295c"
+    },
+    {
+      "path": "test-results\\navigation-open-room-568.png",
+      "bytes": 162306,
+      "sha256": "fc078a1a5a9d850f650f882ea274d1d6cd12b111476f8d9a4e3b8a0987b39bea"
+    },
+    {
+      "path": "test-results\\navigation-open-room-844.png",
+      "bytes": 266387,
+      "sha256": "5e9f3a96fc9543fdd2904131c960f45cbfcbb5227b48caa3d3aa1660f6bafc02"
+    },
+    {
+      "path": "test-results\\navigation-open-social-390.png",
+      "bytes": 266240,
+      "sha256": "d59db35a5f40d7ee8b961ae62d01f8dd8b4d72c4273b0422ef42b068e11f1de0"
+    },
+    {
+      "path": "test-results\\navigation-open-social-568.png",
+      "bytes": 142456,
+      "sha256": "cfff171374329ab7c2d68234fbafacb7dd6686e58dcb2ca681d0f151e6a27706"
+    },
+    {
+      "path": "test-results\\navigation-open-social-844.png",
+      "bytes": 235892,
+      "sha256": "7eb4d0136cb5a460e22c2362b5222b570abc405e28936b3afeccd77b63ecf419"
+    },
+    {
+      "path": "test-results\\navigation-practice-390.png",
+      "bytes": 250141,
+      "sha256": "c850df50515b7196a02fd4c324ea9462948300cd3bed9459326fc3627af19860"
+    },
+    {
+      "path": "test-results\\navigation-practice-568.png",
+      "bytes": 124031,
+      "sha256": "a5218b7055a47bc91be27366e4bf1c2acf40a91978ff866e830e859acdb69cdb"
+    },
+    {
+      "path": "test-results\\navigation-practice-844.png",
+      "bytes": 216562,
+      "sha256": "f0cc0faec8ffab67c0a90cea9ec3c30d716273623cd7ba3390722a9c52705380"
+    },
+    {
+      "path": "test-results\\neon-touch-390.png",
+      "bytes": 327721,
+      "sha256": "7d19b0fe890c00de752a8f14dca62f73647985ddfcfc0d29aaab4cd2d00ad2b1"
+    },
+    {
+      "path": "test-results\\neon-touch-844.png",
+      "bytes": 329023,
+      "sha256": "75421f595dd1d4cd1a0310e9cd575bea9c87fe8e7eca20c93514dfbf5d22c5a6"
+    },
+    {
+      "path": "test-results\\practice-move-390.png",
+      "bytes": 249742,
+      "sha256": "69b4067f68a9fb8c5c416969c5268215005848379bc04410b00b524c5c1a5460"
+    },
+    {
+      "path": "test-results\\practice-move-844.png",
+      "bytes": 216532,
+      "sha256": "e24fc70f58ec299c70b44585bcd83889363d2ab2bc3f922377ce864a69053cc3"
+    },
+    {
+      "path": "test-results\\practice-phase-390.png",
+      "bytes": 279189,
+      "sha256": "a289dbcc73d744a565d5aa6abee01f7aebd96ad643d444153917532d45e580ce"
+    },
+    {
+      "path": "test-results\\practice-phase-844.png",
+      "bytes": 246491,
+      "sha256": "76384af1322cf52affd7a810eca32fb6502c74fd1906311e8e6b3a7346f9a35a"
+    },
+    {
+      "path": "test-results\\practice-rescue-390.png",
+      "bytes": 267859,
+      "sha256": "043035496bd9d83dd8c77d12414053883e1b73255ce47fada48fd86119366f46"
+    },
+    {
+      "path": "test-results\\practice-rescue-844.png",
+      "bytes": 235731,
+      "sha256": "13e63f5715adadf023a238e0fece0a06fb3edd97a46545c59c645ffe72a6e8a0"
+    },
+    {
+      "path": "test-results\\practice-ring-390.png",
+      "bytes": 307266,
+      "sha256": "e76535538a3df89b801699fabeac0f71a47d95afb3bbc5ce069acdc3b7bcd8ce"
+    },
+    {
+      "path": "test-results\\practice-ring-844.png",
+      "bytes": 280398,
+      "sha256": "6eb7d8edd0f80b459ade36bffa5cca149e756705ec4218a9d899870e4944d774"
+    },
+    {
+      "path": "test-results\\practice-skill-390.png",
+      "bytes": 286063,
+      "sha256": "bbf7acb278bfb9f46ee03959f85c3ccd8b262380c56079f8d6fcef47e464860a"
+    },
+    {
+      "path": "test-results\\practice-skill-844.png",
+      "bytes": 259425,
+      "sha256": "4357a01fd6f5d41c54ad62a07477b91b89f52e5f1bfaf0fe272370612215a403"
+    },
+    {
+      "path": "test-results\\practice-twenty-390.png",
+      "bytes": 279404,
+      "sha256": "74e5bbe01aac8aee7d0f4e0ded20a03971f1d33bbf434d6ce690483f288c1367"
+    },
+    {
+      "path": "test-results\\practice-twenty-844.png",
+      "bytes": 248333,
+      "sha256": "b8a0ee7947223c24cbe6c4aad9eaba0762ffa3e9ff36dd4b6d244fff7df18140"
+    },
+    {
+      "path": "test-results\\ranking-mobile.png",
+      "bytes": 99870,
+      "sha256": "160a6b118d8d82afb15a59f4f98e3ef933ee2b3993032475a6552d0fd9ee3117"
+    },
+    {
+      "path": "test-results\\ranking-name-portrait.png",
+      "bytes": 18533,
+      "sha256": "ae7a9e230d045bed59407a771adfcef2ead74ee78bb0cda0969863ba23a798ba"
+    },
+    {
+      "path": "test-results\\ranking-result-landscape.png",
+      "bytes": 104651,
+      "sha256": "10721cadd85916385ee900b62bc0b8698a75899ed08478539aad2af87cd26f43"
+    },
+    {
+      "path": "test-results\\ranking-result-mobile.png",
+      "bytes": 104059,
+      "sha256": "f007deb5777d135837663ece84eede81f0b84c83833d9b93d9cb19d365d8ef5a"
+    },
+    {
+      "path": "test-results\\result-social-dist.png",
+      "bytes": 91004,
+      "sha256": "b7019d882cc3a00055534026f540a46a6f075d789c124c1c88ce7843e2b0a07c"
+    },
+    {
+      "path": "test-results\\result-social.png",
+      "bytes": 90899,
+      "sha256": "4f4438b28ee4cbf9b60febebfc0b81ceed15d443d875360c95de5ba32b32dc6b"
+    },
+    {
+      "path": "test-results\\return-celebration-390.png",
+      "bytes": 512867,
+      "sha256": "4643b72472df8215e01da9b1d70309e67dfcad18382a92dc2f46d9976a54d27d"
+    },
+    {
+      "path": "test-results\\return-celebration-568.png",
+      "bytes": 185922,
+      "sha256": "ff045842b0da610fda6b2d230d77e4e684d0f54b07669d8deb85e0949dab630c"
+    },
+    {
+      "path": "test-results\\return-celebration-844.png",
+      "bytes": 392090,
+      "sha256": "eb290871025e3cccca58f7673ba3821be4922fbb645a8c83f8937376d0af0844"
+    }
+  ]
+}

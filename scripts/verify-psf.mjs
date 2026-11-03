@@ -38,7 +38,7 @@ try{for(const base of ['','/dist']){
  }
  if(key)await p.keyboard.up(key);
  assert.equal(await p.evaluate(async(base)=>(await import(base+'/src/main.js')).game.rescued,base),1);
- await p.locator('#pause').click();await p.locator('#quit').click();await p.locator('#result').waitFor({state:'visible'});await p.locator('.result-social-close').click();
+ await p.locator('#pause').click();await p.locator('#quit').click();await p.locator('#result').waitFor({state:'visible'});await p.locator('.result-social-back').click();
  await expect(p.locator('#return-memory img')).toHaveCount(1);await expect(p.locator('.ranking-entry')).toBeHidden();
  await p.locator('#return-memory button').click();await expect(p.locator('[data-character="blue"]')).toHaveAttribute('aria-pressed','true');await p.locator('.community-back').click();await expect(p.locator('#result')).toBeVisible();
  await p.screenshot({path:'test-results/psf-result'+(base?'-dist':'')+'.png'});

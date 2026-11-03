@@ -1,0 +1,7 @@
+Generated 2026-11-03 using built-in image_gen.
+Reference: Asset/room/props/lamp.png.
+Raw original: C:/Users/ramur/.codex/generated_images/01a19564-a4da-7df1-a50d-98e568eb8543/exec-472a69a3-6bf1-4135-8012-37b1813a30e6.png
+Art direction: exact 3x3 compact prop pack; glossy pastel chibi arcade game toys; thick warm brown outlines; slightly top-down front three-quarter view; no text, grid or characters; flat #FF00FF chroma-key background.
+Order: blue moon cushion, peach mushroom stool, lavender planet globe, mint star radio, blue toy rocket, pink star music box, blue space snow globe, pink miniature claw machine, gold rainbow star trophy.
+Processing: repartition rows at 418 and 810 to preserve full silhouettes, centered on 500px cells. generate2dsprite process 3x3, 256px, fit .86, bottom anchor, largest component, reject edge touch. All nine pass. Optimized transparent PNGs total 565908 bytes.
+Unlock counts: 50,75,100,150,200,250,300,400,500. Existing four props retained.

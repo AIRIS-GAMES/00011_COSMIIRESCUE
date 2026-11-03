@@ -5,7 +5,7 @@ export class ResultSocialPopup {
  constructor(measure){
   this.measure=measure;this.root=document.createElement('section');this.root.id='result-social-popup';this.root.className='overlay modal-screen result-social-popup';this.root.hidden=true;
   this.root.setAttribute('role','dialog');this.root.setAttribute('aria-modal','true');this.root.setAttribute('aria-labelledby','result-social-heading');
-  this.root.innerHTML='<div class="result-social-card"><button type="button" class="result-social-close" aria-label="閉じて結果を見る">×</button><header><img alt=""/><div><h2 id="result-social-heading">ゲームの外でも、コスミーと。</h2><p>公式SNSとLINEスタンプをチェック！</p></div></header><nav aria-label="公式SNSとLINEスタンプ"></nav><p class="result-social-note">リンクは外部サイトで開きます。</p><button type="button" class="result-social-back">結果を見る</button></div>';
+  this.root.innerHTML='<div class="result-social-card"><header><img alt=""/><div><h2 id="result-social-heading">ゲームの外でも、コスミーと。</h2><p>公式SNSとLINEスタンプをチェック！</p></div></header><nav aria-label="公式SNSとLINEスタンプ"></nav><p class="result-social-note">リンクは外部サイトで開きます。</p><button type="button" class="result-social-back">結果を見る</button></div>';
   this.root.querySelector('header img').src=hero.src;
   const nav=this.root.querySelector('nav');
   for(const id of ['x','instagram','tiktok','line']){
@@ -18,7 +18,7 @@ export class ResultSocialPopup {
    else{const icon=document.createElement('span');icon.className='result-social-line';icon.textContent='LINE';icon.setAttribute('aria-hidden','true');link.append(icon);}
    const label=document.createElement('span');label.textContent=item?.label||id;const status=document.createElement('small');status.textContent=url?'↗':'準備中';link.append(label,status);nav.append(link);
   }
-  this.closeButton=this.root.querySelector('.result-social-close');this.closeButton.onclick=()=>this.close();this.root.querySelector('.result-social-back').onclick=()=>this.close();
+  this.closeButton=this.root.querySelector('.result-social-back');this.closeButton.onclick=()=>this.close();
   this.root.addEventListener('keydown',e=>{
    e.stopPropagation();if(e.key==='Escape'){e.preventDefault();this.close();}
    if(e.key==='Tab'){const controls=[...this.root.querySelectorAll('button:not(:disabled),a[href]')],first=controls[0],last=controls.at(-1);if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus();}else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus();}}

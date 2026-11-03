@@ -4,10 +4,15 @@
 <meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="mobile-web-app-capable" content="yes">
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><meta name="theme-color" content="#c5eee0"><meta name="description" content="散らばったコスミーを集めて、みんなで帰ろう！どこまでも続くふわふわ救出アクション。">
 <title>COSMII RESCUE! — BETTER TOGETHER.</title><link rel="icon" href="./Asset/cast/green.png"><link rel="stylesheet" href="./src/style.css">
+<link rel="preload" href="./Asset/fonts/MochiyPopOne-Regular.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="stylesheet" href="./src/community.css">
 <link rel="stylesheet" href="./src/skills.css">
+<link rel="stylesheet" href="./src/friend-room.css">
 <link rel="stylesheet" href="./src/opening.css">
 <link rel="stylesheet" href="./src/rescue-tutorial.css">
+<link rel="stylesheet" href="./src/navigation.css">
+<link rel="stylesheet" href="./src/result.css">
+<link rel="stylesheet" href="./src/reminders.css">
 </head>
 <body>
 <div id="boot-screen" class="boot-screen" role="status" aria-label="AIRIS GAMES"><img id="boot-logo" src="./Asset/AIRISGAMES.PNG" alt="AIRIS GAMES"><span id="boot-status">LOADING…</span><button id="boot-retry" class="primary" style="width:200px" hidden>RETRY ↻</button></div>
@@ -27,10 +32,10 @@
       <div id="tutorial" class="tutorial" hidden>← MOVE →　 TAP ↑<span>RESCUE → HOME → SCORE</span></div>
       <div id="flight-controls" class="flight-controls" hidden><div id="direction-pad" class="direction-pad" data-direction="neutral" aria-label="左手で左右の向きを操作"><i aria-hidden="true"></i><small>MOVE</small></div><button id="flap" class="flap-button" aria-label="上昇する">↑<small>TAP</small></button></div>
       <div id="toast" class="toast" hidden></div>
-      <div id="carry-bar" class="carry-bar" hidden><div><span>FRIENDS</span><b><strong id="carry-count">0</strong> COSMII</b></div><div class="return-preview"><span>届けると加点</span><b id="return-value">+0</b></div></div>
+      <div id="carry-bar" class="carry-bar" hidden><div><span>FRIENDS</span><b><strong id="carry-count">0</strong> COSMII</b></div></div>
       <div id="pause-screen" class="overlay modal-screen" hidden><div class="panel"><div class="eyebrow">TAKE A LITTLE BREAK</div><h2>PAUSED</h2><button id="resume" class="primary">RESUME <span>▶</span></button><button id="quit" class="text-button">終了してスコアを見る</button></div></div>
-      <div id="result" class="overlay modal-screen" hidden><div class="panel result-panel"><div id="result-eyebrow" class="eyebrow">WELCOME HOME!</div><div class="rescued-head"><b id="result-rescued">0</b><span>COSMII<br>RESCUED</span></div><div class="result-main"><span>救出スコア · 1匹＝1点</span><strong id="result-score">0</strong><div id="new-best" class="new-best" hidden>✦ NEW BEST! ✦</div></div><div class="result-stats"><div><span>ベストスコア</span><b id="result-best">0</b></div><div><span>RESCUED COSMII</span><b id="result-rescued-stat">0</b></div><div><span>MAX CARRY</span><b id="result-carry">0</b></div><div><span>一度に届けた最大数</span><b id="result-return">0</b></div><div><span>飛距離（参考）</span><b id="result-distance">0 m</b></div></div><p id="unbanked" class="unbanked"></p><button id="retry" class="primary">RETRY <span>↻</span></button><button id="home" class="text-button">TITLE</button></div></div>
-      <div id="records-screen" class="overlay modal-screen" hidden><div class="panel"><div class="eyebrow">YOUR PERSONAL TOP 5</div><h2>BEST RUNS</h2><p>LOCAL TOP 5</p><ol id="record-list"></ol><button id="close-records" class="primary">BACK <span>↩</span></button></div></div>
+      <div id="result" class="overlay modal-screen" hidden><div class="panel result-panel"><div id="result-eyebrow" class="eyebrow">WELCOME HOME!</div><div class="rescued-head"><b id="result-rescued">0</b><span>匹救出</span></div><div class="result-main"><span>救出スコア · 1匹＝1点</span><strong id="result-score">0</strong><div id="new-best" class="new-best" hidden>✦ NEW BEST! ✦</div></div><div class="result-stats"><div><span>ベスト</span><b id="result-best">0</b></div><div><span>RESCUED COSMII</span><b id="result-rescued-stat">0</b></div><div><span>MAX CARRY</span><b id="result-carry">0</b></div><div><span>一度に届けた最大数</span><b id="result-return">0</b></div><div><span>飛距離（参考）</span><b id="result-distance">0 m</b></div></div><p id="unbanked" class="unbanked"></p><div class="result-actions"><button id="retry" class="primary">もう一度 <span>↻</span></button><button id="home" class="text-button" aria-label="ホームにもどる">ホームへ ↩</button></div></div></div>
+      <div id="records-screen" class="overlay modal-screen" hidden><div class="panel"><div class="eyebrow">YOUR PERSONAL TOP 5</div><h2>BEST RUNS</h2><p>LOCAL TOP 5</p><ol id="record-list"></ol></div><button id="close-records" class="back-button" aria-label="ホームにもどる"><span aria-hidden="true">↩</span><small>もどる</small></button></div>
       <div id="loading" class="overlay loading"><img src="./Asset/cast/green.png" alt=""><span>LOADING…</span></div>
       <div id="live" class="sr-only" aria-live="polite"></div>
     </div>

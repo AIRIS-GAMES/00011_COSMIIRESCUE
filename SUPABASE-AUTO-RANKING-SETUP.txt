@@ -1,0 +1,48 @@
+自動ランキングの有効化（2026-11-03）
+
+実装内容
+・結果は救出数、自己ベスト、累計帰還、キャラ紹介ボタン、再プレイ／ホームに集約。
+・初回のみ公開するニックネームを入力し「参加する」。以降はNORMALの自己ベストを自動更新。
+・本人の判定は名前ではなくSupabase匿名認証のauth.uid()。
+・1ユーザー1枠。同点・低い記録は変更しない。通信失敗は端末に保持し、起動時・復帰時・オンライン復帰時・表示中の60秒間隔で再送。
+
+あなたがSupabase管理画面で行うこと
+1. いまのランキング用プロジェクト（dtokebihzpnkkrzrttus）を開く。
+2. Authentication → Sign In / Providers を開く。
+   Allow new users to sign up と Allow anonymous sign-ins を有効にして保存。
+   メール認証やAppleログインを設定する必要はない。
+3. SQL Editor → New query を開く。
+   supabase/migrations/202611030001_player_best_ranking.sql の全文を貼り付け、Run。
+   既存のcosmii_eventsが必要（現在のランキングで使用済み）。新規プロジェクトなら先に202609300001_event_leaderboard.sqlを実行する。
+   SQLは再実行可能。RLSをOFFにしたり、テーブルへの匿名書き込み権限を追加したりしない。
+4. 以下をSQL Editorで実行し、エラーがないことを確認。
+   select * from public.cosmii_player_top_scores('cosmii-rescue-v1');
+   初めは0行で正常。
+5. 更新済みゲームでNORMALをプレイ→ランキングに参加→名前を入力。
+   Table Editorのcosmii_player_bestsに1行できることを確認。
+   次のプレイで自己ベスト更新→同じuser_idの行のscoreが増え、行数は増えないことを確認。
+
+公開アプリへの反映
+・コードはios/App/App/publicにもコピー済み。Mac担当者に最新版iosフォルダを渡し、Xcodeでビルド・実機検証・リリースしてもらう。
+・Supabaseの設定だけでは現在公開済みの古いアプリの挙動は変わらない。
+・本番の匿名ユーザー作成／スコア投稿を自動テストからは行っていない。SQLの権限制御と上書きはローカルDBで検証。
+
+移行と制限
+・旧cosmii_scoresと旧RPCは削除しない。新しいゲームはcosmii_player_bestsと新RPCを参照。
+・旧記録にユーザーIDがないため名前だけで移行・統合しない。新ランキングは新規参加から開始する。
+・匿名認証の情報は同じ端末・同じブラウザ／アプリ内に保持。再インストール、データ消去、別端末、別ブラウザでは引き継げない。自動的に名前で復元しない。
+・認証を更新できない場合は別ユーザーを勝手に新規作成せず、記録を保持してエラーを返す。
+・匿名ユーザーもauthenticatedロールになる。同一Supabaseプロジェクトの他テーブルに広いauthenticated権限がある場合は公開前に確認する。
+・CAPTCHAを有効にしているプロジェクトでは、参加時のCAPTCHA入力を別途実装してから利用する。今回の画面にはCAPTCHA入力はない。
+・所有者の識別は保護するが、ゲーム内スコア自体はクライアント申告。プレイ内容のサーバー検証は別課題。
+
+公式説明
+https://supabase.com/docs/guides/auth/auth-anonymous
+https://supabase.com/docs/guides/auth/general-configuration
+# ホーム設定からの名前変更（追加作業）
+既存のランキング設定が完了している場合も、以下を追加で実行してください。
+Supabase → SQL Editor → New query で
+supabase/migrations/202611030002_player_name.sql
+の全文を貼り付けて Run します。ランキングや自己ベストは消えません。
+本人の表示名だけを変更する関数を追加します。未実行の場合、端末には新しい名前を保存し、ランキングへの反映は自動再送待ちになります。
+
