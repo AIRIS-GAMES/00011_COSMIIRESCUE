@@ -1,0 +1,79 @@
+ランキングの安全対策・データ削除 / 導入手順
+
+実装と本番反映は別です。以下のSQLとEdge Functionを反映してから新しいアプリを配布してください。
+既存のランキングをリセットする必要はありません。旧RPCの名前と引数は維持しています。
+
+1. SQLを追加
+Supabaseダッシュボード → SQL Editor → New query
+supabase/migrations/202611030003_ranking_safety.sql の全文を貼り付けて Run。
+前提：202611030002_player_name.sql まで適用済み。
+
+追加するもの：
+- NGワードテーブルと正規化（全角/半角、英字大小、カタカナ/ひらがな、空白・記号を考慮）
+- 初回登録/名前変更/旧版投稿の検証トリガー、既存名の表示フィルター
+- 公開専用ID（認証ユーザーIDはアプリへ公開しない）
+- 通報テーブルと受付RPC、利用制限テーブル、削除要求テーブル
+- トップ20取得のv2 RPC。旧版用RPCも残し、フィルタと非公開状態を反映
+
+2. Edge Functionをデプロイ
+WindowsまたはMacのターミナルで、このプロジェクトのルートから実行：
+
+npx supabase login
+npx supabase link --project-ref dtokebihzpnkkrzrttus
+npx supabase functions deploy delete-ranking-account --no-verify-jwt
+
+デプロイ対象は supabase/functions/delete-ranking-account/ 内の index.ts と handler.js。
+Supabaseの組み込み環境変数 SUPABASE_URL / SUPABASE_SERVICE_ROLE_KEY をサーバー側だけで使用します。
+管理用キーをJS、iOSの設定、チャット、Gitへ貼り付けないでください。
+
+この関数でJWT検証を無効にする理由：
+削除後は認証ユーザーがなくなります。通信応答が失われた場合も同じ削除を再試行できるよう、
+認証済みRPCで事前作成したランダムUUID（削除要求ID）を一時的な削除権限として使用します。
+関数はクライアントから対象ユーザーIDを受け取りません。非公開テーブルで要求IDを照合し、
+その行に保存された本人だけを削除します。存在しない要求IDでは削除できません。
+要求IDをログ・アクセス解析・お問い合わせに含めないでください。完了前に要求テーブルを削除しないでください。
+
+3. 動作確認（テストユーザーで実施）
+- 普通の名前で参加・変更し、自己ベストが維持されること。
+- 明確な禁止語・全角英字・間に空白や記号を挟んだ禁止語が拒否されること。
+- 他ユーザーを通報し、Table Editorのcosmii_reportsに1件入ること。
+- 同じ相手への通報は24時間に1件、別の相手も1日5件までであること。
+- 「…」→ 非表示後、名前を変えても表示されず、設定から解除できること。
+- ホーム設定 → ランキング・サポート → ランキング参加・データ削除 → 削除する。
+- Authentication > Usersから本人が消え、cosmii_player_bests/通報/利用制限の関連行も消えること。
+- 部屋・図鑑・端末の自己ベストが維持されること。
+- 再起動しても勝手に匿名認証やランキング登録が発生しないこと。
+- 削除中に通信を切り、復帰後同じ画面から再試行できること。
+
+4. 運営の日常対応
+問い合わせ先：contact@airis-games.com
+ポリシー：https://airis-games.com/privacy-policy/
+担当者と確認頻度を決め、少なくとも毎日未対応通報を確認してください。
+SQL例は supabase/admin/ranking-moderation.sql。一般ユーザーからは実行できません。
+
+Supabase Table Editorでの確認先：
+- cosmii_reports：openが未対応。理由 name/score/other、通報時の名前・スコアを確認。
+- cosmii_player_bests：hidden=trueで記録を非公開。非公開だけで済む場合は利用停止にしない。
+- cosmii_player_restrictions：対象user_idのblocked=trueで投稿/変更/通報を停止し、公開一覧から除外。
+- cosmii_name_rules：NG語を追加。SQLのcosmii_normalize_nameで正規化して登録する。
+
+通報された人数や回数だけでは自動BANしません。内容を確認して判断してください。
+対処後はstatusをactionedまたはdismissed、resolved_atとoperator_noteを記入します。
+利用停止を解除する場合はblocked=false。名前修正が必要なら解除後に適切な名前に更新し、hidden=falseへ。
+
+5. 制限・提出前に残ること
+- NGワード辞書は完全ではありません。言い換え、誤検出、新語に応じて更新と通報対応が必要です。
+- 非表示はこの端末/ブラウザに保存（最大100人）。アプリ削除等でリセットされます。
+- 通報時、ランキング未参加の人も明示的な送信操作で匿名アカウントを作成します。名前は公開しません。
+- 匿名アカウントを削除/再作成した人を永続的に識別してBANする仕組みではありません。
+- スコアのサーバー側プレイ検証は未実装。不正スコアは通報と運営判断で非公開にします。
+- 認証導入前のcosmii_scoresには所有者IDがなく、自動的に本人のものだと判定できません。
+  旧記録の削除依頼はお問い合わせで受け付け、運営確認後に該当行を削除します。
+  旧版の匿名投稿に新しい本人単位のBANは適用できません。NG語・行単位の非公開は適用されます。
+- 削除対象はSupabaseのランキング用アカウントと関連データです。AppsFlyer/GameAnalyticsへの
+  過去の計測データ削除まで実装したものではありません。関連する請求は公開ポリシーと窓口で案内してください。
+- 公開プライバシーポリシーとApp Store Connectの申告に、公開名/救出数、匿名ID、通報処理、削除を反映。
+- キーや認証トークン、削除要求ID、名前、通報内容をGameAnalyticsへ送っていません。
+- Mac担当者のArchive/実機上書き更新テストは別途必要です。
+
+順序：SQL → Edge Function → テスト → Web/iOSの更新公開。

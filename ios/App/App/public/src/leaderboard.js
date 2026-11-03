@@ -23,6 +23,8 @@ export class Leaderboard {
       });
       if(!response.ok){
         const body=await response.json().catch(()=>({}));
+        const messages={NAME_NOT_ALLOWED:'この名前は使用できません。別の名前に変更してください。',PLAYER_BLOCKED:'ランキングの利用が制限されています。お問い合わせをご利用ください。',DELETION_PENDING:'データの削除処理中です。設定から削除を再試行してください。',ACCOUNT_DELETED:'このランキングアカウントは削除されています。',REPORT_LIMIT:'通報は1日5件までです。時間をおいてお試しください。',SELF_REPORT:'自分の記録は通報できません。',TARGET_NOT_FOUND:'この記録はすでに削除されています。'};
+        if(messages[body.message]){const error=Error(messages[body.message]);error.code=body.message;error.permanent=true;throw error;}
         if(body.code==='PGRST202'||body.message==='RESCUE_RANKING_NOT_READY')throw Error('救出数ランキングは準備中です。');
         if(body.message==='EVENT_CLOSED')throw Error('このランキングの受付は終了しました。');
         throw Error('ランキングに接続できません。時間をおいて再試行してください。');
@@ -33,10 +35,29 @@ export class Leaderboard {
       throw error;
     }finally{clearTimeout(timer);}
   }
-  async top(){
-    const rows=await this.rpc(this.config.playerBests?'cosmii_player_top_scores':'cosmii_rescue_top_scores',{p_event_id:this.config.eventId});
+  async top(hidden=[]){
+    const rows=await this.rpc(this.config.playerBests?'cosmii_player_top_scores_v2':'cosmii_rescue_top_scores',{p_event_id:this.config.eventId,...(this.config.playerBests?{p_hidden_ids:hidden}:{})});
     if(!Array.isArray(rows))throw Error('ランキングを取得できませんでした。');
     return rows;
+  }
+  async report(target,reason){
+    if(!['name','score','other'].includes(reason))throw Error('通報理由を選んでください。');
+    const result=await this.rpc('cosmii_report_player',{p_target_id:target,p_reason:reason},await this.auth.token());
+    if(result?.accepted!==true)throw Error('通報結果を確認できません。');return result;
+  }
+  async deleteAccount(requestId){
+    const invoke=async()=>{
+      const response=await this.fetcher(this.config.url+'/functions/v1/delete-ranking-account',{method:'POST',headers:{apikey:this.config.publishableKey,'Content-Type':'application/json'},body:JSON.stringify({request_id:requestId}),signal:AbortSignal.timeout(20000)});
+      const result=await response.json().catch(()=>({}));
+      if(response.status===404&&result.error==='REQUEST_NOT_FOUND')return null;
+      if(!response.ok||result.deleted!==true)throw Error('削除できませんでした。接続を確認して再試行してください。');
+      return result;
+    };
+    const previous=await invoke();if(previous)return previous;
+    if(!this.auth.hasSession())return {deleted:true};
+    const result=await this.rpc('cosmii_request_account_deletion',{p_request_id:requestId},await this.auth.token());
+    if(result?.accepted!==true)throw Error('削除を開始できませんでした。');
+    const deleted=await invoke();if(!deleted)throw Error('削除を開始できませんでした。');return deleted;
   }
   async rename(name){
     const clean=playerName(name),token=await this.auth.token();

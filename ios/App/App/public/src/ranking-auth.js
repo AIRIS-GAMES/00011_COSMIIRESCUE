@@ -1,6 +1,8 @@
 // Anonymous Supabase sessions identify a player without collecting an email/password.
 export class RankingAuth {
  constructor(config,fetcher=(...args)=>fetch(...args),storage){this.config=config;this.fetcher=fetcher;this.storage=storage;this.key='cosmii-ranking-auth:'+config.url;}
+ hasSession(){this.storage??=globalThis.localStorage;return !!JSON.parse(this.storage.getItem(this.key)||'null')?.user?.id;}
+ clear(){this.storage??=globalThis.localStorage;this.storage.setItem(this.key,'null');}
  async token(){
   if(this.loading)return this.loading;
   const work=()=>this.session();
@@ -27,6 +29,7 @@ export class RankingAuth {
    }
    if(!data.access_token||!data.refresh_token||!data.user?.id||(saved&&data.user.id!==saved.user.id))throw Error('認証結果を確認できません。');
    const session={access_token:data.access_token,refresh_token:data.refresh_token,user:{id:data.user.id},expires_at:data.expires_at||Date.now()/1000+data.expires_in};
+   if(this.storage.getItem(this.key)!==JSON.stringify(saved))throw Error('認証情報が変更されました。もう一度お試しください。');
    this.storage.setItem(this.key,JSON.stringify(session));return session.access_token;
   }catch(error){if(error.name==='AbortError'||error instanceof TypeError)throw Error('通信できません。後で再試行します。');throw error;}finally{clearTimeout(timer);}
  }

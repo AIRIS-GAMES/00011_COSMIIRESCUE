@@ -6,6 +6,24 @@
 #game[data-screen="title"] .hud .controls{pointer-events:none}
 .ranking-name-card .settings-bgm{display:flex;align-items:center;justify-content:space-between;gap:16px;margin:6px 0 12px;font-size:16px}
 .ranking-name-card input{font-family:var(--game-font)}
+.home-settings-dialog .ranking-name-card{display:grid;grid-template-columns:1fr 1fr;gap:6px 12px}
+.home-settings-dialog .ranking-name-card>h2,.home-settings-dialog .ranking-name-card>p,.home-settings-dialog .ranking-name-card>input,.home-settings-dialog .ranking-name-card>div:last-child{grid-column:1/-1}
+.home-settings-dialog .ranking-name-card .settings-bgm{margin:0}
+.home-settings-dialog .ranking-name-card .settings-support{font-size:11px;background:#e5f4d8;border-color:#5c8d7c;padding:6px}
+.ranking-safety-dialog{position:fixed;inset:auto;margin:0;max-width:none;max-height:none;border:0;padding:12px;background:#fff8e9;color:#543442;box-sizing:border-box;overflow:auto;overscroll-behavior:contain}
+.ranking-safety-dialog::backdrop{background:#302d4acc}
+.ranking-safety-dialog[open]{display:grid;justify-items:center;align-content:start}
+.ranking-safety-dialog section{width:min(100%,540px)}
+.ranking-safety-dialog h2{font-size:18px;margin:4px 0 10px}
+.ranking-safety-dialog p{font-size:12px;line-height:1.65;margin:6px 0}
+.safety-content{display:flex;flex-wrap:wrap;gap:8px}
+.safety-content p{flex-basis:100%}
+.ranking-safety-dialog button,.ranking-safety-dialog a{min-height:44px;border:2px solid #8c7770;border-radius:10px;padding:8px 12px;background:#fffdf5;color:#543442;font:inherit;font-size:12px;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
+.ranking-safety-dialog .safety-delete-confirm{background:#ffdddd;color:#8c2142}
+.ranking-safety-dialog .safety-status{color:#8c2142}
+.ranking-safety-dialog .safety-close{margin-top:8px;min-width:120px}
+#record-list li.ranking-row-actions{grid-template-columns:28px minmax(0,1fr) auto 44px;gap:8px}
+#record-list .ranking-row-menu{width:44px;height:44px;border:1px solid #b2969a;border-radius:12px;background:#fff5dc;font-size:22px}
 .ranking-name-card .settings-bgm button{flex:0 0 90px;background:#e5f4d8;border-color:#5c8d7c;color:#345c4c}
 .ranking-name-card .settings-bgm button[aria-pressed="false"]{background:#e6e6e6;color:#666;border-color:#999}
 .ranking-name-dialog[data-compact="true"].home-settings-dialog .ranking-name-card{grid-template-columns:1fr 1fr;align-items:center;column-gap:12px}

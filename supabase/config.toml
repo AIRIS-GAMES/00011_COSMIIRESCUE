@@ -1,0 +1,6 @@
+project_id = "cosmii-rescue"
+
+[functions.delete-ranking-account]
+# Authorization is a random, private capability created by an authenticated SQL RPC.
+# No user IDs or credentials from the POST body are trusted.
+verify_jwt = false

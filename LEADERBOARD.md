@@ -36,3 +36,15 @@ update public.cosmii_events set accepting_scores=false where id='cosmii-rescue-v
 
 検証は `npm test` と `node scripts/verify-leaderboard.mjs`。
 後者はブラウザとローカルPostgreSQL互換環境を接続し、本番には記録を送信しません。
+# 自由入力名の安全対策（2026-11-03追加）
+
+本番への反映は `SUPABASE-RANKING-SAFETY-SETUP.txt` を参照。
+追加SQL `202611030003_ranking_safety.sql` と `delete-ranking-account` Edge Function の反映が必要です。
+
+- 名前は自由入力のまま、サーバーで初回投稿・名前変更・旧版投稿を検証。
+- 新しい一覧APIは `cosmii_player_top_scores_v2`。認証ユーザーIDを公開せず、公開専用IDで通報・非表示を処理。
+- 非表示は端末内に保存し設定から解除。通報は認証必須、同じ相手24時間1件・全体1日5件。
+- 設定の「ランキング・サポート」から問い合わせ・ポリシー・非表示解除・データ削除へ移動。
+- 削除は匿名Authユーザーと関連するランキング・通報を対象にし、ローカルの部屋・図鑑・自己ベストは維持。
+- 旧RPCを停止せず、NG語と非公開状態を旧一覧にも反映。旧認証なし記録は所有者を判定できないため削除依頼を運営対応。
+- 通報は `cosmii_reports` に入り、運営担当者の確認が必要。操作例は `supabase/admin/ranking-moderation.sql`。
