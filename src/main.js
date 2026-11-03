@@ -1,3 +1,4 @@
+import {BrowserController} from './gamepad.js';
 import {installReminders} from './reminders.js';
 import {SkillUI} from './skill-ui.js';
 import {GameNotices} from './game-notices.js';
@@ -163,8 +164,8 @@ function hud(){
   }
   $('carry-count').textContent=game.carry.length;
 }
-let leftPointer=null;
-function updateDirection(){game.setDirection(Number(pressed.has('ArrowRight')||pressed.has('KeyD'))-Number(pressed.has('ArrowLeft')||pressed.has('KeyA')));}
+let leftPointer=null,controllerAxis=0;
+function updateDirection(){game.setDirection((Number(pressed.has('ArrowRight')||pressed.has('KeyD'))-Number(pressed.has('ArrowLeft')||pressed.has('KeyA')))||controllerAxis);}
 function horizontalInput(event,element){const r=element.getBoundingClientRect(),rotated=document.documentElement.classList.contains('landscape-auto');return rotated?{position:event.clientY-r.top,width:r.height}:{position:event.clientX-r.left,width:r.width};}
 function resetStick(){leftPointer=null;game.setDirection(0);const pad=$('direction-pad');pad.dataset.direction='neutral';pad.classList.remove('active');pad.style.setProperty('--stick-x','0px');pad.style.setProperty('--stick-y','0px');}
 function directionAt(event){
@@ -223,7 +224,15 @@ window.addEventListener('pageshow',event=>{if(event.persisted){last=0;accumulato
 $('boot-retry').onclick=()=>location.reload();
 initializeAnalytics();
 analytics.presentation('variant',presentation);
+const controller=new BrowserController({
+ state:()=>({screen,trainingDone:game.isTraining&&game.practiceStep===6,active:ready&&bootComplete&&!transition.busy}),
+ direction:axis=>{if(controllerAxis!==axis||axis!==0){controllerAxis=axis;if(leftPointer===null)updateDirection();}},
+ flap:()=>{if(!game.skillCutin)game.flap();},
+ pause:()=>pause(),
+ disconnected:()=>{controllerAxis=0;if(screen==='playing'&&!paused)pause();clearInput();$('live').textContent='コントローラーの接続が切れました。';}
+});
 function frame(now){const dt=Math.min(.06,(now-(last||now))/1000);last=now;
+  controller.update(now);
   if(game.isTraining&&practiceActive&&game.practiceStep!==practiceStep){practiceStep=game.practiceStep;measure('practice_step',practiceStep,practiceSource);if(practiceStep===6){progress.mark('practice');measure('practice_complete',1,practiceSource);practiceActive=false;}}
   if(!document.hidden&&!audio.suspended&&!paused&&!transition.busy){accumulator+=dt;while(accumulator>=1/120){game.update(1/120);accumulator-=1/120;}processEvents();if(tutorialLeft>0){tutorialLeft-=dt;if(tutorialLeft<=0)$('tutorial').hidden=true;}}
   notices.update(!document.hidden&&!audio.suspended&&!paused&&!transition.busy?dt:0,screen==='playing');

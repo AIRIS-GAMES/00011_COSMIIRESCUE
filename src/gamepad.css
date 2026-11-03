@@ -1,0 +1,5 @@
+.controller-hint{position:absolute;left:50%;top:1%;transform:translateX(-50%);z-index:45;max-width:62%;padding:4px 12px;border-radius:12px;background:#fff9e8ed;color:#513641;font-size:clamp(9px,1.25vw,15px);text-align:center;pointer-events:none;white-space:nowrap}
+.controller-connected .controller-focus{outline:4px solid #ff63ac!important;outline-offset:3px;box-shadow:0 0 0 7px #fff7!important}
+.controller-connected #skill-bar .controller-selected{outline:3px solid #fff;outline-offset:3px;box-shadow:0 0 12px 5px #ff63ac}
+.controller-hint[hidden]{display:none}
+.game[data-screen="playing"] .controller-hint{top:10%;font-size:clamp(9px,1.1vw,14px)}
