@@ -2,15 +2,18 @@ export const SKILL_REQUIREMENTS=Object.freeze([3,4,5,6]);
 export const SKILL_COLORS=['#ff65c4','#59ddff','#ff5c70','#c47aff'];
 export const skillNames=['するり抜け','ふわふわガード','はね飛ばし','おたすけキャッチ'];
 export const SKILL_SECONDS=5;
-export function resetSkills(game){game.skillLeft=[0,0,0,0];game.skillPulse=[0,0,0,0];game.skillCharge=[0,0,0,0];game.skillCutin=null;game.phaseLeft=0;game.skillGuard=false;}
+// Each use in a run raises that color's next requirement by one (pink 3 → 4 → 5 …), up to +3. Practice keeps the base.
+export const SKILL_EXTRA_MAX=3;
+export function skillRequirement(game,kind){return SKILL_REQUIREMENTS[kind]+(game.isTraining?0:Math.min(SKILL_EXTRA_MAX,game.skillUses?.[kind]||0));}
+export function resetSkills(game){game.skillUses=[0,0,0,0];game.skillLeft=[0,0,0,0];game.skillPulse=[0,0,0,0];game.skillCharge=[0,0,0,0];game.skillCutin=null;game.phaseLeft=0;game.skillGuard=false;}
 export function chargeSkill(game,friend,charge=true){
  if(!game.manualSkills||(game.isTraining&&!game.practiceSkills)||friend.skillCharged||Number.isInteger(friend.collaborationKind))return;
  friend.skillCharged=true;
- if(charge&&Number.isInteger(friend.kind)&&friend.kind>=0&&friend.kind<4)game.skillCharge[friend.kind]=Math.min(SKILL_REQUIREMENTS[friend.kind],game.skillCharge[friend.kind]+1);
+ if(charge&&Number.isInteger(friend.kind)&&friend.kind>=0&&friend.kind<4)game.skillCharge[friend.kind]=Math.min(skillRequirement(game,friend.kind),game.skillCharge[friend.kind]+1);
 }
 export function activateSkill(game,kind){
- if(!game.manualSkills||(game.isTraining&&!game.practiceSkills)||game.state!=='playing'||game.skillCutin||game.skillCharge[kind]!==SKILL_REQUIREMENTS[kind]||game.skillLeft[kind]>0)return false;
- game.skillCharge[kind]=0;game.skillCutin={kind,left:.6};game.emit('skillStart',{kind});return true;
+ if(!game.manualSkills||(game.isTraining&&!game.practiceSkills)||game.state!=='playing'||game.skillCutin||game.skillCharge[kind]!==skillRequirement(game,kind)||game.skillLeft[kind]>0)return false;
+ game.skillCharge[kind]=0;game.skillUses[kind]++;game.skillCutin={kind,left:.6};game.emit('skillStart',{kind,next:skillRequirement(game,kind)});return true;
 }
 function pulse(game,kind){
  if(kind===2){

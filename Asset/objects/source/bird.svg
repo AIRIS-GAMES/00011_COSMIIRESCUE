@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384">
+ <defs>
+  <radialGradient id="body" cx="40%" cy="32%" r="75%"><stop offset="0" stop-color="#ffd27a"/><stop offset=".55" stop-color="#ffab4c"/><stop offset="1" stop-color="#f27a3a"/></radialGradient>
+  <radialGradient id="belly" cx="45%" cy="35%" r="70%"><stop offset="0" stop-color="#fff8e6"/><stop offset="1" stop-color="#ffe2b3"/></radialGradient>
+  <linearGradient id="wing" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9a5e"/><stop offset="1" stop-color="#e8613a"/></linearGradient>
+ </defs>
+ <g stroke="#5b2a24" stroke-width="9" stroke-linejoin="round" stroke-linecap="round">
+  <!-- tail -->
+  <path d="M86 214 L34 186 L46 226 L28 252 L92 244 Z" fill="url(#wing)"/>
+  <!-- body -->
+  <ellipse cx="188" cy="210" rx="118" ry="98" fill="url(#body)"/>
+  <ellipse cx="206" cy="240" rx="72" ry="54" fill="url(#belly)" stroke="none"/>
+  <!-- top tuft -->
+  <path d="M176 116 C168 88 186 72 200 84 C204 70 226 72 222 96 C216 110 200 116 190 118 Z" fill="#ff8a4a"/>
+  <!-- wing (raised, flapping back) -->
+  <path d="M196 196 C170 150 120 118 82 128 C96 160 104 190 132 214 C152 228 184 224 196 196 Z" fill="url(#wing)"/>
+  <path d="M124 150 C138 170 152 186 170 198" fill="none" stroke-width="6" opacity=".6"/>
+  <!-- beak -->
+  <path d="M296 196 L346 210 L298 230 Z" fill="#ffd34d"/>
+  <!-- feet -->
+  <path d="M176 304 L168 330 M206 304 L210 332" fill="none" stroke-width="10"/>
+ </g>
+ <!-- eye + cheek -->
+ <ellipse cx="262" cy="184" rx="13" ry="17" fill="#3b1c18"/>
+ <circle cx="267" cy="178" r="5" fill="#fff"/>
+ <ellipse cx="252" cy="222" rx="20" ry="11" fill="#ff7f8f" opacity=".55"/>
+ <!-- gloss -->
+ <path d="M206 136 C222 128 240 128 254 134" stroke="#fff" stroke-width="12" stroke-linecap="round" fill="none" opacity=".75"/>
+ <!-- motion lines -->
+ <g stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity=".7"><path d="M20 140 L58 140"/><path d="M10 300 L52 296"/></g>
+</svg>

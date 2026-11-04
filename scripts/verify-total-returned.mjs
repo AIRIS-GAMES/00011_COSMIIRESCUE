@@ -3,7 +3,7 @@ const b=await chromium.launch({channel:'chrome',headless:true});
 try{for(const base of ['','/dist']){
  const p=await b.newPage({viewport:{width:568,height:320}});await p.route('**/*',r=>new URL(r.request().url()).hostname==='localhost'?r.continue():r.abort());
  await p.addInitScript(()=>{if(!localStorage.getItem('cosmii-psf-v1'))localStorage.setItem('cosmii-psf-v1',JSON.stringify({intro:true,counts:[10,5,20,30]}));});
- await p.goto(`http://localhost:5180${base}/index.html?analytics=off`);await p.locator('#boot-screen').waitFor({state:'hidden'});await expect(p.locator('#title-total-returned')).toContainText('65');
+ await p.goto(`http://localhost:5180${base}/index.html?opening=off&analytics=off`);await p.locator('#boot-screen').waitFor({state:'hidden'});await expect(p.locator('#title-total-returned')).toContainText('65');
  for(const mode of ['normal','hard']){
  await p.locator('#mode-'+mode).click();await p.locator('#start').click();await p.locator('.face-transition').waitFor({state:'hidden'});
  await p.evaluate(async base=>{const {game:g}=await import(base+'/src/main.js');g.world={extend(){}};g.incoming={update(){}};g.obstacles=[];g.friends=[];g.homes=[];g.carry=[];for(let i=0;i<3;i++)g.rescue(g.spawnFriend({x:g.player.x,y:g.player.y,kind:1}));g.beginReturn();g.finish('quit');},base);

@@ -9,7 +9,7 @@ try{
   for(const id of ['green','pink','blue','red','purple']){
    const actor=page.locator(`[data-resident^="${id}-"]`);await actor.focus();await actor.click();await page.locator('.room-interact').click();
    await expect(page.locator('.community-header')).toBeHidden();await expect(page.locator('.room-focus-back')).toBeInViewport({ratio:1});
-   assert.equal(await page.locator('.room-focus-back').innerText(),'↩\nもどる');
+   assert.equal(await page.locator('.room-focus-back').innerText(),'もどる');
    const target=page.locator('.room-pet-target');await expect.poll(()=>target.locator('img').evaluate(el=>el.complete&&el.naturalWidth>0)).toBe(true);
    // Freeze only the tap effect for inspecting its origin and silhouette.
    await page.addStyleTag({content:'.room-tap-neon{animation-play-state:paused!important}'});

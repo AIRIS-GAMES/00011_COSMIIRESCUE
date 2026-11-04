@@ -12,7 +12,7 @@ try{
   else if(route==='skip')await p.locator('#opening-skip').click();else await p.keyboard.press('Escape');
   await expect(p.locator('#title')).toBeVisible();await p.locator('.face-transition').waitFor({state:'hidden'});
   await p.locator('#intro-preview').click();await expect(p.locator('#opening-skip')).toHaveClass(/back-button/);await expect(p.locator('#opening-skip small')).toHaveText('もどる');await p.locator('#opening-skip').click();await expect(p.locator('#title')).toBeVisible();
-  await p.reload();await p.locator('#boot-screen').waitFor({state:'hidden'});await expect(p.locator('#opening-screen')).toBeHidden();await expect(p.locator('#title')).toBeVisible();
-  assert.deepEqual(errors,[]);console.log('PASS first-launch video, completion/skip, replay and seen state',route,width,height);await p.close();
+  await p.reload();await p.locator('#boot-screen').waitFor({state:'hidden'});await expect(p.locator('#opening-screen')).toBeVisible();assert.match(await p.locator('video').getAttribute('src'),/Cosmii_Rescue_Short\.mp4$/);await expect(p.locator('.opening-quick-hint')).toBeVisible();assert.equal(await p.locator('#opening-skip').count(),0);await p.waitForFunction(()=>{const v=document.querySelector('video');return v&&!v.paused&&v.currentTime>.3;});await p.locator('video').click();await expect(p.locator('#opening-screen')).toBeHidden();await expect(p.locator('#title')).toBeVisible();await expect(p.locator('#practice-guide')).toBeHidden();
+  assert.deepEqual(errors,[]);console.log('PASS first-launch video, completion/skip, replay and short returning cut',route,width,height);await p.close();
  }
 }finally{await browser.close();}

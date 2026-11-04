@@ -3,7 +3,7 @@ COSMII RESCUE / AppsFlyer 引き継ぎ（2026-11-03）
 実装済み
 - App Store ID: 6811575619 / Bundle ID: com.airisgames.cosmiirescue
 - 公式 AppsFlyer iOS SDK 6.17.9 を Swift Package Manager の exactVersion で追加。
-- ios/App/App/Info.plist の AppsFlyerDevKey に受領キーを設定済み。ブラウザ用JSには含めない。
+- AppsFlyer Dev Keyは `ios/secrets.xcconfig` でローカル設定し、`Info.plist`へビルド時に注入する。設定ファイルはGitへ含めず、ブラウザ用JSにも含めない。
 - iOSのみ有効。GameAnalyticsの細かい行動計測は維持。
 - ATT回答前はSDKをstartしない。許可時のみIDFA取得・広告パートナー共有を有効化。
 - 拒否・制限時はIDFA取得と全パートナーへのユーザーレベル共有を無効化。
@@ -27,6 +27,8 @@ cosmii_trust_gain: 確定した信頼度増加、color/amount
 
 Mac担当者の手順
 1. 更新後の ios フォルダ全体を受け取る。publicだけを上書きしない。
+   `ios/secrets.xcconfig.example` を `ios/secrets.xcconfig` にコピーし、受領したAppsFlyer Dev Keyを設定する。
+   `ios/secrets.xcconfig` はGit管理外。公開リポジトリにキーを含めない。
 2. ios/App/App.xcodeproj を開き、署名Teamと公開Bundle IDの一致を確認。
 3. File > Packages > Resolve Package Versions。
    AppsFlyerLib 6.17.9、Capacitor 7.6.9 を確認。

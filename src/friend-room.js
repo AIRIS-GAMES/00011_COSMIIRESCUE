@@ -1,7 +1,8 @@
 import {collectibleItems} from './collection.js';
 import {RoomCelebration} from './room-celebration.js';
 import {characterNames} from './character-profiles.js';
-import {ROOM_KEY,roomArt,roomProps,roomLayout,roomCast,roomResidents,validRoomState,expressionFrames,walkFrames,walkTarget,walkable} from './room-data.js';
+import {ROOM_KEY,roomArt,roomProps,roomLayout,roomCast,roomResidents,validRoomState,propUnlocked,expressionFrames,walkFrames,walkTarget,walkable} from './room-data.js';
+import {bonusPropsFrom,TREAT,DailyMissions} from './missions.js';
 const neonColors={green:'#a5ff53',pink:'#ff86bf',blue:'#65dfff',red:'#ff626b',purple:'#cf8aff'};
 export class FriendRoom {
  constructor(body,progress,measure=()=>{}){
@@ -9,7 +10,7 @@ export class FriendRoom {
   let revisit=false;try{revisit=localStorage.getItem('cosmii-room-visited-v1')==='1';localStorage.setItem('cosmii-room-visited-v1','1');}catch{}
   this.measure('room_open',{revisit});
   this.body=body;this.progress=progress;progress?.load();this.total=progress?.totalReturned||0;this.residents=roomResidents(progress?.data.counts);this.selected=null;this.slot=0;this.mode='room';this.elapsed=0;this.last=0;this.dead=false;
-  let data;try{data=JSON.parse(localStorage.getItem(ROOM_KEY)||localStorage.getItem('cosmii-friend-room-v1'));}catch{}this.state=validRoomState(data,this.total);
+  let data;try{data=JSON.parse(localStorage.getItem(ROOM_KEY)||localStorage.getItem('cosmii-friend-room-v1'));}catch{}this.bonus=bonusPropsFrom();this.state=validRoomState(data,this.total,this.bonus);
   body.classList.add('friend-room-body');
   body.innerHTML=`<div class="room-summary"><button type="button" class="room-return-total">✦ 累計帰還を見る</button><span class="room-instruction">歩いているコスミーを選ぼう</span></div>
    <div class="cabinet-room"><img class="cabinet-base" src="${roomArt}" alt="星のかざりがあるクレーンゲーム風のお部屋"><div class="cabinet-props"></div><div class="cabinet-residents"></div>
@@ -17,7 +18,7 @@ export class FriendRoom {
     <section class="room-decor" id="room-decor" aria-label="もようがえ" hidden><header><strong>もようがえ</strong><button class="room-decor-done" type="button">完了 ✓</button></header><p class="room-decor-progress"></p><div class="room-slots" role="group" aria-label="置く場所">${roomLayout.slots.map((s,i)=>`<button type="button" data-slot="${i}">${s.name}</button>`).join('')}</div><div class="room-decor-options"></div><p class="room-decor-message" role="status"></p></section>
    </div>
    <div class="room-toolbar"><div class="room-selected-info"><span class="room-selected-label">コスミーを選択</span></div><button class="room-interact" type="button" disabled>♡ ふれあう</button><button class="room-decor-toggle" type="button" aria-expanded="false" aria-controls="room-decor">▧ もようがえ</button></div>
-   <section class="room-focus" aria-label="コスミーとふれあう" hidden><button type="button" class="room-pet-target"><img alt=""></button><div class="room-tap-effects" aria-hidden="true"></div><div class="room-snack-effect" aria-hidden="true"></div><div class="room-snacks"><div class="room-snack-options" hidden></div><button class="room-snack-toggle" type="button" aria-expanded="false"><img src="./Asset/objects/apple.png" alt=""><span>おやつ</span></button></div><button type="button" class="room-focus-back back-button" aria-label="お部屋にもどる"><span aria-hidden="true">↩</span><small>もどる</small></button></section>`;
+   <section class="room-focus" aria-label="コスミーとふれあう" hidden><button type="button" class="room-pet-target"><img alt=""></button><div class="room-tap-effects" aria-hidden="true"></div><div class="room-snack-effect" aria-hidden="true"></div><div class="room-snacks"><div class="room-snack-options" hidden></div><button class="room-snack-toggle" type="button" aria-expanded="false"><img src="./Asset/objects/apple.png" alt=""><span>おやつ</span></button></div><button type="button" class="room-focus-back back-button" aria-label="お部屋にもどる"><small>もどる</small></button></section>`;
   this.scene=body.querySelector('.cabinet-room');this.layer=body.querySelector('.cabinet-residents');this.propsLayer=body.querySelector('.cabinet-props');this.drawer=body.querySelector('.room-decor');this.focus=body.querySelector('.room-focus');this.toolbar=body.querySelector('.room-toolbar');this.target=body.querySelector('.room-pet-target');this.focusImage=this.target.querySelector('img');this.effects=body.querySelector('.room-tap-effects');this.shell=body.closest('.community-screen');
   this.scene.insertAdjacentHTML('beforeend',`<div class="room-trust" hidden><div class="room-trust-medal" aria-hidden="true"><img src="./Asset/ui/trust/badge.png" alt=""><strong class="room-trust-value">0</strong><span class="room-trust-title">信頼度</span></div><div class="room-trust-track" role="progressbar" aria-label="信頼度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><i></i><span class="room-trust-fraction" aria-hidden="true">0/100</span></div></div>`);
   this.actors=this.residents.map((c,index)=>{const point=walkTarget(this.state.slots),button=document.createElement('button');button.type='button';button.className='room-resident';button.dataset.resident=c.residentId;button.setAttribute('aria-label',characterNames[c.id]+'コスミー '+(index+1)+'を選ぶ');button.setAttribute('aria-pressed','false');button.innerHTML=`<span class="resident-shadow"></span><img src="${walkFrames(c.id)[3]}" alt=""><span class="resident-selected">✓</span>`;button.onclick=()=>this.select(index);this.layer.append(button);return {...c,...point,target:walkTarget(this.state.slots),wait:index*.13,phase:index*1.7,walkTime:0,facing:1,walkFrame:3,walkImages:walkFrames(c.id),button};});
@@ -26,6 +27,8 @@ export class FriendRoom {
   this.snackEffect=body.querySelector('.room-snack-effect');this.snackToggle=body.querySelector('.room-snack-toggle');this.snackOptions=body.querySelector('.room-snack-options');
   this.snackToggle.onclick=()=>{this.snackOptions.hidden=!this.snackOptions.hidden;this.snackToggle.setAttribute('aria-expanded',String(!this.snackOptions.hidden));};
   for(const item of collectibleItems){const button=document.createElement('button');button.type='button';button.dataset.snack=item.id;button.setAttribute('aria-label',item.name+'をあげる');const img=document.createElement('img');img.src=item.src;img.alt='';const label=document.createElement('span');label.textContent=item.name;button.append(img,label);button.onclick=()=>this.feed(item.id);this.snackOptions.append(button);}
+  // Daily-mission reward: a limited star cookie that adds a trust bonus right away.
+  this.missions=new DailyMissions();this.treatButton=document.createElement('button');this.treatButton.type='button';this.treatButton.dataset.snack=TREAT.id;this.treatButton.className='room-treat';this.treatButton.innerHTML=`<img src="${TREAT.src}" alt=""><span>${TREAT.name}</span><b class="room-treat-count"></b>`;this.treatButton.onclick=()=>this.feed(TREAT.id);this.snackOptions.append(this.treatButton);this.renderTreat();
   body.querySelector('.room-return-total').onclick=()=>this.openCelebration();
   for(const button of body.querySelectorAll('[data-slot]'))button.onclick=()=>{this.slot=Number(button.dataset.slot);this.renderDecor();};
   this.target.addEventListener('pointerdown',event=>{event.preventDefault();this.pointer=event.pointerId;this.lastPoint={x:event.clientX,y:event.clientY};this.target.setPointerCapture(event.pointerId);this.tap(event);});
@@ -45,7 +48,7 @@ export class FriendRoom {
   this.savedState??=copy(this.state);
   const pending=this.pendingSave??={trust:{},slots:{}};
   let latest=copy(this.savedState),readable=true;
-  try{const raw=localStorage.getItem(ROOM_KEY);if(raw)latest=validRoomState(JSON.parse(raw),this.total);}catch{readable=false;}
+  try{const raw=localStorage.getItem(ROOM_KEY);if(raw)latest=validRoomState(JSON.parse(raw),this.total,this.bonus);}catch{readable=false;}
   // Replay only unsaved changes against the latest persisted data, never our preview.
   for(const [id,gain] of Object.entries(pending.trust))latest.trust[id]=Math.min(100,latest.trust[id]+gain);
   for(const [slot,prop] of Object.entries(pending.slots))latest.slots[slot]=prop;
@@ -63,11 +66,11 @@ export class FriendRoom {
  renderProps(){this.propsLayer.replaceChildren();roomLayout.slots.forEach((slot,i)=>{const prop=roomProps.find(p=>p.id===this.state.slots[i]);if(!prop)return;const img=document.createElement('img');img.src=prop.src;img.alt=prop.name;img.className='cabinet-prop';img.style.cssText=`left:${slot.x*100}%;top:${slot.y*100}%;width:${slot.width*100}%;z-index:${Math.round(slot.y*100)};`;this.propsLayer.append(img);});}
  setDecor(open){if(open&&this.mode!=='decor')this.measure('decor_open');this.mode=open?'decor':'room';this.drawer.hidden=!open;this.layer.inert=open;this.body.querySelector('.room-decor-toggle').setAttribute('aria-expanded',String(open));this.scene.classList.toggle('decorating',open);this.body.querySelector('.room-interact').disabled=open||this.selected===null;if(open){this.progress?.load();this.total=this.progress?.totalReturned||0;this.renderDecor();this.body.querySelector('.room-decor-done').focus();}else this.body.querySelector('.room-decor-toggle').focus();}
  renderDecor(){
-  const unlocked=roomProps.filter(p=>p.required<=this.total).length,next=roomProps.find(p=>p.required>this.total);
+  this.bonus=bonusPropsFrom();const unlocked=roomProps.filter(p=>propUnlocked(p,this.total,this.bonus)).length,next=roomProps.find(p=>!propUnlocked(p,this.total,this.bonus));
   this.body.querySelector('.room-decor-progress').textContent='累計 '+this.total+'匹 ・ '+unlocked+'/'+roomProps.length+' 解放'+(next?' ・ 次は'+next.required+'匹':' ・ 全部そろった！');
   for(const button of this.body.querySelectorAll('[data-slot]'))button.setAttribute('aria-pressed',String(Number(button.dataset.slot)===this.slot));
   const root=this.body.querySelector('.room-decor-options');root.replaceChildren();
-  for(const prop of [{id:null,name:'置かない',required:0},...roomProps]){const unlocked=prop.required<=this.total,button=document.createElement('button');button.type='button';button.dataset.prop=prop.id||'none';button.setAttribute('aria-pressed',String(this.state.slots[this.slot]===prop.id));button.setAttribute('aria-disabled',String(!unlocked));button.innerHTML=`${prop.src?`<img src="${prop.src}" alt="">`:'<span class="room-remove-icon">−</span>'}<span>${prop.name}</span><small>${unlocked?(prop.id?'使える':''):`${prop.required}匹で解放`}</small>`;button.onclick=()=>{this.progress?.load();this.total=this.progress?.totalReturned||0;if(prop.required>this.total){this.body.querySelector('.room-decor-message').textContent=`HOMEへあと${prop.required-this.total}匹届けると使えるよ`;return;}if(this.state.slots[this.slot]!==prop.id)this.measure('decor_change',{prop:prop.id||'none'});this.save({slot:this.slot,prop:prop.id});this.renderProps();for(const b of root.children)b.setAttribute('aria-pressed',String(b.dataset.prop===(prop.id||'none')));this.body.querySelector('.room-decor-message').textContent=prop.id?`${roomLayout.slots[this.slot].name}に${prop.name}を置いたよ`:'インテリアを外したよ';for(const actor of this.actors)if(!walkable(actor,this.state.slots)){Object.assign(actor,walkTarget(this.state.slots));actor.target=walkTarget(this.state.slots);}this.paintActors();};root.append(button);}
+  for(const prop of [{id:null,name:'置かない',required:0},...roomProps]){const unlocked=propUnlocked(prop,this.total,this.bonus),bonusProp=this.bonus.includes(prop.id)&&prop.required>this.total,button=document.createElement('button');button.type='button';button.dataset.prop=prop.id||'none';button.setAttribute('aria-pressed',String(this.state.slots[this.slot]===prop.id));button.setAttribute('aria-disabled',String(!unlocked));button.innerHTML=`${prop.src?`<img src="${prop.src}" alt="">`:'<span class="room-remove-icon">−</span>'}<span>${prop.name}</span><small>${unlocked?(prop.id?(bonusProp?'ミッションで解放':'使える'):''):`${prop.required}匹で解放`}</small>`;button.onclick=()=>{this.progress?.load();this.total=this.progress?.totalReturned||0;if(!propUnlocked(prop,this.total,this.bonus)){this.body.querySelector('.room-decor-message').textContent=`HOMEへあと${prop.required-this.total}匹届けると使えるよ`;return;}if(this.state.slots[this.slot]!==prop.id)this.measure('decor_change',{prop:prop.id||'none'});this.save({slot:this.slot,prop:prop.id});this.renderProps();for(const b of root.children)b.setAttribute('aria-pressed',String(b.dataset.prop===(prop.id||'none')));this.body.querySelector('.room-decor-message').textContent=prop.id?`${roomLayout.slots[this.slot].name}に${prop.name}を置いたよ`:'インテリアを外したよ';for(const actor of this.actors)if(!walkable(actor,this.state.slots)){Object.assign(actor,walkTarget(this.state.slots));actor.target=walkTarget(this.state.slots);}this.paintActors();};root.append(button);}
  }
  renderTrust(){
   const id=this.actors[this.selected]?.id;if(!id)return;
@@ -92,15 +95,18 @@ export class FriendRoom {
   this.feedingLeft=0;this.snackEffect.replaceChildren();this.snackOptions.hidden=true;this.snackToggle.disabled=false;this.snackToggle.setAttribute('aria-expanded','false');this.target.removeAttribute('aria-busy');
   for(const button of this.snackOptions.children)button.disabled=false;
  }
+ renderTreat(){const count=this.missions.load().data.treats;this.treatButton.hidden=count<=0;this.treatButton.querySelector('.room-treat-count').textContent='×'+count;this.treatButton.setAttribute('aria-label',`${TREAT.name}をあげる（のこり${count}こ・信頼度+${TREAT.trust}）`);}
  feed(id){
-  const item=collectibleItems.find(item=>item.id===id);
+  const special=id===TREAT.id,item=special?TREAT:collectibleItems.find(item=>item.id===id);
   if(!item||this.mode!=='focus'||this.feedingLeft>0)return;
+  if(special){if(!this.missions.useTreat()){this.renderTreat();return;}const who=this.actors[this.selected].id,gain=this.save({id:who,gain:TREAT.trust});if(gain>0)this.measure('trust_gain',{characterType:who,value:gain,source:'treat'});}
   this.sessionSnacks++;this.feedingLeft=2.2;this.reactionLeft=0;this.pointer=null;
   this.snackOptions.hidden=true;this.snackToggle.setAttribute('aria-expanded','false');this.snackToggle.disabled=true;
   for(const button of this.snackOptions.children)button.disabled=true;
   this.target.setAttribute('aria-busy','true');this.focus.dataset.reaction='eating';this.setFrame(1);
   const image=document.createElement('img');image.src=item.src;image.alt='';this.snackEffect.replaceChildren(image);
   this.measure('snack_given',{characterType:this.actors[this.selected].id,snack:id});
+  if(special)this.renderTreat();
   this.snackToggle.focus();
  }
  tap(event){if(this.mode!=='focus'||this.feedingLeft>0)return;

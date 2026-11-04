@@ -37,7 +37,7 @@
 .ranking-name-dialog[data-compact="true"] .ranking-name-card>div{margin:0}
 #game #result{padding:8px}
 #game #result .result-panel{width:min(620px,96%);max-height:100%;display:flex;flex-direction:column;gap:7px;padding:12px 18px;overflow:auto}
-#result .result-main,#result #unbanked,#result .result-stats>div:nth-child(n+3){display:none}
+#result .result-main,#result #unbanked,#result .result-stats>div:nth-child(n+4){display:none}
 #game #result .rescued-head{display:flex;justify-content:center;align-items:baseline;gap:6px;margin:0;line-height:1}
 #game #result .rescued-head>b{font-size:clamp(40px,7cqw,64px);color:#ec518e;line-height:1.1}
 #game #result .rescued-head>span{font-size:16px;line-height:1.2}

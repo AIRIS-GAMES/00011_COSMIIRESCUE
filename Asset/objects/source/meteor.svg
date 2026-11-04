@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384">
+ <defs>
+  <linearGradient id="tail" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffe680" stop-opacity="0"/><stop offset=".55" stop-color="#ffb347" stop-opacity=".85"/><stop offset="1" stop-color="#ff6a3d"/></linearGradient>
+  <linearGradient id="tail2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fff6c2" stop-opacity="0"/><stop offset="1" stop-color="#fff2a8"/></linearGradient>
+  <radialGradient id="rock" cx="38%" cy="32%" r="78%"><stop offset="0" stop-color="#c9a6ff"/><stop offset=".5" stop-color="#8a64d6"/><stop offset="1" stop-color="#4e3590"/></radialGradient>
+ </defs>
+ <!-- flame tail (travel direction is +x) -->
+ <path d="M18 160 C110 120 190 128 246 150 L246 236 C190 258 110 266 18 226 C70 204 70 182 18 160 Z" fill="url(#tail)" stroke="#5b2a24" stroke-width="8" stroke-linejoin="round"/>
+ <path d="M70 182 C140 168 196 172 244 182 L244 204 C196 214 140 218 70 204 Z" fill="url(#tail2)"/>
+ <!-- rock -->
+ <path d="M262 108 C312 104 352 140 356 190 C360 244 322 284 268 284 C214 284 180 250 178 200 C176 150 214 112 262 108 Z" fill="url(#rock)" stroke="#5b2a24" stroke-width="9" stroke-linejoin="round"/>
+ <!-- craters -->
+ <g stroke="#3d2670" stroke-width="5" fill="#6b4bb8"><ellipse cx="304" cy="226" rx="22" ry="17"/><ellipse cx="236" cy="236" rx="13" ry="10"/><ellipse cx="318" cy="160" rx="11" ry="9"/></g>
+ <!-- sparkle + gloss -->
+ <path d="M226 150 C236 132 254 124 272 124" stroke="#fff" stroke-width="12" stroke-linecap="round" fill="none" opacity=".8"/>
+ <circle cx="216" cy="172" r="6" fill="#fff" opacity=".8"/>
+ <g fill="#fff6c2"><path d="M96 112 l7 15 15 7 -15 7 -7 15 -7 -15 -15 -7 15 -7z"/><path d="M128 270 l5 10 10 5 -10 5 -5 10 -5 -10 -10 -5 10 -5z"/></g>
+</svg>

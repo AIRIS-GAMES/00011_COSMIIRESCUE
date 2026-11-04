@@ -35,6 +35,7 @@ try{for(const [width,height,base] of [[568,320,''],[844,390,'/dist'],[390,844,''
  assert.equal(await page.evaluate(async base=>(await import(base+'/src/main.js')).game.skillLeft[3],base),remaining);
  await page.locator('#resume').click();await expect(page.locator('#skill-bar')).toBeVisible();
  await expect(page.locator('#skill-bar button[data-kind="3"]')).toHaveAttribute('data-active','false',{timeout:7000});
-  await expect(page.locator('#skill-bar button[data-kind="3"] span')).toHaveText('0/6');
+  // Each use raises that color's requirement by one for the rest of the run (purple 6 → 7).
+  await expect(page.locator('#skill-bar button[data-kind="3"] span')).toHaveText('0/7');
  assert.deepEqual(errors,[]);console.log('PASS skill buttons, four activations, cutin, pause:',width,height,base);await page.close();
 }}finally{await browser.close();}

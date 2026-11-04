@@ -1,6 +1,6 @@
 import {hero,friends} from './characters.js';
 export const ROOM_KEY='cosmii-friend-room-v2';
-export const roomArt='./Asset/room/cabinet.png';
+export const roomArt='./Asset/room/cabinet.jpg';
 export const roomProps=[
  {id:'cushion',name:'星のクッション',required:0,src:'./Asset/room/props/cushion.png'},
  {id:'plant',name:'星のお花',required:5,src:'./Asset/room/props/plant.png'},
@@ -30,9 +30,11 @@ export const roomAssets=[roomArt,'./Asset/ui/trust/badge.png',...roomProps.map(p
 export function roomResidents(counts=[]){
  return [hero,...friends.flatMap((c,i)=>Array.from({length:Math.min(1,Math.max(0,Math.floor(Number(counts[i])||0)))},()=>c))].map((c,i)=>({...c,residentId:`${c.id}-${i}`}));
 }
-export function validRoomState(data,total=0){
+// Furniture opens by total returns, or early as a daily-mission bonus.
+export const propUnlocked=(prop,total=0,bonus=[])=>prop.required<=total||bonus.includes(prop.id);
+export function validRoomState(data,total=0,bonus=[]){
  const out={character:roomCast.some(c=>c.id===data?.character)?data.character:'green',slots:['cushion',null,null,null],trust:Object.fromEntries(roomCast.map(c=>[c.id,Math.min(100,Math.max(0,Math.floor(Number(data?.trust?.[c.id])||0)))]))};
- if(Array.isArray(data?.slots))out.slots=out.slots.map((_,i)=>{const prop=roomProps.find(p=>p.id===data.slots[i]);return prop&&prop.required<=total?prop.id:null;});
+ if(Array.isArray(data?.slots))out.slots=out.slots.map((_,i)=>{const prop=roomProps.find(p=>p.id===data.slots[i]);return prop&&propUnlocked(prop,total,bonus)?prop.id:null;});
  return out;
 }
 export function walkable(point,slots){

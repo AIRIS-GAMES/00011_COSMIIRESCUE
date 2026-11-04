@@ -3,7 +3,7 @@ import {hazardArt} from './hazards.js';
 export const stage={
   id:'cosmii-arcade',width:1320,height:1000,
   home:{x:205,y:790,radius:59},
-  art:{...hazardArt,base:'./Asset/stage/pop-background.png',home:'./Asset/stage/checkpoint-cosmii.png',shelf:'./Asset/stage/pop-shelf.svg',bumper:'./Asset/stage/pop-bumper.svg'},
+  art:{...hazardArt,base:'./Asset/stage/pop-background.jpg',home:'./Asset/stage/checkpoint-cosmii.png',shelf:'./Asset/stage/pop-shelf.svg',bumper:'./Asset/stage/pop-bumper.svg'},
   // Center-bottom sprite anchors. The HOME cabinet is an open trigger, not a wall.
   props:[
   ],

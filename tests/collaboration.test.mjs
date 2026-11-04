@@ -64,7 +64,7 @@ test('expiry applies at next title/start and never interrupts an ongoing run',()
 
 test('campaign excludes blood-covered knife/fork in normal, hard and fever; OFF restores both',()=>{
   for(const enabled of [true,false])for(const mode of ['normal','hard'])for(const fever of [false,true]){
-    const g=make({...config,enabled}),seen=new Set();g.mode=mode;g.time=90;g.incoming=new IncomingHazards();
+    const g=make({...config,enabled}),seen=new Set();g.mode=mode;g.time=90;g.setArea(2,false);g.incoming=new IncomingHazards();
     if(fever){if(enabled)g.collaboration.left=10;else g.rainbow.left=12;}
     for(let i=0;i<600;i++){
       g.player.x=500+(i%12)*1320;g.obstacles=[];g.incoming.wait=0;g.incoming.update(g,1/120);

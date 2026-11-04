@@ -1,5 +1,5 @@
 ﻿/* Shared sky and tactile controls for title, encyclopedia and external links. */
-#title,.community-screen{background:linear-gradient(#72e5f32b,#d5fff136),url('../Asset/stage/pop-background.png') center/cover;color:#603b2d}
+#title,.community-screen{background:linear-gradient(#72e5f32b,#d5fff136),url('../Asset/stage/pop-background.jpg') center/cover;color:#603b2d}
 #title .title-kicker{left:5%;top:5%;width:49%;border:0;background:none;transform:rotate(-4deg);font-size:clamp(10px,1.8cqw,22px);letter-spacing:3px;padding:0}
 #title h1{left:4%;top:12%;width:51%;font-size:10cqw;line-height:.88;letter-spacing:-.6cqw;color:#fffdf0;text-shadow:3px 4px 0 #633b29,-2px -2px 0 #633b29,0 7px 0 #39bfc8}
 #title h1 span{font-size:9cqw;color:#ffe978}
@@ -138,3 +138,50 @@
 .other-game-action{color:#17616a;font-size:clamp(9px,1.2cqw,13px)}.other-game-card:focus-visible{outline:3px solid #17616a;outline-offset:2px}.other-game-card:active{transform:translateY(2px)}
 .other-games-note{position:absolute;left:82px;right:12px;bottom:22px;text-align:center;font-size:11px;margin:0}
 @container(max-width:650px){.other-games-grid{gap:6px}.other-game-card{padding:6px;gap:5px;border-radius:12px}.other-game-card>img{width:34px;border-radius:8px}.other-game-info{gap:4px}.other-game-info strong{font-size:10px}.other-game-action{font-size:8px}.other-games-note{font-size:9px}}
+/* Daily missions: three cards plus the all-clear bonus. */
+.community-entry .mission-badge{position:absolute;top:2px;right:18%;min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:#ff5c70;color:#fff;font-size:11px;line-height:18px;text-align:center;box-shadow:0 0 0 2px #fff;pointer-events:none}
+.community-entry .mission-badge[data-kind=new]{min-width:12px;width:12px;height:12px;padding:0;top:6px}
+.community-entry .mission-badge[hidden]{display:none}
+.missions-body{display:flex;flex-direction:column;gap:8px;min-height:0;overflow:auto;padding:0 2px}
+.missions-lead{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin:0;color:#603b2d;font-size:clamp(11px,1.6cqw,15px)}
+.missions-lead small{font-size:.8em;opacity:.75;white-space:nowrap}
+.mission-list{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:0;padding:0;list-style:none}
+.mission-card{display:grid;grid-template-columns:auto 1fr;grid-template-areas:"icon text" "bar bar" "reward reward" "claim claim";align-items:center;gap:6px 8px;padding:10px;border:3px solid #49bdce;border-radius:18px;background:#fffbee;box-shadow:0 3px 0 #339bab}
+.mission-card[data-state=done]{border-color:#ffb347;box-shadow:0 3px 0 #e8913a;background:#fff4dc}
+.mission-card[data-state=claimed]{opacity:.7}
+.mission-icon{grid-area:icon;width:clamp(30px,5cqw,48px);height:clamp(30px,5cqw,48px);object-fit:contain}
+.mission-text{grid-area:text;font-family:var(--game-font);font-weight:400;font-size:clamp(11px,1.6cqw,16px);line-height:1.35;color:#543442}
+.mission-progress{grid-area:bar;position:relative;height:16px;border-radius:8px;background:#e3f4ef;overflow:hidden;border:2px solid #9fd8d0}
+.mission-progress i{position:absolute;inset:0 auto 0 0;background:linear-gradient(90deg,#8fe3b0,#3fbf8a);border-radius:6px}
+.mission-progress span{position:relative;display:block;text-align:center;font-size:10px;line-height:12px;color:#2f5b4f}
+.mission-reward{grid-area:reward;display:flex;align-items:center;gap:5px;font-size:clamp(9px,1.25cqw,12px);color:#7a4a3a}
+.mission-reward img{width:22px;height:22px;object-fit:contain}
+.mission-claim{grid-area:claim;min-height:40px;border:2px solid #543442;border-radius:14px;background:#ffd84d;color:#543442;font-family:var(--game-font);font-size:clamp(11px,1.5cqw,15px);box-shadow:0 3px 0 #543442}
+.mission-claim:disabled{background:#eef1ec;color:#8a8f86;border-color:#b9c0b4;box-shadow:none}
+.mission-bonus{display:flex;align-items:center;gap:10px;padding:6px 10px;border:2px dashed #e8913a;border-radius:16px;background:#fff7e6;font-size:clamp(10px,1.5cqw,14px);color:#603b2d}
+.mission-bonus img{width:clamp(30px,4.5cqw,44px);height:clamp(30px,4.5cqw,44px);object-fit:contain}
+.mission-bonus span{flex:1}
+.mission-bonus .mission-claim{min-width:96px}
+.mission-bonus[data-state=done]{border-style:solid;background:#fff0c9}
+.missions-status{display:flex;align-items:center;gap:10px;margin:0;font-size:clamp(10px,1.4cqw,13px);color:#2f6b5f;min-height:20px}
+.missions-treats{display:flex;align-items:center;gap:4px;padding:2px 8px;border-radius:12px;background:#fff1f8;color:#9a3d6a;white-space:nowrap}
+.missions-treats img{width:18px;height:18px}
+/* Compact: reward and claim button share a row so the bonus stays on screen at 390px tall. */
+.mission-card{grid-template-columns:auto 1fr auto;grid-template-areas:"icon text text" "bar bar bar" "reward reward claim";padding:8px 10px;gap:5px 8px}
+.mission-claim{min-height:36px;padding:0 12px}
+.mission-list{gap:8px}
+.missions-body{gap:6px}
+.community-screen[data-mode=missions] .community-body{padding-top:0}
+@media(max-height:360px){
+ .missions-lead small{display:none}
+ .mission-card{padding:5px 8px;gap:3px 6px;border-width:2px}
+ .mission-icon{width:26px;height:26px}
+ .mission-progress{height:13px}.mission-progress span{font-size:9px;line-height:10px}
+ .mission-claim{min-height:32px;font-size:11px;padding:0 8px}
+ .mission-bonus{padding:3px 8px}.mission-bonus img{width:26px;height:26px}
+ .mission-reward img{width:18px;height:18px}
+}
+@media(max-height:360px){
+ .missions-lead{display:none}
+ .missions-status{order:-1;min-height:18px}
+}

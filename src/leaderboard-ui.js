@@ -1,3 +1,4 @@
+import {icon} from './icons.js';
 import {Leaderboard,newRunId,playerName} from './leaderboard.js';
 import {leaderboardConfig} from './leaderboard-config.js';
 import {AutoRanking} from './auto-ranking.js';
@@ -37,7 +38,7 @@ export class LeaderboardUI {
     this.supportButton=document.createElement('button');this.supportButton.type='button';this.supportButton.className='settings-support';this.supportButton.textContent='ランキング・サポート';this.supportButton.hidden=true;this.bgmRow.after(this.supportButton);this.supportButton.onclick=()=>this.safetyUI.settings();
     const refreshBgm=()=>{const enabled=this.options.getBgm?.()!==false;this.bgmButton.textContent=enabled?'ON':'OFF';this.bgmButton.setAttribute('aria-pressed',String(enabled));};
     this.bgmButton.onclick=()=>{this.options.setBgm?.(!(this.options.getBgm?.()!==false));refreshBgm();};
-    this.settingsButton=document.createElement('button');this.settingsButton.type='button';this.settingsButton.id='home-settings';this.settingsButton.textContent='⚙';this.settingsButton.setAttribute('aria-label','設定');
+    this.settingsButton=document.createElement('button');this.settingsButton.type='button';this.settingsButton.id='home-settings';this.settingsButton.setAttribute('aria-label','設定');
     this.settingsButton.textContent='';const settingsIcon=document.createElement('img');settingsIcon.src='./Asset/ui/menu/settings.png';settingsIcon.alt='';this.settingsButton.append(settingsIcon);
     $('title').append(this.settingsButton);this.settingsButton.onclick=()=>this.openEditor(true);
     const fitEditor=()=>{
@@ -82,7 +83,7 @@ export class LeaderboardUI {
     this.form.onsubmit=event=>{event.preventDefault();try{if(this.auto.read().name)this.register();else this.openEditor();}catch{this.message.textContent='端末に保存できません';}};
     this.form.addEventListener('keydown',event=>event.stopPropagation());
     this.form.addEventListener('keyup',event=>event.stopPropagation());
-    $('records').textContent='RANKING ↗';
+    $('records').innerHTML='RANKING '+icon('link');
     window.addEventListener('online',()=>this.register());
     window.addEventListener('storage',event=>{if(event.key===this.auto.key)this.register();});
     document.addEventListener('visibilitychange',()=>{if(!document.hidden)this.register();});

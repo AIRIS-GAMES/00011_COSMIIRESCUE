@@ -1,20 +1,21 @@
+import {icon} from './icons.js';
 export class Reminders {
- constructor(measure=()=>{}){this.measure=measure;}
+ constructor(measure=()=>{},onOpen=()=>{}){this.measure=measure;this.onOpen=onOpen;}
  initialize(load=async()=>{const {registerPlugin}=await import('./vendor/capacitor-core-7.6.9.js');return {plugin:registerPlugin('CosmiiReminders')};}){
   if(this.loading)return this.loading;
   this.loading=(async()=>{try{this.plugin=(await load()).plugin;return true;}catch{return false;}})();return this.loading;
  }
  async played(active){try{await this.loading;if(this.plugin)await this.plugin.played({active});}catch{/* Reminders cannot interrupt a game. */}}
- async consume(){try{await this.loading;const result=await this.plugin?.consumeTaps();for(const tap of result?.taps||[])if(['d1','d7'].includes(tap.kind))this.measure('opened',tap.kind);}catch{}}
+ async consume(){try{await this.loading;const result=await this.plugin?.consumeTaps();for(const tap of result?.taps||[])if(['d1','d7'].includes(tap.kind)){this.measure('opened',tap.kind);this.onOpen(tap.kind);}}catch{}}
 }
-export function installReminders(measure){
- const reminders=new Reminders(measure);
+export function installReminders(measure,onOpen){
+ const reminders=new Reminders(measure,onOpen);
  if(globalThis.Capacitor?.getPlatform?.()!=='ios')return reminders;
- const button=document.createElement('button');button.id='reminder-settings';button.type='button';button.hidden=true;button.textContent='🔔';button.setAttribute('aria-label','お知らせの設定');
+ const button=document.createElement('button');button.id='reminder-settings';button.type='button';button.hidden=true;button.innerHTML=icon('bell');button.setAttribute('aria-label','お知らせの設定');
  document.getElementById('title').append(button);
  const dialog=document.createElement('dialog');dialog.className='reminder-dialog';
  dialog.setAttribute('aria-labelledby','reminder-heading');
- dialog.innerHTML='<h2 id="reminder-heading">コスミーからお知らせ</h2><p>最後に遊んでから1日後・7日後に<br>お知らせします。</p><p class="reminder-status" role="status"></p><div><button type="button" class="reminder-toggle"></button><button type="button" class="reminder-ios" hidden>iPhoneの設定を開く</button><button type="button" class="reminder-close">とじる</button></div>';
+ dialog.innerHTML='<h2 id="reminder-heading">コスミーからお知らせ</h2><p>最後に遊んでから1日後に「今日のミッション」、<br>7日後にもう一度お知らせします。</p><p class="reminder-status" role="status"></p><div><button type="button" class="reminder-toggle"></button><button type="button" class="reminder-ios" hidden>iPhoneの設定を開く</button><button type="button" class="reminder-close">とじる</button></div>';
  document.body.append(dialog);
  const status=dialog.querySelector('.reminder-status'),toggle=dialog.querySelector('.reminder-toggle'),settings=dialog.querySelector('.reminder-ios');
  let state={};

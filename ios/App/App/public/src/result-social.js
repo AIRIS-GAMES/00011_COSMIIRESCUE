@@ -1,3 +1,4 @@
+import {iconEl} from './icons.js';
 import {socialLinks} from './community-config.js';
 import {hero} from './characters.js';
 
@@ -16,7 +17,7 @@ export class ResultSocialPopup {
    if(item?.previewSrc){link.classList.add('has-preview');const img=document.createElement('img');img.src=item.previewSrc;img.alt='ありがとう、すき、了解！のスタンプ見本';link.append(img);}
    else if(item?.iconSrc){const img=document.createElement('img');img.src=item.iconSrc;img.alt='';link.append(img);}
    else{const icon=document.createElement('span');icon.className='result-social-line';icon.textContent='LINE';icon.setAttribute('aria-hidden','true');link.append(icon);}
-   const label=document.createElement('span');label.textContent=item?.label||id;const status=document.createElement('small');status.textContent=url?'↗':'準備中';link.append(label,status);nav.append(link);
+   const label=document.createElement('span');label.textContent=item?.label||id;const status=document.createElement('small');status.textContent=url?'':'準備中';if(url)status.append(iconEl('link'));link.append(label,status);nav.append(link);
   }
   this.closeButton=this.root.querySelector('.result-social-back');this.closeButton.onclick=()=>this.close();
   this.root.addEventListener('keydown',e=>{

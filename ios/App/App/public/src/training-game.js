@@ -7,6 +7,8 @@ export class TrainingGame extends RescueGame {
  startPractice(){super.start('normal');this.world={extend(){}};this.incoming={update(){}};this.stage.zones=[];this.stage.spawns=[];this.stage.props=[];this.obstacles=[];this.events=[];this.leftTravel=0;this.rightTravel=0;this.leftDone=false;this.rightDone=false;this.flapped=false;this.recoveries=0;this.passedObstacle=false;this.skillRetries=0;this.enterStep(0);}
  enterStep(step){this.practiceStep=step;this.player.x=600;this.player.y=650;this.player.vx=0;this.player.vy=0;this.homes=[];this.friends=[];this.stage.home={x:1250,y:650,radius:65};if(step===2)for(let i=0;i<3;i++)this.spawnFriend({x:760+i*45,y:650,kind:0});if(step===3)this.homes=[this.stage.home];if(step===4){this.setDirection(0);this.phaseLeft=0;this.skillLeft[0]=0;this.skillCharge[0]=3;this.passedObstacle=false;this.obstacles=[{id:'practice-ironball',asset:'ironball',x:880,y:650,baseX:880,baseY:650,r:65,size:150,damage:3,disabled:0,motion:{x:0,y:0,speed:0},phase:0}];}}
  activateSkill(kind){if(this.practiceStep!==4||kind!==0)return false;const activated=super.activateSkill(kind);if(activated){this.practiceStep=5;this.passedObstacle=false;}return activated;}
+ // Practice never costs lives or friends, even if the skill ends inside the iron ball.
+ hit(){return false;}
  flap(){if(this.practiceStep===4||this.practiceStep===6)return;super.flap();if(this.practiceStep===1)this.flapped=true;}
  rescue(f){const before=this.carry.length;super.rescue(f);if(this.practiceStep===2&&this.carry.length>before&&this.carry.length>=3)this.enterStep(3);}
  beginReturn(){const before=this.rescued;super.beginReturn();if(this.practiceStep===3&&this.rescued>before)this.enterStep(4);}

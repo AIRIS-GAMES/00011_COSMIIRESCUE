@@ -1,6 +1,8 @@
 import {SKILL_COLORS} from './skills.js';
 import {COLLECTIBLE_RADIUS} from './collection.js';
 import {biomes,drawBiome} from './biomes.js';
+import {EFFECTS,activeEffects} from './effects.js';
+import {WIND_KINDS,WIND_WARN,WIND_BLOW} from './wind.js';
 import {canvasResolution,smoothImages} from './canvas-resolution.js';
 import {eyeBeams,RAINBOW_TARGET} from './rainbow.js';
 import {VIEW_W,clamp,distance} from './engine.js';
@@ -48,7 +50,7 @@ export class Renderer {
     if(e.type==='return'){this.bursts.push({x:e.x,y:e.y,color:'#ff5f82',life:.65,r:155});this.homePulse=1.5;this.burst(e.x,e.y,Math.min(70,e.count*10),['#fff4c3','#ffc4db','#a8dfa7'],210);this.popup(`${e.count} ${this.collaborationEnabled?'RESCUED':'COSMII!'}`,e.x,e.y-90,'#538d4a',27);}
     if(e.type==='bank'){this.deliveries.push({x:e.x,y:e.y,startX:e.x,startY:e.y,homeX:e.homeX,homeY:e.homeY,kind:e.kind,collaborationKind:e.collaborationKind,life:.5});this.popup(`+${e.points}`,e.homeX+45,e.homeY-30,'#b98431',20);}
     if(e.type==='lost'){this.burst(e.x,e.y,14,['#ffb2bc','#fff2e0'],160);this.popup(`−${e.count||1}`,e.x,e.y-35,'#b26d76',15);this.shake=5;}
-    if(e.type==='hinder'){this.burst(e.x,e.y,12,['#c3f4ff','#fff7db'],90);this.popup({fog:'CLOUD',slow:'SLOW',paper:'!',slip:'SLIP'}[e.effect],e.x,e.y-35,'#747bbe',14);}
+    if(e.type==='hinder'){const fx=EFFECTS[e.effect];this.burst(e.x,e.y,14,['#c3f4ff','#fff7db'],90);if(fx)this.popup(fx.name,e.x,e.y-42,fx.color,20);this.effectFlash={id:e.effect,life:.5};}
     if(e.type==='rim'){this.burst(e.x,e.y,8,['#fff4cf','#ffaacb'],80);this.shake=2;}
     if(e.type==='bump')this.popup('SHIELD',e.x,e.y-35,'#60885e',15);
     if(e.type==='hit'){this.shake=7;this.flash=.2;this.burst(e.x,e.y,20,['#ffb4bd','#ffecd7']);}
@@ -109,14 +111,16 @@ export class Renderer {
     c.restore();
   }
   world(game,dt,paused){const c=this.ctx;
-    for(const zone of game.activeZones){const s=this.worldToScreen(zone.x,zone.y);c.save();c.globalAlpha=.16;this.round(s.x,s.y,zone.w*this.zoom,zone.h*this.zoom,20,'#fff4c6');c.restore();this.text('↗ SPEED LANE ↗',s.x+zone.w*this.zoom/2,s.y+20,12,'#b48e4c');}
+    for(const zone of game.activeZones){const s=this.worldToScreen(zone.x,zone.y);c.save();c.globalAlpha=.16;this.round(s.x,s.y,zone.w*this.zoom,zone.h*this.zoom,20,'#fff4c6');c.restore();this.text('SPEED LANE',s.x+zone.w*this.zoom/2,s.y+20,12,'#b48e4c');for(const side of [-1,1]){const ax=s.x+zone.w*this.zoom/2+side*58,ay=s.y+20;c.save();c.fillStyle='#e7b45c';c.beginPath();c.moveTo(ax-6,ay-6);c.lineTo(ax+6,ay);c.lineTo(ax-6,ay+6);c.closePath();c.fill();c.restore();}}
     for(const h of game.homes)this.home(game,h);
     for(const p of this.stage.props.filter(p=>p.layer==='world'&&!p.id.startsWith('home-')))this.prop(p);
     c.save();c.scale(this.zoom,this.zoom);c.translate(-this.camera.x,-this.camera.y);
     for(const ring of this.reactions?.rings||[]){const t=(this.reactions.time-ring.start)/1.1;c.save();c.globalAlpha=(1-t)*.5;this.circle(ring.x,ring.y,65+t*30,'#d6ffec22','#d6ffec',3);c.restore();}
     for(const o of game.obstacles){if(!o.asset)continue;c.save();if(o.disabled)c.globalAlpha=.17;
+      // Effect hazards (no damage) wear a soft dashed halo so they read differently from damaging ones.
+      if(o.effect&&o.r&&!o.disabled){c.save();c.globalAlpha=.55;c.setLineDash([8,7]);c.lineDashOffset=-this.clock*20;this.circle(o.x,o.y,(o.size||(o.r+12)*2)*.42,'#ffffff40','#ffffff',3);c.restore();}
       if(o.motion){c.save();c.globalAlpha=.15;c.strokeStyle='#c07768';c.lineWidth=2;c.setLineDash([5,7]);c.beginPath();c.moveTo(o.baseX-o.motion.x,o.baseY-o.motion.y);c.lineTo(o.baseX+o.motion.x,o.baseY+o.motion.y);c.stroke();c.restore();}
-      if(o.r){const size=o.size||(o.r+12)*2;c.translate(o.x,o.y);c.rotate(o.angle||0);this.image(this.assets[o.asset],-size/2,-size/2,size,size);}else c.drawImage(this.assets[o.asset],o.x,o.y,o.w,o.h);c.restore();}
+      if(o.r){const size=o.size||(o.r+12)*2;c.translate(o.x,o.y);c.rotate(o.angle||0);if(o.flip)c.scale(-1,1);this.image(this.assets[o.asset],-size/2,-size/2,size,size);}else c.drawImage(this.assets[o.asset],o.x,o.y,o.w,o.h);c.restore();}
     
     for(const item of game.items||[]){
       const x=item.x,y=item.y,r=COLLECTIBLE_RADIUS;
@@ -141,6 +145,7 @@ export class Renderer {
         this.star(beam.x,beam.y,8,'#fff8aa',this.clock*2);
       }c.restore();
     }
+    this.heroEffects(game);
     if(Math.hypot(p.vx,p.vy)>60&&!paused&&Math.random()<.45)this.burst(p.x-p.vx*.1,p.y-p.vy*.1,1,['#fffadc','#cceaa9'],15);
     for(const d of this.deliveries){if(!paused)d.life-=dt;const t=clamp(1-d.life/.5,0,1),ease=1-(1-t)**3;d.x=d.startX+(d.homeX-d.startX)*ease;d.y=d.startY+(d.homeY-d.startY)*ease;c.globalAlpha=this.collaborationEnabled&&Number.isInteger(d.collaborationKind)?1:1-t*.5;const size=50*(1-t*.14);c.save();c.translate(d.x,d.y);if(!Number.isInteger(d.collaborationKind))this.reactions?.applyReturn(c,d.kind,t*.5,this.reduced);this.image(this.friendImage(d),-size/2,-size/2,size,size);c.restore();}c.globalAlpha=1;this.deliveries=this.deliveries.filter(d=>d.life>0);
     for(const b of this.bursts){if(!paused)b.life-=dt;c.save();c.globalAlpha=clamp(b.life*3,0,1);c.translate(b.x,b.y);const radius=b.r*(1.25-b.life*.6);c.beginPath();for(let i=0;i<24;i++){const a=i*Math.PI/12,r=i%2?radius*.65:radius;c.lineTo(Math.cos(a)*r,Math.sin(a)*r);}c.closePath();c.lineWidth=4;c.strokeStyle=b.color;c.stroke();c.restore();}this.bursts=this.bursts.filter(b=>b.life>0);
@@ -195,6 +200,40 @@ const center=this.width*.51,scale=Math.min(.88,h/390);const positions=[[0,0],[-4
       this.text('フィーバータイム',cx+48,cy+65,15,'#573b23');
     }
   }
+  // Left column under the HUD rows: wind first, then effects; each banner takes the next slot.
+  bannerRect(h=40){const w=Math.min(220,this.width*.34),y=Math.max(118,this.height*.3)+this.bannerSlot*(h+6);this.bannerSlot++;return {x:12,y,w,h};}
+  // Wind: arrows pulse during the warning, then streaks sweep across the screen while it blows.
+  windLayer(game,paused){
+    const w=game.wind;if(!w||w.state==='calm'||!w.kind)return;const c=this.ctx,kind=WIND_KINDS[w.kind],dir=kind.sign,head=w.kind==='head';
+    const color=head?'#5b7fd6':'#ff8a3d',t=this.clock;c.save();
+    if(w.state==='blow'){const strength=Math.min(1,Math.abs(w.force)/Math.max(1,w.strength));c.lineCap='round';
+      for(let i=0;i<30;i++){const speed=560+(i%5)*90,len=70+(i%4)*34,y=((i*97.3)%1)*this.height*.9+this.height*.05+Math.sin(t*2+i)*8;let x=((t*speed*dir+i*233)%(this.width+len*2)+(this.width+len*2))%(this.width+len*2)-len;
+        c.globalAlpha=.25+.4*strength;c.strokeStyle=i%3?'#ffffff':color;c.lineWidth=i%3?2.5:3.5;c.beginPath();c.moveTo(x,y);c.quadraticCurveTo(x+dir*len*.5,y-6,x+dir*len,y);c.stroke();}}
+    // banner (left side, under the score) with an arrow and a bar for the remaining time
+    const warn=w.state==='warn',ratio=warn?w.left/WIND_WARN:w.left/WIND_BLOW,{x:bx,y:by,w:bw,h:bh}=this.bannerRect();
+    c.globalAlpha=warn?.75+.25*Math.sin(t*12):1;this.round(bx,by,bw,bh,14,head?'#e8efffee':'#fff0e2ee',color,2.5);
+    c.save();c.translate(bx+24,by+bh/2);c.scale(dir,1);c.fillStyle=color;c.beginPath();c.moveTo(-12,-6);c.lineTo(2,-6);c.lineTo(2,-13);c.lineTo(14,0);c.lineTo(2,13);c.lineTo(2,6);c.lineTo(-12,6);c.closePath();c.fill();c.restore();
+    this.text(warn?kind.name+'がくる！':kind.name,bx+44,by+14,13,color,'left',true);this.text(kind.hint,bx+44,by+30,10,'#4b4a5a','left');
+    this.round(bx+bw-52,by+15,42,9,4.5,'#ffffff','#00000022',1);this.round(bx+bw-52,by+15,Math.max(4,42*ratio),9,4.5,color);
+    c.restore();
+  }
+  // Active effect banners: icon, name, what it does, and a draining bar (top centre, under the rainbow gauge).
+  effectBanners(game,dt,paused){
+    const list=activeEffects(game);if(this.effectFlash&&!paused)this.effectFlash.life-=dt;
+    list.forEach(fx=>{const {x,y,w,h}=this.bannerRect();
+      const pop=this.effectFlash?.id===fx.id&&this.effectFlash.life>0?1+this.effectFlash.life*.3:1;const c=this.ctx;c.save();c.translate(x,y+h/2);c.scale(pop,pop);c.translate(-x,-(y+h/2));
+      this.round(x,y,w,h,14,fx.fill+'f2',fx.color,2.5);this.image(this.assets[fx.icon],x+6,y+4,32,32);
+      this.text(fx.name,x+44,y+13,13,fx.color,'left',true);this.text(fx.hint,x+44,y+29,10,'#5a4652','left');
+      this.round(x+w-58,y+15,48,9,4.5,'#ffffff','#00000022',1);this.round(x+w-58,y+15,Math.max(4,48*fx.ratio),9,4.5,fx.color);
+      c.restore();});
+  }
+  // On the hero: a bubble for slow, sliding streaks for slip, a little cloud for fog.
+  heroEffects(game){
+    const c=this.ctx,p=game.player,t=this.clock;
+    if(game.effects.slow>0){const r=36+Math.sin(t*6)*2.5;c.save();const g=c.createRadialGradient(p.x-10,p.y-12,4,p.x,p.y,r);g.addColorStop(0,'#ffffff55');g.addColorStop(.75,'#bfe9ff30');g.addColorStop(1,'#9fd8ff88');this.circle(p.x,p.y,r,g,'#ffffffcc',2.5);c.strokeStyle='#ffffffdd';c.lineWidth=4;c.lineCap='round';c.beginPath();c.arc(p.x,p.y,r-7,Math.PI*1.1,Math.PI*1.45);c.stroke();c.restore();}
+    if(game.effects.slip>0){c.save();c.strokeStyle='#f2b84b';c.lineWidth=3;c.lineCap='round';const dir=p.vx>=0?-1:1;for(let i=0;i<3;i++){const off=(t*90+i*14)%42;c.globalAlpha=.9-off/50;c.beginPath();c.moveTo(p.x+dir*(20+off),p.y+16+i*5);c.lineTo(p.x+dir*(34+off),p.y+16+i*5);c.stroke();}c.globalAlpha=1;this.text('ツルッ',p.x,p.y+40,11,'#b9781e','center',true);c.restore();}
+    if(game.effects.fog>0){c.save();c.globalAlpha=.9;const y=p.y-44+Math.sin(t*3)*2;this.circle(p.x-10,y,11,'#f4f6ff','#8a93c9',2);this.circle(p.x+4,y-5,13,'#f4f6ff','#8a93c9',2);this.circle(p.x+16,y+1,10,'#f4f6ff','#8a93c9',2);c.restore();}
+  }
   draw(game,dt,title=false,paused=false){
     // Mobile rotation can finish layout after the window resize event.
     // Synchronize before painting so CSS never squeezes a stale canvas buffer.
@@ -204,8 +243,7 @@ const center=this.width*.51,scale=Math.min(.88,h/390);const positions=[[0,0],[-4
     if(title)this.title();else{this.world(game,dt,paused);for(const h of game.homes)this.home(game,h,true);this.checkpointHint(game);
       if(game.effects.fog>0){c.save();c.globalAlpha=Math.min(.62,game.effects.fog*.7);for(let i=0;i<9;i++)this.circle(this.width*(i/8),this.height*(.35+(i%3)*.14),this.height*.3,'#f2f6ff');c.restore();}
       if(game.effects.paper>0){c.save();c.globalAlpha=Math.min(1,game.effects.paper*3);c.translate(this.width*.62,this.height*.43);c.rotate(-.22);this.image(this.assets.flyer,-90,-100,180,200);c.restore();}
-      if(game.effects.slow>0)this.text('SLOW',this.width*.5,75,15,'#758ac6','center',true);
-      if(game.effects.slip>0)this.text('SLIP',this.width*.5,95,15,'#b98967','center',true);}
+      this.bannerSlot=0;this.windLayer(game,paused);this.effectBanners(game,dt,paused);}
     if(!title&&game.collaboration.enabled)this.collaborationHud(game);
     if(!title&&!game.collaboration.enabled&&(!game.isTraining||game.practiceStep>=6)){const active=game.powered,x=this.width/2-92,progress=Math.min(1,game.carry.length/RAINBOW_TARGET);this.round(x,12,184,37,13,active||progress===1?'#fff1ab':'#fff9e6e6','#704167',2);this.text(active?`RAINBOW ${Math.ceil(game.rainbow.left)}s`:progress===1?'HOME → RAINBOW':`RAINBOW ${game.carry.length}/${RAINBOW_TARGET}`,this.width/2,26,12,'#8d377c');this.round(x+12,39,160*(active?Math.min(1,game.rainbow.left/12):progress),4,2,'#ef64b7');}
     if(this.flash>0&&!this.reduced){c.fillStyle=`rgba(255,246,207,${this.flash})`;c.fillRect(0,0,this.width,this.height);}if(!paused){this.flash=Math.max(0,this.flash-dt);this.shake=Math.max(0,this.shake-dt*20);this.homePulse=Math.max(0,this.homePulse-dt);}c.restore();

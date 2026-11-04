@@ -27,6 +27,8 @@ try{
   await page.locator('#quit').click();await page.locator('.result-social-back').click();await page.locator('#home').click();await page.locator('.face-transition').waitFor({state:'hidden'});
   await page.locator('#reminder-settings').click();await page.locator('.reminder-toggle').click();await expect(page.locator('.reminder-status')).toContainText('OFF');await page.locator('.reminder-close').click();
   await page.evaluate(()=>{reminderState.permission='denied';reminderTaps=[{kind:'d1'}];document.dispatchEvent(new Event('cosmiiReminderOpened'));});
+  // D1 announces today's missions: tapping it opens the mission list, then the player returns to the title.
+  await expect(page.locator('#community-screen[data-mode="missions"]')).toBeVisible();await page.locator('#community-screen .community-back').click();await expect(page.locator('#title')).toBeVisible();
   await page.locator('#reminder-settings').click();await expect(page.locator('.reminder-ios')).toBeVisible();await expect(page.locator('.reminder-toggle')).toBeHidden();await page.locator('.reminder-ios').click();
   assert.equal(await page.evaluate(()=>events.filter(e=>e[1]==='Reminder:v1:opened:d1').length),1);
   assert.deepEqual(errors,[]);await page.close();console.log('PASS reminder settings and mocked native lifecycle',width,height);

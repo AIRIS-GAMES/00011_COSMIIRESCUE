@@ -8,6 +8,8 @@ import {RainbowMode,eyeBeams,beamHits,beamTargetVisible} from './rainbow.js';
 import {pushOutEllipse} from './collision.js';
 // Core rescue simulation.
 import {EndlessWorld} from './endless.js';
+import {AREAS,areaIndexFor} from './areas.js';
+import {Wind} from './wind.js';
 export const VIEW_W=960;
 export const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
 export const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
@@ -24,19 +26,21 @@ export class RescueGame {
     this.items=[];this.itemClock=0;this.itemSpawn=0;this.itemSequence=0;
     this.stage={...this.template,props:[],spawns:[],zones:[],home:{...this.template.home}};
     const h=this.stage.home;this.state='ready';this.time=0;this.scrollX=0;this.travel=0;this.direction=0;this.homes=[];
-    this.delivered=[0,0,0,0];this.returnSequence=0;this.score=0;this.rescued=0;this.maxCarry=0;this.bestReturn=0;this.bestReturnCount=0;
+    this.delivered=[0,0,0,0];this.returnSequence=0;this.setArea(0,false);this.score=0;this.rescued=0;this.maxCarry=0;this.bestReturn=0;this.bestReturnCount=0;
     this.combo=0;this.maxCombo=0;this.comboLeft=0;this.hearts=3;
     this.player={x:h.x,y:h.y-125,vx:190,vy:0,r:17,tap:0,angle:0};
     this.target=null;this.keys=null;this.carry=[];this.friends=[];this.events=[];
-    this.rimCooldown=0;this.effects={fog:0,slow:0,paper:0,slip:0};this.stun=0;this.cooldown=0;this.hitstop=0;this.endDelay=0;this.bankQueue=[];this.bankClock=0;
+    this.rimCooldown=0;this.effects={fog:0,slow:0,paper:0,slip:0};this.effectMax={fog:0,slow:0,paper:0,slip:0};this.effectSource={};this.stun=0;this.cooldown=0;this.hitstop=0;this.endDelay=0;this.bankQueue=[];this.bankClock=0;
     this.returnLock=0;this.spawnClock=0;this.nearClock=0;this.nextId=1;
-    this.obstacles=[];this.incoming=new IncomingHazards();this.view=null;
+    this.obstacles=[];this.incoming=new IncomingHazards();this.wind=new Wind();this.view=null;
     this.rainbow=new RainbowMode();this.collaboration=new CollaborationMode(this.collaborationConfig,this.now);
     this.activeZones=[];
     this.world=new EndlessWorld(this.template,this.random);this.world.extend(this);
     this.unlocked=new Set();
   }
   emit(type,data={}){this.events.push({type,...data});}
+  // Area follows HOME returns within a run (sky → sunset → neon → space); scenery, hazards and gravity read it.
+  setArea(index,announce=true){const area=AREAS[index];this.areaIndex=index;this.area=area;this.biome=area.biome;this.bestArea=Math.max(this.bestArea||0,index);if(!announce)this.bestArea=index;if(announce)this.emit('area',{index,id:area.id,name:area.name});}
   drain(){const e=this.events;this.events=[];return e;}
   start(mode=this.mode||'normal'){this.mode=mode==='hard'?'hard':'normal';this.reset();this.state='playing';this.emit('start');}
   setDirection(value){const next=clamp(value,-1,1);if(next*this.direction<0)this.emit('turn',{x:this.player.x,y:this.player.y});this.direction=next;}
@@ -61,6 +65,7 @@ export class RescueGame {
     this.onCheckpoint?.(this);
     this.emit('return',{x:this.stage.home.x,y:this.stage.home.y,count:friends.length,total,delivered,sequence:this.returnSequence});
     this.firstReturnProtection=false;
+    const nextArea=areaIndexFor(this.returnSequence);if(nextArea>this.areaIndex)this.setArea(nextArea);
     if(this.collaboration.enabled)this.collaboration.returnGroup(this,friends);else this.rainbow.returnGroup(this,friends.length);
   }
   bankOne(){const f=this.bankQueue.shift();if(!f)return;const h=this.returnCheckpoint||this.returnHome;h.attached??=[];const slot=attachedSlot(h.attached.length);h.attached.push({kind:f.kind,collaborationKind:f.collaborationKind,...slot,showAt:this.time+.5});this.emit('bank',{x:f.x,y:f.y,homeX:h.x+slot.x,homeY:h.y+slot.y,kind:f.kind,collaborationKind:f.collaborationKind,points:f.points,index:f.bankIndex});}
@@ -81,7 +86,9 @@ export class RescueGame {
   }
   // Intended travel direction: small left input still drifts right in NORMAL.
   get forward(){return (this.mode==='hard'?this.direction<0:horizontalSpeed(this.direction)<0)?-1:1;}
-  get protectedReturn(){return !!(this.psfRules&&this.firstReturnProtection&&this.mode==='normal'&&!this.isTraining&&this.carry.length);}
+  // Damage protection before the first return was removed (2026-11-05); kept as false for older callers.
+  get protectedReturn(){return false;}
+  get beforeFirstReturn(){return !!(this.psfRules&&this.firstReturnProtection&&this.mode==='normal'&&!this.isTraining);}
   finish(reason='time'){if(this.state!=='playing')return;while(this.bankQueue.length)this.bankOne();this.state='ending';this.endDelay=reason==='hit'?.85:.4;this.reason=reason;this.target=null;this.emit('finish',{reason,unbanked:this.carry.length});}
   followCarry(dt){
     const p=this.player;
@@ -99,7 +106,7 @@ export class RescueGame {
     for(const key of Object.keys(this.effects))this.effects[key]=Math.max(0,this.effects[key]-dt);
     this.stun=Math.max(0,this.stun-dt);
     this.rainbow.update(this,dt);this.collaboration.update(this,dt);
-    this.time+=dt;this.scrollX=Math.max(this.scrollX+110*(this.effects.slow>0?.5:1)*dt,this.player.x-310);this.travel=Math.max(this.travel,(this.player.x-this.template.home.x)/10);this.world.extend(this);this.incoming.update(this,dt);
+    this.time+=dt;this.scrollX=Math.max(this.scrollX+110*(this.effects.slow>0?.5:1)*dt,this.player.x-310);this.travel=Math.max(this.travel,(this.player.x-this.template.home.x)/10);this.world.extend(this);this.incoming.update(this,dt);this.wind.update(this,dt);
     this.cooldown=Math.max(0,this.cooldown-dt);this.returnLock=Math.max(0,this.returnLock-dt);this.comboLeft=Math.max(0,this.comboLeft-dt);if(!this.comboLeft)this.combo=0;
     if(this.time>=30&&!this.unlocked.has('difficulty-30')){this.unlocked.add('difficulty-30');this.emit('difficulty',{level:1});}
     if(this.time>=45&&!this.unlocked.has('difficulty-45')){this.unlocked.add('difficulty-45');this.emit('difficulty',{level:2});}
@@ -110,7 +117,7 @@ export class RescueGame {
     const p=this.player,previous={x:this.player.x,y:this.player.y};p.tap=Math.max(0,p.tap-dt);
     const turbo=this.activeZones.some(z=>p.x>z.x&&p.x<z.x+z.w&&p.y>z.y&&p.y<z.y+z.h);
     const speed=(turbo?1.3:1)*(this.effects.slow>0?.5:1),tx=(this.mode==='hard'?(this.direction<0?this.direction*225:this.direction>0?this.direction*310:190):horizontalSpeed(this.direction))*speed;
-    if(this.stun<=0)p.vx+=(tx-p.vx)*(1-Math.exp(-(this.effects.slip>0?2:12)*dt));p.vy=Math.min(475,p.vy+820*dt);
+    const windTx=tx+this.wind.force;if(this.stun<=0)p.vx+=(windTx-p.vx)*(1-Math.exp(-(this.effects.slip>0?1.4:12)*dt));p.vy=Math.min(475*(this.area?.gravity??1),p.vy+820*(this.area?.gravity??1)*dt);
     p.x=Math.max(p.r+8,p.x+p.vx*dt);p.y+=p.vy*dt;
     p.angle+=(clamp(p.vx/900,-.23,.23)-p.angle)*dt*9;
     this.followCarry(dt);
@@ -125,7 +132,7 @@ export class RescueGame {
     const beams=this.powered?eyeBeams(this):[];
     for(const o of this.obstacles){
       o.disabled=Math.max(0,o.disabled-dt);
-      if(o.incoming){o.x+=o.vx*dt;o.y+=o.vy*dt;}else{
+      if(o.incoming){o.x+=o.vx*dt;o.y+=o.vy*dt;if(o.wave){o.phase+=dt*o.wave.speed;o.y+=Math.cos(o.phase)*o.wave.height*o.wave.speed*dt;}}else{
       const m=o.motion||{x:12,y:16,speed:.85},phase=o.asset?o.phase:0;
       const strength=o.motion&&this.time<30?.45:1;
       o.x=o.baseX+(Math.sin(this.time*m.speed+phase)-Math.sin(phase))*m.x*strength;
@@ -134,7 +141,7 @@ export class RescueGame {
       if(this.powered){if(beamTargetVisible(this,o)&&beams.some(b=>beamHits(b,o))){o.destroyed=true;this.emit('break',{x:o.x,y:o.y,asset:o.asset,size:o.size,angle:o.angle,rainbow:true});}continue;}
       if(o.disabled||this.phaseLeft>0)continue;
       const collision=overlap(p,o);
-      if(o.effect){if(collision){this.effects[o.effect]=Math.max(this.effects[o.effect],o.duration);o.disabled=o.duration+1;this.emit('hinder',{x:p.x,y:p.y,effect:o.effect});}continue;}
+      if(o.effect){if(collision){if(o.duration>=this.effects[o.effect]){this.effectMax[o.effect]=o.duration;this.effectSource[o.effect]=o.asset;}this.effects[o.effect]=Math.max(this.effects[o.effect],o.duration);o.disabled=o.duration+1;this.emit('hinder',{x:p.x,y:p.y,effect:o.effect,asset:o.asset});}continue;}
       if(collision){
         {
           this.hit(o.damage||1,p);

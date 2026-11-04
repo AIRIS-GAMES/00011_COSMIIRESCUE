@@ -10,9 +10,11 @@ try{
   await page.addInitScript(()=>localStorage.setItem('cosmii-psf-v1',JSON.stringify({intro:true})));
   await page.goto('http://localhost:5180/?analytics=off');
   await page.locator('#boot-screen').waitFor({state:'hidden'});
+  // Returning players get the short prologue; one tap skips it.
+  await page.locator('#opening-screen video').click();await expect(page.locator('#opening-screen')).toBeHidden();
   await page.evaluate(async()=>{const {analytics}=await import('/src/analytics.js');window.captured=[];analytics.send=(...args)=>window.captured.push(args);});
   const menu=page.locator('#open-games');await expect(menu).toBeInViewport({ratio:1});
-  await expect(page.locator('.community-entry button:visible')).toHaveCount(7);
+  await expect(page.locator('.community-entry button:visible')).toHaveCount(8);
   for(const button of await page.locator('.community-entry button:visible').all())await expect(button).toBeInViewport({ratio:1});
   await expect.poll(()=>menu.locator('img').evaluate(e=>e.complete&&e.naturalWidth>0)).toBe(true);
   await page.screenshot({path:`test-results/other-games-menu-${width}.png`});
@@ -21,7 +23,7 @@ try{
   for(const game of otherGames){
    const card=page.locator(`[data-game-id="${game.id}"]`);
    await expect(card).toHaveAttribute('href',game.url);await expect(card).toBeInViewport({ratio:1});
-   await expect.poll(()=>card.locator('img').evaluate(e=>e.complete&&e.naturalWidth>0)).toBe(true);
+   await expect.poll(()=>card.locator('img:not(.ui-icon)').evaluate(e=>e.complete&&e.naturalWidth>0)).toBe(true);
    const popupPromise=page.waitForEvent('popup');await card.click();const popup=await popupPromise;await popup.close();
   }
   const counts=await page.evaluate(()=>window.captured.filter(e=>e[0]==='addDesignEvent'&&e[1].startsWith('CrossPromo:')));
@@ -32,5 +34,5 @@ try{
   await page.locator('#community-screen>.community-back').click();await expect(page.locator('#title')).toBeVisible();await expect(menu).toBeFocused();
   assert.deepEqual(errors,[]);await page.close();
  }
- console.log('PASS seven-menu layout, five official links, images, click analytics, popup and back at three phone sizes');
+ console.log('PASS eight-menu layout (daily missions added), five official links, images, click analytics, popup and back at three phone sizes');
 }finally{await browser.close();}

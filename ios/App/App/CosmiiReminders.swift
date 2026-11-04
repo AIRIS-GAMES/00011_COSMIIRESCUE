@@ -50,8 +50,9 @@ final class CosmiiReminders: NSObject, NotificationHandlerProtocol {
                     // Never deliver an overdue reminder immediately when permission is enabled later.
                     guard remaining > 0 else { continue }
                     let content = UNMutableNotificationContent()
-                    content.title = "コスミーが待ってるよ"
-                    content.body = index == 0 ? "またいっしょに、仲間を助けにいこう！" : "ひさしぶり！コスミーたちに会いにきてね。"
+                    // D1 announces the daily missions; D7 stays a gentle comeback note.
+                    content.title = index == 0 ? "今日のミッションが届いたよ" : "コスミーが待ってるよ"
+                    content.body = index == 0 ? "3つクリアして、おやつや家具をもらおう！" : "ひさしぶり！コスミーたちに会いにきてね。"
                     content.sound = .default
                     content.threadIdentifier = "cosmii-reminders"
                     content.userInfo = ["cosmiiReminder": index == 0 ? "d1" : "d7"]

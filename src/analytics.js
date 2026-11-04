@@ -46,6 +46,10 @@ export class RescueAnalytics {
     this.call('addDesignEvent',`Engagement:v1:${name}:${source}:${suffix}`,value);
   }
   community(name,data={}){
+    // Daily missions: open (title/notification), each claim by mission id, and the all-clear bonus.
+    if(name==='missions_open'){this.call('addDesignEvent',`Missions:v1:open:${data.source==='notification'?'notification':'title'}`,1);return;}
+    if(name==='mission_claim'){if(/^[a-z0-9-]+$/.test(data.mission||''))this.call('addDesignEvent',`Missions:v1:claim:${data.mission}`,1);return;}
+    if(name==='mission_bonus'){this.call('addDesignEvent',`Missions:v1:bonus:${data.reward==='furniture'?'furniture':'treat'}`,Number(data.streak)||1);return;}
     if(name==='games_open'){this.call('addDesignEvent','CrossPromo:v1:open:title',1);return;}
     if(name==='game_store_click'){if(otherGames.some(game=>game.id===data.gameId))this.call('addDesignEvent',`CrossPromo:v1:store_click:${data.gameId}`,1);return;}
 
@@ -79,6 +83,7 @@ export class RescueAnalytics {
     if(e.type==='skillStart'&&!game.isTraining&&Number.isInteger(e.kind)&&e.kind>=0&&e.kind<4)this.design('Skill:Activate:'+['pink','blue','red','purple'][e.kind],1);
     if(e.type==='rescue')this.design('Rescue:Success',1);
     if(e.type==='return'){this.checkpoints++;this.design('Checkpoint:Count',1);this.design('Checkpoint:Rescued',e.count);this.design('Checkpoint:Points',e.total);this.design('Checkpoint:TotalScore',game.score);}
+    if(e.type==='area'&&!game.isTraining)this.design('Area:Reached:'+e.id,game.returnSequence||0);
     if(e.type==='rainbowStart')this.design('Rainbow:Start',1);
     if(e.type==='break'&&e.rainbow&&e.cause!=='redSkill')this.design('Rainbow:Destroyed',1);
     if(e.type==='lost')this.design('Damage:FriendsLost',e.count||1);

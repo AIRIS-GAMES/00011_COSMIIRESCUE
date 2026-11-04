@@ -1,3 +1,4 @@
+import {icon} from './icons.js';
 const instructions=[
  ['左で、左右に動こう','左のスティックを左右へ動かしてね。',1],
  ['右をタップして飛ぼう','右の↑をタップ！ くり返すと高く飛べるよ。',2],
@@ -10,7 +11,7 @@ const instructions=[
 export class RescueTutorial {
  constructor({start,title}){
   this.root=document.createElement('section');this.root.id='practice-guide';this.root.hidden=true;this.root.className='practice-guide';
-  this.root.innerHTML='<div class="practice-spot" aria-hidden="true"><span class="practice-finger">👆</span></div><div class="practice-copy" aria-live="polite"><small id="practice-progress"></small><h2 id="practice-title"></h2><p id="practice-text"></p><span id="practice-help"></span></div><button id="tutorial-title" class="back-button" type="button" aria-label="練習を終了してホームにもどる"><span aria-hidden="true">↩</span><small>もどる</small></button><div class="practice-actions"><button id="tutorial-start" type="button" hidden>本番であそぶ ▶</button></div>';
+  this.root.innerHTML='<div class="practice-spot" aria-hidden="true"><span class="practice-finger">'+icon('hand')+'</span></div><div class="practice-copy" aria-live="polite"><small id="practice-progress"></small><h2 id="practice-title"></h2><p id="practice-text"></p><span id="practice-help"></span></div><button id="tutorial-title" class="back-button" type="button" aria-label="練習を終了してホームにもどる"><small>もどる</small></button><div class="practice-actions"><button id="tutorial-start" type="button" hidden>本番であそぶ '+icon('play')+'</button></div>';
   document.getElementById('game').append(this.root);this.root.querySelector('#tutorial-title').onclick=title;this.root.querySelector('#tutorial-start').onclick=start;this.lastStep=-1;this.spot=this.root.querySelector('.practice-spot');
  }
  pointElement(selector){

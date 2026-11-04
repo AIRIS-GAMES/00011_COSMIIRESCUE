@@ -6,6 +6,8 @@ import {characterNames} from './character-profiles.js';
 import {socialLinks} from './community-config.js';
 import {characterProfiles} from './character-profiles.js';
 import {characterCollection,collectibleItems,CollectionVisit} from './collection.js';
+import {TREAT,TRUST_BONUS} from './missions.js';
+import {icon,iconEl} from './icons.js';
 
 const cast=[hero,...friends];
 // Preview cards only: never added to collectibleItems, spawning or saved progress.
@@ -19,8 +21,8 @@ export class CommunityUI {
   this.root.setAttribute('role','dialog');this.root.setAttribute('aria-modal','true');this.root.setAttribute('aria-labelledby','community-heading');
   document.getElementById('game').append(this.root);
   const nav=el('nav','community-entry');nav.setAttribute('aria-label','ホームメニュー');
-  for(const [label,mode,icon] of [['ふれあい','room','♡'],['ずかん','characters','▤'],['SNS','social','↗'],['ほかのゲーム','games','']]){
-   const b=el('button','');b.type='button';b.id=`open-${mode}`;const image=el('img','menu-icon');image.src='./Asset/ui/menu/'+mode+'.png';image.alt='';b.append(image,el('span','menu-label',label));b.setAttribute('aria-label',mode==='characters'?'コレクションずかん':mode==='social'?'SNS・LINEスタンプ':label);b.onclick=()=>this.open(mode,b);nav.append(b);
+  for(const [label,mode] of [['ミッション','missions'],['ふれあい','room'],['ずかん','characters'],['SNS','social'],['ほかのゲーム','games']]){
+   const b=el('button','');b.type='button';b.id=`open-${mode}`;const image=el('img','menu-icon');image.src='./Asset/ui/menu/'+mode+'.png';image.alt='';b.append(image,el('span','menu-label',label));b.setAttribute('aria-label',mode==='characters'?'コレクションずかん':mode==='social'?'SNS・LINEスタンプ':label);b.onclick=()=>this.open(mode,b);if(mode==='missions'){const badge=el('span','mission-badge');badge.hidden=true;badge.setAttribute('aria-hidden','true');b.append(badge);this.missionButton=b;}nav.append(b);
   }
   const title=document.getElementById('title');title.append(nav);
   const group=el('div','title-cast');group.setAttribute('aria-hidden','true');cast.forEach(c=>group.append(portrait(c)));title.append(group);
@@ -39,9 +41,9 @@ export class CommunityUI {
  measure(name,data={}){this.options.measure?.(name,{source:this.source,...data});}
  open(mode,opener,options={}){
   this.returnCelebration?.destroy();this.returnCelebration=null;this.friendRoom?.destroy();this.friendRoom=null;
-  this.visit=new CollectionVisit((name,data)=>this.measure(name,data));this.opener=opener;this.returnTo=options.returnTo;this.source=options.source||'title';if(options.character&&cast.some(c=>c.id===options.character))this.selected=options.character;if(!['room','returns'].includes(mode))this.measure(mode==='games'?'games_open':mode==='characters'?'encyclopedia_open':'social_open');this.root.replaceChildren();this.root.dataset.mode=mode;
-  const header=el('header','community-header'),heading=el('h2','',mode==='games'?'ほかのゲーム':mode==='returns'?'累計帰還':mode==='room'?'ふれあい':mode==='characters'?'キャラクターずかん':'SNS・LINEスタンプ');heading.id='community-heading';
-  const close=el('button','community-back back-button');close.innerHTML='<span aria-hidden="true">↩</span><small>もどる</small>';close.type='button';close.setAttribute('aria-label',this.returnTo?'前の画面へ戻る':'タイトルへ戻る');close.onclick=()=>this.close();header.append(heading);
+  this.visit=new CollectionVisit((name,data)=>this.measure(name,data));this.opener=opener;this.returnTo=options.returnTo;this.source=options.source||'title';if(options.character&&cast.some(c=>c.id===options.character))this.selected=options.character;if(!['room','returns'].includes(mode))this.measure(mode==='games'?'games_open':mode==='characters'?'encyclopedia_open':mode==='missions'?'missions_open':'social_open');this.root.replaceChildren();this.root.dataset.mode=mode;
+  const header=el('header','community-header'),heading=el('h2','',mode==='missions'?'きょうのミッション':mode==='games'?'ほかのゲーム':mode==='returns'?'累計帰還':mode==='room'?'ふれあい':mode==='characters'?'キャラクターずかん':'SNS・LINEスタンプ');heading.id='community-heading';
+  const close=el('button','community-back back-button');close.innerHTML='<small>もどる</small>';close.type='button';close.setAttribute('aria-label',this.returnTo?'前の画面へ戻る':'タイトルへ戻る');close.onclick=()=>this.close();header.append(heading);
   const body=el('div','community-body');this.root.append(header,body,close);
   if(mode==='returns'){
    this.measure('returns_open');
@@ -51,8 +53,40 @@ export class CommunityUI {
    const render=tab=>{body.replaceChildren();body.className='community-body';for(const b of tabs.children)b.setAttribute('aria-pressed',String(b.dataset.tab===tab));heading.textContent=tab==='characters'?'キャラクターずかん':'アイテムずかん';if(tab==='characters')this.characters(body);else this.items(body);};
    for(const [tab,label] of [['characters','キャラクター'],['items','アイテム']]){const button=el('button','',label);button.type='button';button.dataset.tab=tab;button.onclick=()=>render(tab);tabs.append(button);}
    header.after(tabs);render('characters');
-  }else if(mode==='room')this.friendRoom=new FriendRoom(body,this.options.progress,(name,data)=>this.measure(name,data));else if(mode==='games')this.games(body);else this.social(body);
+  }else if(mode==='missions')this.missions(body);else if(mode==='room')this.friendRoom=new FriendRoom(body,this.options.progress,(name,data)=>this.measure(name,data));else if(mode==='games')this.games(body);else this.social(body);
   this.root.append(el('footer','community-footer','✧　COSMII RESCUE!　✧'));this.show('community-screen');document.querySelector('.hud').inert=true;(this.returnCelebration?.root.querySelector('.return-close')||close).focus();
+ }
+ // Title badge: rewards waiting (number) or today's missions not yet done (dot).
+ updateMissionBadge(){const m=this.options.missions,badge=this.missionButton?.querySelector('.mission-badge');if(!m||!badge)return;const ready=m.claimable,left=m.list().filter(x=>!x.done).length;badge.hidden=!ready&&!left;badge.textContent=ready?String(ready):'';badge.dataset.kind=ready?'ready':'new';this.missionButton.setAttribute('aria-label',ready?`ミッション（ごほうび${ready}こ受け取れる）`:`ミッション（のこり${left}こ）`);}
+ missions(body){
+  const store=this.options.missions;body.classList.add('missions-body');if(!store)return;
+  const render=(message='')=>{
+   store.load();const list=store.list(),total=this.options.progress?.totalReturned||0;body.replaceChildren();
+   const now=store.now(),midnight=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1),left=Math.max(0,midnight-now),h=Math.floor(left/36e5),mi=Math.floor(left%36e5/6e4);
+   const lead=el('p','missions-lead');lead.append(el('span','',`毎日3つ。クリアしてごほうびをもらおう！`),el('small','',`新しいミッションまで ${h}時間${mi}分`));body.append(lead);
+   const ol=el('ol','mission-list');
+   list.forEach((m,i)=>{
+    const li=el('li','mission-card');li.dataset.state=m.claimed?'claimed':m.done?'done':'todo';
+    const icon=el('img','mission-icon');icon.src=m.icon;icon.alt='';
+    const text=el('strong','mission-text',m.text);
+    const bar=el('div','mission-progress');bar.setAttribute('role','progressbar');bar.setAttribute('aria-valuemin','0');bar.setAttribute('aria-valuemax',String(m.target));bar.setAttribute('aria-valuenow',String(Math.min(m.progress,m.target)));bar.setAttribute('aria-label',m.text);const fill=el('i');fill.style.width=Math.min(100,m.progress/m.target*100)+'%';bar.append(fill,el('span','',`${Math.min(m.progress,m.target)}/${m.target}`));
+    const reward=el('div','mission-reward');const rimg=el('img');rimg.alt='';rimg.src=m.reward.type==='treat'?TREAT.src:'./Asset/ui/trust/badge.png';reward.append(rimg,el('span','',m.reward.label));
+    const button=el('button','mission-claim',m.claimed?'✓ 受け取った':m.done?'受け取る':'チャレンジ中');button.type='button';button.disabled=!m.done||m.claimed;
+    button.onclick=()=>{const got=store.claim(i,{progress:this.options.progress});if(!got)return;this.measure('mission_claim',{mission:m.id,reward:got.type});render(got.type==='treat'?`${TREAT.name}をもらった！ふれあいの部屋であげられるよ`:`部屋のみんなの信頼度が+${TRUST_BONUS}！`);};
+    li.append(icon,text,bar,reward,button);ol.append(li);
+   });
+   body.append(ol);
+   const bonus=el('div','mission-bonus'),prop=store.nextBonusProp(total),claimedAll=list.every(m=>m.claimed);
+   bonus.dataset.state=store.data.bonusClaimed?'claimed':store.bonusReady?'done':'todo';
+   const pimg=el('img');pimg.alt='';pimg.src=prop?.src||TREAT.src;
+   const label=el('span','',store.data.bonusClaimed?'今日のボーナスは受け取ったよ。また明日！':prop?`3つ全部でボーナス：家具「${prop.name}」を今すぐ開放`:`3つ全部でボーナス：${TREAT.name} ×2`);
+   const claim=el('button','mission-claim',store.data.bonusClaimed?'✓ 受け取った':claimedAll?'受け取る':`${list.filter(m=>m.claimed).length}/3`);claim.type='button';claim.disabled=!store.bonusReady;
+   claim.onclick=()=>{const got=store.claimBonus(total);if(!got)return;this.measure('mission_bonus',{reward:got.type,streak:store.data.streak});render(got.type==='furniture'?`家具「${got.prop.name}」を開放！ふれあいの「もようがえ」で置けるよ`:`${TREAT.name}を2こもらった！`);};
+   bonus.append(pimg,label,claim);body.append(bonus);
+   const status=el('p','missions-status',message);status.setAttribute('role','status');const treats=el('span','missions-treats');treats.innerHTML=`<img src="${TREAT.src}" alt=""> ${TREAT.name} ×${store.data.treats}`;status.prepend(treats);body.append(status);
+   this.updateMissionBadge();
+  };
+  render();
  }
  characters(body){
   body.classList.add('encyclopedia');
@@ -73,7 +107,7 @@ export class CommunityUI {
    const outer={returnTo:this.returnTo,source:this.source,character:id},opener=this.opener;
    const sns=el('button','community-detail-button','SNS・LINEスタンプを見る');sns.type='button';sns.onclick=()=>this.open('social',null,{source:'encyclopedia',character:id,returnTo:()=>this.open('characters',opener,outer)});details.append(sns);
    const item=socialLinks.find(l=>l.id==='line');let direct;try{direct=new URL(item?.characterUrls?.[id]);if(direct.protocol!=='https:')direct=null;}catch{}
-   if(direct){const a=el('a','character-sticker','この子のスタンプを見る ↗');a.href=direct.href;a.target='_blank';a.rel='noopener noreferrer';a.onclick=()=>this.measure('external_click',{source:'encyclopedia',destination:'line',characterType:id});details.append(a);}
+   if(direct){const a=el('a','character-sticker','この子のスタンプを見る ');a.append(iconEl('link'));a.href=direct.href;a.target='_blank';a.rel='noopener noreferrer';a.onclick=()=>this.measure('external_click',{source:'encyclopedia',destination:'line',characterType:id});details.append(a);}
    profile.scrollTop=0;
   };
   cast.forEach(c=>{const collection=characterCollection(c.id,this.options.progress?.data),b=el('button','character-card');b.type='button';b.dataset.character=c.id;b.dataset.locked=String(!collection.unlocked);b.setAttribute('aria-label',characterNames[c.id]+'コスミー'+(collection.unlocked?'':'（紹介）'));b.append(portrait(c),el('span','',characterNames[c.id]+(collection.achieved&&c.id!=='green'?' ★':'')));b.onclick=()=>select(c.id,'select');grid.append(b);});
@@ -100,7 +134,7 @@ export class CommunityUI {
    const link=el('a','other-game-card');link.href=game.url;link.target='_blank';link.rel='noopener noreferrer';link.dataset.gameId=game.id;
    link.setAttribute('aria-label',game.name+'（App Storeで開く）');
    const image=el('img');image.src=game.iconSrc;image.alt='';image.width=64;image.height=64;
-   const details=el('span','other-game-info');details.append(el('strong','',game.name),el('span','other-game-action','App Storeで見る ↗'));
+   const details=el('span','other-game-info');const action=el('span','other-game-action','App Storeで見る ');action.append(iconEl('link'));details.append(el('strong','',game.name),action);
    link.append(image,details);link.onclick=()=>this.measure('game_store_click',{gameId:game.id});grid.append(link);
   }
   body.append(grid,el('p','other-games-note','App Storeが開きます'));
@@ -115,7 +149,7 @@ export class CommunityUI {
    const link=el(url?'a':'button','social-link '+id);if(url){link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';link.setAttribute('aria-label',label+'（外部サイトを開く）');link.onclick=()=>this.measure('external_click',{destination:id,characterType:this.source==='encyclopedia'?this.selected:'group'});}else{link.type='button';link.disabled=true;}
    const mark=el('span','social-icon',item?.iconSrc?'':icon);mark.setAttribute('aria-hidden','true');
    if(item?.iconSrc){mark.classList.add('social-logo');const img=el('img');img.src=item.iconSrc;img.alt='';mark.append(img);}
-   link.append(mark,el('span','social-label',label),el('span','social-status',url?'↗':'準備中'));parent.append(link);
+   const status=el('span','social-status',url?'':'準備中');if(url)status.append(iconEl('link'));link.append(mark,el('span','social-label',label),status);parent.append(link);
   };
   addLink(links,'tiktok','TikTokをチェック','♪');addLink(links,'instagram','Instagramをチェック','◎');addLink(links,'x','Xをチェック','𝕏');
   const previews=el('div','sticker-previews'),preview=el('img','sticker-sheet');preview.src=socialLinks.find(link=>link.id==='line').previewSrc;preview.alt='コスミーのLINEスタンプ：ありがとう、すき、了解！';previews.append(preview);line.append(previews,el('small','sticker-caption','スタンプのイメージ'));

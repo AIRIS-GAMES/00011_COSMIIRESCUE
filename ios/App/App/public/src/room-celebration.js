@@ -1,3 +1,4 @@
+import {icon} from './icons.js';
 import {roomArt,roomCast,walkFrames} from './room-data.js';
 import {returnCounts,rainFrame,RAIN_SECONDS} from './return-rain.js';
 
@@ -7,7 +8,7 @@ export class RoomCelebration {
   this.onClose=onClose;
   this.root=document.createElement('section');this.root.className='room-celebration';
   this.root.setAttribute('aria-label','累計帰還');
-  this.root.innerHTML=`<div class="return-cabinet"><img class="return-background" src="${roomArt}" alt=""><div class="return-crowd" aria-hidden="true"></div></div><div class="return-rays" aria-hidden="true"></div><div class="return-confetti" aria-hidden="true"></div><span class="return-popper left" aria-hidden="true">🎉</span><span class="return-popper right" aria-hidden="true">🎉</span><div class="return-result" role="status"><span>累計帰還</span><strong>${total.toLocaleString('ja-JP')}<small>体！！</small></strong>${total===0?'<p>最初の仲間を迎えにいこう！</p>':''}</div><button type="button" class="return-close back-button" aria-label="お部屋にもどる"><span aria-hidden="true">↩</span><small>もどる</small></button>`;
+  this.root.innerHTML=`<div class="return-cabinet"><img class="return-background" src="${roomArt}" alt=""><div class="return-crowd" aria-hidden="true"></div></div><div class="return-rays" aria-hidden="true"></div><div class="return-confetti" aria-hidden="true"></div><span class="return-popper left" aria-hidden="true">${icon('popper')}</span><span class="return-popper right" aria-hidden="true">${icon('popper')}</span><div class="return-result" role="status"><span>累計帰還</span><strong>${total.toLocaleString('ja-JP')}<small>体！！</small></strong>${total===0?'<p>最初の仲間を迎えにいこう！</p>':''}</div><button type="button" class="return-close back-button" aria-label="お部屋にもどる"><small>もどる</small></button>`;
   this.root.style.setProperty('--digits',Math.max(4,total.toLocaleString('ja-JP').length));
   const crowd=this.root.querySelector('.return-crowd');
   this.counts=returnCounts(total,counts);this.canvas=document.createElement('canvas');this.canvas.className='return-rain';crowd.append(this.canvas);

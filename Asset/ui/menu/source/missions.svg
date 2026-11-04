@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 384">
+ <defs>
+  <linearGradient id="board" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#b8f0d2"/><stop offset="1" stop-color="#86dcb5"/></linearGradient>
+  <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fffdf2"/><stop offset="1" stop-color="#fff1d6"/></linearGradient>
+  <linearGradient id="clip" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffb3cf"/><stop offset="1" stop-color="#f784ad"/></linearGradient>
+  <radialGradient id="star" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#fff59a"/><stop offset="1" stop-color="#ffcf3a"/></radialGradient>
+ </defs>
+ <g stroke="#6b3a2e" stroke-width="10" stroke-linejoin="round" stroke-linecap="round">
+  <rect x="62" y="54" width="232" height="300" rx="34" fill="url(#board)"/>
+  <rect x="88" y="92" width="180" height="236" rx="20" fill="url(#paper)"/>
+  <path d="M130 70 h96 a14 14 0 0 1 14 14 v20 a12 12 0 0 1 -12 12 h-100 a12 12 0 0 1 -12 -12 v-20 a14 14 0 0 1 14 -14 z" fill="url(#clip)"/>
+  <circle cx="178" cy="62" r="16" fill="url(#clip)"/>
+  <!-- rows -->
+  <rect x="110" y="140" width="38" height="38" rx="10" fill="#ffffff"/>
+  <rect x="110" y="200" width="38" height="38" rx="10" fill="#ffffff"/>
+  <rect x="110" y="260" width="38" height="38" rx="10" fill="#ffffff"/>
+  <path d="M117 158 l10 11 l22 -26" fill="none" stroke="#3fae72" stroke-width="11"/>
+  <path d="M117 218 l10 11 l22 -26" fill="none" stroke="#3fae72" stroke-width="11"/>
+ </g>
+ <g stroke="#e9c9a6" stroke-width="10" stroke-linecap="round"><path d="M166 160 h76"/><path d="M166 220 h62"/><path d="M166 280 h70"/></g>
+ <!-- star badge -->
+ <path d="M300 214 l20 40 44 6 -32 31 8 44 -40 -21 -40 21 8 -44 -32 -31 44 -6 z" fill="url(#star)" stroke="#6b3a2e" stroke-width="10" stroke-linejoin="round"/>
+ <path d="M286 262 c6 -10 14 -16 24 -18" stroke="#fff" stroke-width="8" stroke-linecap="round" fill="none" opacity=".85"/>
+ <!-- gloss -->
+ <path d="M78 110 v-20 c0 -12 8 -20 20 -20" stroke="#fff" stroke-width="9" stroke-linecap="round" fill="none" opacity=".75"/>
+</svg>
