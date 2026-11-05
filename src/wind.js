@@ -6,8 +6,10 @@ export const WIND_KINDS=Object.freeze({
  tail:{name:'追い風',hint:'スピードアップ！',sign:1},
 });
 // Per mode and area: seconds between gusts and push strength (px/s added to the target speed).
-export function windPlan(mode,area){
- const base=area?.wind;if(!base&&mode!=='hard')return null;
+// NORMAL sky: calm at first, then a gentle breeze from the 2nd return so wind is introduced softly.
+export const SKY_BREEZE=Object.freeze({from:2,every:[20,28],push:55,head:.4});
+export function windPlan(mode,area,returns=0){
+ let base=area?.wind;if(!base&&area?.id==='sky'&&returns>=SKY_BREEZE.from)base=SKY_BREEZE;if(!base&&mode!=='hard')return null;
  const plan=base||{every:[18,26],push:90,head:.5};
  return mode==='hard'?{every:plan.every.map(s=>s*.75),push:plan.push*1.25,head:Math.min(.8,plan.head+.1)}:plan;
 }
@@ -17,7 +19,7 @@ export class Wind {
  // Horizontal push for the hero right now (eases in and out so it never jerks).
  get force(){if(this.state!=='blow'||!this.kind)return 0;const t=1-this.left/WIND_BLOW,ease=Math.min(1,t/.15,(1-t)/.15);return WIND_KINDS[this.kind].sign*this.strength*Math.max(0,ease);}
  update(g,dt){
-  const plan=g.isTraining?null:windPlan(g.mode,g.area);
+  const plan=g.isTraining?null:windPlan(g.mode,g.area,g.returnSequence||0);
   if(!plan){if(this.state!=='calm'){if(this.state==='blow')g.emit('windEnd',{kind:this.kind});this.reset();}return;}
   this.left-=dt;if(this.left>0)return;
   if(this.state==='calm'){this.kind=g.random()<plan.head?'head':'tail';this.strength=plan.push;this.state='warn';this.left=WIND_WARN;g.emit('windWarn',{kind:this.kind});return;}

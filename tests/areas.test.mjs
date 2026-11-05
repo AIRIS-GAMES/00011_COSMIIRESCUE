@@ -29,18 +29,18 @@ test('space has lighter gravity than the other areas',()=>{
 });
 
 test('pressure rises with area and with friends in tow; sky stays soft and food when travelling light',()=>{
-  const sky=pressure('normal',{area:AREAS[0]}),crowd=pressure('normal',{area:AREAS[0],carry:20}),space=pressure('normal',{area:AREAS[3]});
+  const sky=pressure('normal',{time:120,area:AREAS[0]}),crowd=pressure('normal',{time:120,area:AREAS[0],carry:20}),space=pressure('normal',{time:120,area:AREAS[3]});
   assert.equal(sky.heavy,0);assert.ok(crowd.heavy>0&&crowd.heavy<.2);
   assert.ok(crowd.interval<sky.interval&&crowd.speed>sky.speed&&crowd.normal>sky.normal);
-  const heavy=AREAS.map(area=>pressure('normal',{area}).heavy);for(let i=1;i<heavy.length;i++)assert.ok(heavy[i]>heavy[i-1]);
+  const heavy=AREAS.map(area=>pressure('normal',{time:120,area}).heavy);for(let i=1;i<heavy.length;i++)assert.ok(heavy[i]>heavy[i-1]);
   assert.ok(space.interval<sky.interval&&space.speed>sky.speed);
-  assert.ok(pressure('hard',{area:AREAS[0]}).heavy>0);
-  assert.ok(pressure('normal',{area:AREAS[2],carry:10}).heavy>pressure('normal',{area:AREAS[2]}).heavy);
+  assert.ok(pressure('hard',{time:120,area:AREAS[0]}).heavy>0);
+  assert.ok(pressure('normal',{time:120,area:AREAS[2],carry:10}).heavy>pressure('normal',{time:120,area:AREAS[2]}).heavy);
 });
 
 test('area exclusives only arrive in their own area; sky sends no heavy hazards to a light flyer',()=>{
   for(const [index,area] of AREAS.entries()){
-    const g=new RescueGame(stage,seededRandom(11+index));g.start();g.setArea(index,false);g.incoming=new IncomingHazards();const seen=new Set();
+    const g=new RescueGame(stage,seededRandom(11+index));g.start();g.setArea(index,false);g.time=120;g.incoming=new IncomingHazards();const seen=new Set();
     for(let i=0;i<500;i++){g.obstacles=[];g.incoming.wait=0;g.incoming.update(g,1/120);seen.add(g.obstacles[0].asset);}
     assert.equal(seen.has('bird'),area.exclusive==='bird',area.id);assert.equal(seen.has('meteor'),area.exclusive==='meteor',area.id);
     if(index===0)assert.ok([...seen].every(id=>(hazardTypes[id].damage||0)<=1),[...seen].join());
@@ -49,7 +49,7 @@ test('area exclusives only arrive in their own area; sky sends no heavy hazards 
 });
 
 test('birds face their flight direction and bob; meteors aim at the player with a round body',()=>{
-  const g=new RescueGame(stage,seededRandom(3));g.start();g.incoming=new IncomingHazards();let bird,meteor;
+  const g=new RescueGame(stage,seededRandom(3));g.start();g.time=120;g.incoming=new IncomingHazards();let bird,meteor;
   for(const index of [1,3])for(let i=0;i<400&&!(index===1?bird:meteor);i++){g.setArea(index,false);g.obstacles=[];g.incoming.wait=0;g.incoming.update(g,1/120);const o=g.obstacles[0];if(o.asset==='bird')bird=o;if(o.asset==='meteor')meteor=o;}
   assert.ok(bird&&meteor);assert.equal(bird.flip,bird.vx<0);assert.ok(bird.wave);assert.equal(meteor.ry,undefined);
   assert.ok((g.player.x-meteor.x)*meteor.vx+(g.player.y-meteor.y)*meteor.vy>0);
@@ -71,4 +71,21 @@ test('the furthest area is kept per mode and reported as new only when beaten',(
   const a=new RescueStorage(storage,'psf');a.beginRun();a.record({score:2,rescued:2,maxCarry:2,travel:0,bestArea:1});a.record({score:3,rescued:3,maxCarry:3,travel:0,bestArea:2});assert.equal(a.newArea,true);assert.equal(a.data.bestArea,2);
   const b=new RescueStorage(storage,'psf');assert.equal(b.data.bestArea,2);b.beginRun();b.record({score:1,rescued:1,maxCarry:1,travel:0,bestArea:1});assert.equal(b.newArea,false);assert.equal(b.data.bestArea,2);
   assert.equal(b.data.runs.find(r=>r.score===1).area,1);
+});
+
+test('HARD: any damaging hazard that hits the hero ends the run; hitting friends behind only scatters them',()=>{
+  for(const tier of [1,2,3]){
+    const g=quiet('hard');carry(g,5);g.hit(tier,g.player);assert.equal(g.state,'ending',`tier ${tier} on hero`);
+    const h=quiet('hard');carry(h,5);h.hit(tier,h.carry[2]);assert.equal(h.state,'playing',`tier ${tier} on friend`);assert.ok(h.carry.length<5);
+  }
+  const n=quiet('normal');carry(n,5);n.hit(1,n.player);assert.equal(n.state,'playing');assert.equal(n.hearts,2);
+});
+
+test('warm-up: the opening is sparse, slow and mostly fluffy, and eases off by 45 s or the first return',async()=>{
+  const {warmUp}=await import('../src/difficulty.js');
+  const start=pressure('normal',{time:0,area:AREAS[0]}),later=pressure('normal',{time:60,area:AREAS[0]}),afterReturn=pressure('normal',{time:5,area:AREAS[0],returns:1});
+  assert.ok(start.interval>later.interval*1.7);assert.ok(start.speed<later.speed);assert.ok(start.normal<later.normal*.6);assert.equal(start.heavy,0);
+  assert.equal(warmUp('normal',45),0);assert.equal(warmUp('normal',5,1),0);assert.ok(afterReturn.interval<start.interval);
+  assert.ok(warmUp('hard',0)<=.5);assert.equal(warmUp('hard',20),0);
+  const r0=pressure('normal',{time:120,area:AREAS[0],returns:0}),r2=pressure('normal',{time:120,area:AREAS[0],returns:2});assert.ok(r2.interval<r0.interval);
 });

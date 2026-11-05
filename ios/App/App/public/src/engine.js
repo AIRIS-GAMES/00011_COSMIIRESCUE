@@ -10,6 +10,7 @@ import {pushOutEllipse} from './collision.js';
 import {EndlessWorld} from './endless.js';
 import {AREAS,areaIndexFor} from './areas.js';
 import {Wind} from './wind.js';
+import {moveIncoming} from './motions.js';
 export const VIEW_W=960;
 export const clamp=(v,lo,hi)=>Math.max(lo,Math.min(hi,v));
 export const distance=(a,b)=>Math.hypot(a.x-b.x,a.y-b.y);
@@ -117,7 +118,7 @@ export class RescueGame {
     const p=this.player,previous={x:this.player.x,y:this.player.y};p.tap=Math.max(0,p.tap-dt);
     const turbo=this.activeZones.some(z=>p.x>z.x&&p.x<z.x+z.w&&p.y>z.y&&p.y<z.y+z.h);
     const speed=(turbo?1.3:1)*(this.effects.slow>0?.5:1),tx=(this.mode==='hard'?(this.direction<0?this.direction*225:this.direction>0?this.direction*310:190):horizontalSpeed(this.direction))*speed;
-    const windTx=tx+this.wind.force;if(this.stun<=0)p.vx+=(windTx-p.vx)*(1-Math.exp(-(this.effects.slip>0?1.4:12)*dt));p.vy=Math.min(475*(this.area?.gravity??1),p.vy+820*(this.area?.gravity??1)*dt);
+    const windTx=tx+this.wind.force;this.knock=Math.max(0,(this.knock||0)-dt);if(this.stun<=0)p.vx+=(windTx-p.vx)*(1-Math.exp(-(this.effects.slip>0?1.4:this.knock>0?2.5:12)*dt));p.vy=Math.min(475*(this.area?.gravity??1),p.vy+820*(this.area?.gravity??1)*dt);
     p.x=Math.max(p.r+8,p.x+p.vx*dt);p.y+=p.vy*dt;
     p.angle+=(clamp(p.vx/900,-.23,.23)-p.angle)*dt*9;
     this.followCarry(dt);
@@ -132,7 +133,7 @@ export class RescueGame {
     const beams=this.powered?eyeBeams(this):[];
     for(const o of this.obstacles){
       o.disabled=Math.max(0,o.disabled-dt);
-      if(o.incoming){o.x+=o.vx*dt;o.y+=o.vy*dt;if(o.wave){o.phase+=dt*o.wave.speed;o.y+=Math.cos(o.phase)*o.wave.height*o.wave.speed*dt;}}else{
+      if(o.incoming)moveIncoming(o,dt,this.view);else{
       const m=o.motion||{x:12,y:16,speed:.85},phase=o.asset?o.phase:0;
       const strength=o.motion&&this.time<30?.45:1;
       o.x=o.baseX+(Math.sin(this.time*m.speed+phase)-Math.sin(phase))*m.x*strength;
@@ -163,7 +164,15 @@ export class RescueGame {
     this.obstacles=this.obstacles.filter(o=>!o.destroyed);
     for(const f of [...this.friends]){f.cooldown=Math.max(0,f.cooldown-dt);if(distance(p,f)<48)this.rescue(f);}
     const rim=this.homes.find(h=>checkpointRimContact(p,h));
-    if(rim){p.x=previous.x;p.y=previous.y;p.vx*=-.35;p.vy*=-.35;if(!this.rimCooldown){this.rimCooldown=.35;this.emit('rim',{x:p.x,y:p.y});}}
+    if(rim){
+      // Bounce off the ring (outward, or back into the hole if you came from inside) with a short shield,
+      // so a ring bump never traps you or feeds you into a hazard.
+      p.x=previous.x;p.y=previous.y;const x=p.x-rim.x,y=p.y-rim.y,inside=(x/76)**2+(y/93)**2<1,sign=inside?-1:1;
+      let nx=x/(140*140),ny=y/(154*154);const n=Math.hypot(nx,ny)||1;nx=nx/n*sign;ny=ny/n*sign;
+      for(let i=0;i<40&&checkpointRimContact(p,rim);i++){p.x+=nx*3;p.y+=ny*3;} // never stay overlapping the rim
+      p.vx=nx*300;p.vy=ny*300-40;this.knock=.3;this.cooldown=Math.max(this.cooldown,.7);
+      if(!this.rimCooldown){this.rimCooldown=.35;this.emit('rim',{x:p.x,y:p.y,bounce:true});}
+    }
     this.rimCooldown=Math.max(0,(this.rimCooldown||0)-dt);
     const arrived=!rim&&this.homes.find(h=>{
       const ax=previous.x-(h.previousX??h.x),ay=previous.y-(h.previousY??h.y),bx=p.x-h.x,by=p.y-h.y;

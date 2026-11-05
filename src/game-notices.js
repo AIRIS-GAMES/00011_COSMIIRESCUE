@@ -7,7 +7,7 @@ export class GameNotices {
   if(!this.current||priority>=this.current.priority){if(priority>=90)this.queue=[];this.display(notice);}
   else if(this.queue.length<2)this.queue.push(notice);
  }
- display(notice){this.current=notice;this.root.replaceChildren();this.root.classList.toggle('return-notice',!!notice.kind);this.root.dataset.kind=notice.kind||'';
+ display(notice){this.current=notice;this.root.replaceChildren();this.root.classList.toggle('return-notice',!!notice.kind&&notice.kind!=='area');this.root.dataset.kind=notice.kind||'';
   if(notice.portrait){const img=document.createElement('img');img.src=notice.portrait;img.alt='';this.root.append(img);}
   const span=document.createElement('span');span.textContent=notice.text;this.root.append(span);this.root.hidden=false;
  }

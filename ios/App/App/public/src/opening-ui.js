@@ -20,10 +20,11 @@ export class OpeningUI {
   const status=el('p','opening-video-status');status.setAttribute('role','status');status.hidden=true;
   const play=()=>{if(video.error)video.load();video.muted=false;video.volume=1;this.playVideo(video,status);};
   video.onclick=play;video.onkeydown=e=>{if(['Space','Enter'].includes(e.code)){e.preventDefault();e.stopPropagation();play();}};
-  const startup=this.source==='startup',quick=this.source==='return';
-  // Returning players: the short cut never blocks play; any tap skips straight to the title.
+  const startup=this.source==='startup',quick=this.source==='return'||this.source==='replay';
+  // Returning players (short cut) and replays from the title (full cut): no button, any tap skips to the title.
+  // Only the very first launch keeps the SKIP button, so the story is not skipped by an accidental tap.
   if(quick){
-   this.root.dataset.quick='true';video.setAttribute('aria-label','プロローグ短縮版。タップでスキップ');
+   this.root.dataset.quick='true';video.setAttribute('aria-label',this.source==='return'?'プロローグ短縮版。タップでスキップ':'プロローグ。タップでスキップ');
    const hint=el('p','opening-quick-hint','タップでスキップ');hint.setAttribute('aria-hidden','true');
    video.onclick=()=>this.finish(true);video.onkeydown=e=>{if(['Space','Enter'].includes(e.code)){e.preventDefault();e.stopPropagation();this.finish(true);}};
    video.onended=()=>{if(this.active&&this.video===video)this.next();};

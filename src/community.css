@@ -185,3 +185,46 @@
  .missions-lead{display:none}
  .missions-status{order:-1;min-height:18px}
 }
+/* Rules screen (src/rules-content.js): sections that scroll inside the card. */
+.rules-section{margin:0 0 12px;padding-bottom:10px;border-bottom:1px dashed #c6d4cd}
+.rules-section:last-child{border-bottom:0}
+.rules-section h3{margin:0 0 6px;color:#17616a;font-size:1.15em}
+.rules-section p{margin:4px 0}
+.rules-basic .mode-rules-common{justify-content:flex-start;text-align:left}
+.rules-basic .rules-delivery{flex:none}
+.mode-rules-columns h4{margin:0 0 4px;color:#17616a;font-size:1.05em}
+.mode-rules-columns h4 small{margin-left:6px;font-size:.75em;color:#7a5a62}
+.mode-rules-columns ul{margin:0;padding:0;list-style:none;text-align:left}
+.mode-rules-columns li{margin:3px 0;padding-left:1em;text-indent:-1em}
+.mode-rules-columns li::before{content:'・'}
+.mode-rules-columns li small{display:block;text-indent:0;font-size:.82em;color:#7a5a62}
+.mode-rules-columns .rules-danger strong{color:#c2334e}
+.rules-note{font-size:.85em;color:#6a5a60}
+.rules-tier{margin:8px 0 4px;font-size:.95em;color:#543442}
+.rules-tier small{font-weight:400;font-size:.85em;color:#c2334e;margin-left:6px}
+.rules-tier::before{content:'';display:inline-block;width:10px;height:10px;margin-right:6px;border-radius:50%;background:#8fd6ff;vertical-align:0}
+.rules-tier[data-tier=normal]::before{background:#ffb347}
+.rules-tier[data-tier=strong]::before{background:#ff5c70}
+.rules-enemies{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:6px;margin:0;padding:0;list-style:none}
+.rules-enemy{display:flex;flex-direction:column;align-items:center;padding:4px 2px;border:2px solid #d8e6e0;border-radius:12px;background:#fffdf5;text-align:center;line-height:1.25}
+.rules-enemy[data-tier=effect]{border-style:dashed;border-color:#8fc8e8}
+.rules-enemy[data-tier=strong]{border-color:#f3a3b0;background:#fff4f5}
+.rules-enemy img{width:44px;height:44px;object-fit:contain}
+.rules-enemy b{font-size:.9em}
+.rules-enemy small{font-size:.72em;color:#6a5a60}
+.rules-enemy .rules-only{margin-top:2px;padding:0 6px;border-radius:8px;background:#ffe3cf;color:#a5502a}
+.rules-areas{width:100%;border-collapse:collapse;font-size:.85em;line-height:1.35}
+.rules-areas th,.rules-areas td{padding:4px 6px;border:1px solid #d8e6e0;text-align:left;vertical-align:top}
+.rules-areas thead th{background:#e6f4ed;color:#17616a}
+.rules-areas tbody th{white-space:nowrap;color:#17616a}
+.rules-areas td:nth-child(2){white-space:nowrap}
+.rules-skills{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin:6px 0 0;padding:0;list-style:none}
+.rules-skills li{display:grid;grid-template-columns:auto 1fr auto;grid-template-areas:"img name need" "img text text";align-items:center;gap:0 8px;padding:5px 8px;border:2px solid #d8e6e0;border-radius:12px;background:#fffdf5}
+.rules-skills img{grid-area:img;width:36px;height:36px;object-fit:contain}
+.rules-skills b{grid-area:name;font-size:.92em}
+.rules-skills span{grid-area:need;font-size:.8em;color:#17616a;white-space:nowrap}
+.rules-skills small{grid-area:text;font-size:.78em;color:#6a5a60}
+.rules-tier[data-tier=damage]::before{background:#ff5c70}
+.rules-tier[data-tier=damage] small{color:#c2334e}
+.rules-tier[data-tier=effect] small{color:#3f8fcf}
+.rules-enemy[data-tier=damage]{border-color:#f3a3b0;background:#fff4f5}

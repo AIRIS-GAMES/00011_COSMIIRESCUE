@@ -51,7 +51,7 @@ export class Renderer {
     if(e.type==='bank'){this.deliveries.push({x:e.x,y:e.y,startX:e.x,startY:e.y,homeX:e.homeX,homeY:e.homeY,kind:e.kind,collaborationKind:e.collaborationKind,life:.5});this.popup(`+${e.points}`,e.homeX+45,e.homeY-30,'#b98431',20);}
     if(e.type==='lost'){this.burst(e.x,e.y,14,['#ffb2bc','#fff2e0'],160);this.popup(`−${e.count||1}`,e.x,e.y-35,'#b26d76',15);this.shake=5;}
     if(e.type==='hinder'){const fx=EFFECTS[e.effect];this.burst(e.x,e.y,14,['#c3f4ff','#fff7db'],90);if(fx)this.popup(fx.name,e.x,e.y-42,fx.color,20);this.effectFlash={id:e.effect,life:.5};}
-    if(e.type==='rim'){this.burst(e.x,e.y,8,['#fff4cf','#ffaacb'],80);this.shake=2;}
+    if(e.type==='rim'){this.burst(e.x,e.y,10,['#fff4cf','#ffaacb'],110);this.shake=2;if(e.bounce)this.popup('ポヨン！',e.x,e.y-34,'#e8613a',16);}
     if(e.type==='bump')this.popup('SHIELD',e.x,e.y-35,'#60885e',15);
     if(e.type==='hit'){this.shake=7;this.flash=.2;this.burst(e.x,e.y,20,['#ffb4bd','#ffecd7']);}
     if(e.type==='near'){this.burst(e.x,e.y,8,['#fff9d2','#d4f2af'],70);this.popup('NICE!',e.x,e.y-35,'#719455',15);}
@@ -201,7 +201,20 @@ const center=this.width*.51,scale=Math.min(.88,h/390);const positions=[[0,0],[-4
     }
   }
   // Left column under the HUD rows: wind first, then effects; each banner takes the next slot.
-  bannerRect(h=40){const w=Math.min(220,this.width*.34),y=Math.max(118,this.height*.3)+this.bannerSlot*(h+6);this.bannerSlot++;return {x:12,y,w,h};}
+  bannerRect(h=40){const hud=this.hudBox(),w=Math.min(220,this.width*.34),y=Math.max(118,this.height*.3,hud.bottom+10)+this.bannerSlot*(h+6);this.bannerSlot++;return {x:Math.max(12,hud.left),y,w,h};}
+  // Bottom of the DOM HUD (score + HOME row) in canvas units, measured from layout offsets so it also works
+  // when the whole game is rotated for portrait. Re-measured at most twice a second.
+  hudBottom(){return this.hudBox().bottom;}
+  // Left edge of the score and bottom of the HOME row, so banners line up with the HUD and stay
+  // clear of the status bar / Dynamic Island in portrait rotation.
+  hudBox(){
+    const now=this.clock;if(this.hudCache&&now-this.hudCache.at<.5)return this.hudCache;let bottom=0,left=0;
+    try{const nav=document.querySelector('.hud .nav-row'),score=document.querySelector('.hud .score'),root=this.canvas.offsetParent,k=this.height/(this.canvas.clientHeight||1);
+      const offset=(el,axis)=>{let e=el,v=0;while(e&&e!==root){v+=axis==='y'?e.offsetTop:e.offsetLeft;e=e.offsetParent;}return e===root?v:null;};
+      if(nav&&root){const y=offset(nav,'y');if(y!==null)bottom=(y+nav.offsetHeight-this.canvas.offsetTop)*k;}
+      if(score&&root){const x=offset(score,'x');if(x!==null)left=(x-this.canvas.offsetLeft)*this.width/(this.canvas.clientWidth||1);}}catch{}
+    this.hudCache={at:now,bottom,left};return this.hudCache;
+  }
   // Wind: arrows pulse during the warning, then streaks sweep across the screen while it blows.
   windLayer(game,paused){
     const w=game.wind;if(!w||w.state==='calm'||!w.kind)return;const c=this.ctx,kind=WIND_KINDS[w.kind],dir=kind.sign,head=w.kind==='head';

@@ -202,16 +202,6 @@ input,textarea,select{font-family:var(--game-font)}
 
 #hearts{display:flex;align-items:center;gap:5px;padding:3px 8px;background:#fff9edf2;border:2px solid #a86f87;border-radius:18px;box-shadow:0 3px 0 #60334a26;letter-spacing:0;line-height:1;flex-shrink:0;text-shadow:none}
 .life-images{display:flex;gap:2px;align-items:center}.life-images img{display:block;width:clamp(27px,4.3cqw,42px);height:clamp(27px,4.3cqw,42px);object-fit:contain}.life-protection{font-size:clamp(9px,1.2cqw,12px);color:#247f84;white-space:nowrap}.life-hard{font-size:clamp(13px,2cqw,20px);color:#b9325b;padding:4px}
-/* Run area (sky → sunset → neon → space); advances every three HOME returns. */
-.area-chip{display:flex;align-items:center;gap:6px;padding:3px 10px 3px 4px;border:2px solid #543740;border-radius:20px;background:#e9fbff;color:#543740;font-size:11px;line-height:1;white-space:nowrap}
-.area-chip span{padding:3px 6px;border-radius:12px;background:#543740;color:#fff;font-size:9px;letter-spacing:.5px}
-.area-chip b{font-weight:400}
-.area-chip[data-area=sunset]{background:#ffe3cf}.area-chip[data-area=sunset] span{background:#e8613a}
-.area-chip[data-area=neon]{background:#f6dcff}.area-chip[data-area=neon] span{background:#8a3fc0}
-.area-chip[data-area=space]{background:#d9f3ff}.area-chip[data-area=space] span{background:#1f4f7a}
-.area-chip.pulse{animation:areaPulse .7s ease-out}
-@keyframes areaPulse{0%{transform:scale(1)}35%{transform:scale(1.18)}100%{transform:scale(1)}}
-.area-chip[hidden]{display:none}
 .rules-area-hint{display:block;margin-top:2px;font-size:.85em;opacity:.85}
 /* Drawn UI icons (src/icons.js): sized to the surrounding text, never colour emoji. */
 .ui-icon{display:inline-block;width:1.15em;height:1.15em;vertical-align:-.22em;object-fit:contain;pointer-events:none}
@@ -224,3 +214,6 @@ input,textarea,select{font-family:var(--game-font)}
 .return-popper .ui-icon{display:block;width:1em;height:1em;vertical-align:top}
 .primary img.play-arrow{width:clamp(28px,4cqw,42px);height:auto;transform:rotate(-40deg);vertical-align:middle;margin-left:6px}
 .primary .ui-icon{width:1.25em;height:1.25em}
+/* Area arrival: its own notice, higher up and centred between the HUD rows and the hearts. */
+#toast[data-kind=area]{top:15%;left:38%;right:26%;min-height:34px;padding:6px 14px;font-size:clamp(13px,2cqw,18px);background:#fffbe6f2;border:2.5px solid #e8913a;box-shadow:0 3px 0 #c9742a;animation:area-pop .5s ease-out}
+@keyframes area-pop{0%{transform:scale(.6);opacity:0}60%{transform:scale(1.08);opacity:1}100%{transform:scale(1)}}

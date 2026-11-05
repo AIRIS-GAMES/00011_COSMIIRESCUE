@@ -26,3 +26,15 @@
  #game .community-screen[data-mode="social"] .external-note{position:absolute;left:calc(var(--back-clear-x) + 2px);right:12px;bottom:24px}
  #game .community-screen[data-mode="social"] .social-panel h3{font-size:16px;line-height:1.4}
 }
+/* Keep content clear of the status bar / Dynamic Island on the left edge (in portrait rotation that edge is the
+   physical top). Half the safe area is enough to clear it; right-anchored controls (settings, ほかのゲーム) stay put. */
+#game{--content-shift:calc(var(--safe-left) * .5)}
+#title .title-kicker,#title h1,#title .title-cast{translate:var(--content-shift) 0}
+#title .start-area{left:calc(62% + var(--content-shift))}
+#reminder-settings{translate:var(--content-shift) 0}
+#title .community-entry{padding-left:calc(7% + var(--content-shift))}
+#game .community-screen>*:not(.back-button){margin-left:var(--content-shift)}
+/* Portrait rotation: the physical top inset (status bar / Dynamic Island) sits on the game's LEFT edge,
+   and the game's top edge is the physical right side (no inset). Map the HUD padding accordingly so the score
+   and HOME rows are not pushed down. */
+.landscape-auto #game .hud{padding-top:max(10px,env(safe-area-inset-right,0px));padding-left:max(20px,env(safe-area-inset-top,0px))}

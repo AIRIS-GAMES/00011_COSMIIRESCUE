@@ -116,11 +116,10 @@ function loadImage(src){return new Promise((resolve,reject)=>{const img=new Imag
 function show(name){screen=name;if(name==='title'){communityUI?.updateMissionBadge();queueMicrotask(openPendingMissions);}$('game').dataset.screen=name;collaborationUI.show(name);for(const id of ['title','result','pause-screen','records-screen','community-screen','opening-screen'])$(id).hidden=name!==id;const playing=name==='playing';$('nav-row').hidden=!playing;$('carry-bar').hidden=!playing;$('pause').hidden=!playing;$('flight-controls').hidden=!playing;$('title-best').textContent=storage.data.best.toLocaleString();$('game').classList.toggle('training',!!game.isTraining);}
 function toast(text,duration=2.5,priority=10){notices.push(text,{duration,priority});}
 // Current area in the HUD; the chip pulses when the run moves on.
-function areaChip(g){const area=AREAS[g.areaIndex||0],chip=$('area-chip');chip.dataset.area=area.id;chip.querySelector('span').textContent=`AREA ${(g.areaIndex||0)+1}`;chip.querySelector('b').textContent=area.name;chip.hidden=!!g.isTraining;chip.classList.remove('pulse');void chip.offsetWidth;chip.classList.add('pulse');}
 function clearInput(){pointer=null;pressed.clear();resetStick();}
 function startTraining(source='optional'){
   exitPractice();practiceSource=source;practiceStep=-1;practiceActive=true;measure('practice_start',1,source);
-  analytics.end(game,'quit');game=trainingGame;game.startPractice();reminders.played(true);paused=false;clearInput();audio.resume();audio.restart();renderer.snap(game);accumulator=0;tutorialLeft=0;notices.reset();$('tutorial').hidden=true;$('toast').hidden=true;rescueTutorial.lastStep=-1;areaChip(game);show('playing');$('flap').focus();
+  analytics.end(game,'quit');game=trainingGame;game.startPractice();reminders.played(true);paused=false;clearInput();audio.resume();audio.restart();renderer.snap(game);accumulator=0;tutorialLeft=0;notices.reset();$('tutorial').hidden=true;$('toast').hidden=true;rescueTutorial.lastStep=-1;show('playing');$('flap').focus();
 }
 function startNow(){if(!ready||!bootComplete)return;audio.unlock();clearInput();paused=false;audio.resume();analytics.end(game,'retry');
   exitPractice();
@@ -128,7 +127,7 @@ function startNow(){if(!ready||!bootComplete)return;audio.unlock();clearInput();
   game.psfRules=selectedMode==='normal';game.firstReturnProtection=game.psfRules&&!progress.data.returned;
   if(game.psfRules){game.normalAttempt=progress.beginNormal();measure('normal_attempt',1,game.normalAttempt);if(progress.mark('started'))measure('first_start');}
   analytics.community('play',{mode:selectedMode});
-  leaderboardUI.beginRun();audio.restart();renderer.snap(game);accumulator=0;tutorialLeft=0;notices.reset();$('tutorial').hidden=true;$('toast').hidden=true;areaChip(game);show('playing');if(document.hidden)background();$('live').textContent='救出開始。左手で左右の向き、右手タップで上昇。仲間を道中のHOMEへ。';}
+  leaderboardUI.beginRun();audio.restart();renderer.snap(game);accumulator=0;tutorialLeft=0;notices.reset();$('tutorial').hidden=true;$('toast').hidden=true;show('playing');if(document.hidden)background();$('live').textContent='救出開始。左手で左右の向き、右手タップで上昇。仲間を道中のHOMEへ。';}
 function homeNow(){if(game.state==='playing')reminders.played(false);notices.reset();exitPractice();analytics.end(game,'quit');audio.music(false);audio.stopEffects();clearInput();paused=false;game=endlessGame;game.reset();renderer.snap(game);show('title');$('tutorial').hidden=true;$('toast').hidden=true;}
 function pause(){if(game.state!=='playing'&&game.state!=='ending')return;paused=!paused;reminders.played(!paused);clearInput();show(paused?'pause-screen':'playing');accumulator=0;if(!paused){if(document.hidden){paused=true;show('pause-screen');return;}audio.resume();}if(paused)audio.stopEffects();audio.music(!paused);}
 function processEvents(){audio.setRainbow(game.state==='playing'&&game.powered);const sounds=new Set();let rescued=false;for(const e of game.drain()){
@@ -160,7 +159,7 @@ function processEvents(){audio.setRainbow(game.state==='playing'&&game.powered);
   }
   if(e.type==='return')$('live').textContent=`RESCUED ${e.count}. SCORE +${e.total}`;
   if(e.type==='windWarn')$('live').textContent=e.kind==='head'?'向かい風がくる':'追い風がくる';
-  if(e.type==='area'&&!game.isTraining){areaChip(game);toast(`エリア${e.index+1}「${e.name}」へ！`,2.8,85);$('live').textContent=`エリア${e.index+1} ${e.name}に到着`;}
+  if(e.type==='area'&&!game.isTraining){notices.push(`エリア${e.index+1}「${e.name}」へ！`,{duration:2.8,priority:85,kind:'area'});$('live').textContent=`エリア${e.index+1} ${e.name}に到着`;}
 
   if(e.type==='finish'){reminders.played(false);$('tutorial').hidden=true;}
   if(e.type==='gameOver'&&game.isTraining){home();break;}
@@ -187,7 +186,7 @@ function hud(){
   if($('hearts').dataset.state!==lifeKey){
    $('hearts').dataset.state=lifeKey;$('hearts').dataset.mode=game.mode;
    $('hearts').innerHTML=game.mode==='hard'?'<span class="life-hard">HARD</span>':'<span class="life-images" aria-hidden="true">'+[0,1,2].map(i=>'<img src="./Asset/ui/life/'+(i<lives?'full':'empty')+'.png" alt="">').join('')+'</span>'+(protectedLife?'<span class="life-protection">保護中</span>':'');
-   $('hearts').setAttribute('aria-label',game.mode==='hard'?'HARD: 仲間が0、または強い障害物が主人公に直撃すると終了':'ライフ'+lives+' / 3'+(protectedLife?'、ライフ保護中':''));
+   $('hearts').setAttribute('aria-label',game.mode==='hard'?'HARD: 主人公に障害物が当たると終了':'ライフ'+lives+' / 3'+(protectedLife?'、ライフ保護中':''));
   }
   $('carry-count').textContent=game.carry.length;
 }

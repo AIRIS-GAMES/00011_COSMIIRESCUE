@@ -1,10 +1,14 @@
 export const hazardTypes={
- cloud:{effect:'fog',duration:1.4},bubble:{effect:'slow',duration:2.2},flyer:{effect:'paper',duration:1.7},drink:{effect:'slip',duration:2.5},banana:{effect:'slip',duration:1.8},
- apple:{damage:1},cherry:{damage:1},cake:{damage:1},pancakes:{damage:1},crate:{damage:1},ufo:{damage:1},blocks:{damage:1},
- fork:{damage:2,directed:true},knife:{damage:2,directed:true},lightning:{damage:3},ironball:{damage:3},spikeball:{damage:3},rocket:{damage:3,directed:true},
+ cloud:{effect:'fog',duration:1.4,move:'drift'},bubble:{effect:'slow',duration:2.2,move:'float'},flyer:{effect:'paper',duration:1.7,move:'flutter'},drink:{effect:'slip',duration:2.5,move:'spin'},banana:{effect:'slip',duration:1.8,move:'spin'},
+ apple:{damage:1,move:'hop'},cherry:{damage:1,move:'swing'},cake:{damage:1,move:'wobble'},pancakes:{damage:1,move:'frisbee'},crate:{damage:1,move:'tumble'},ufo:{damage:1,move:'dash'},blocks:{damage:1,move:'tumble'},
+ fork:{damage:2,directed:true},knife:{damage:2,directed:true},lightning:{damage:3,move:'zap'},ironball:{damage:3,move:'heavy'},spikeball:{damage:3,move:'bounce'},rocket:{damage:3,directed:true,move:'boost'},
  // Area exclusives: sunset birds bob up and down; space meteors aim at the player with a round body.
  bird:{damage:1,wave:{speed:4.2,height:70},faces:true},meteor:{damage:2,directed:true,round:true,fast:1.35},
+ // Neon exclusive: a pinball star that bounces off the screen edges three times before leaving.
+ star:{damage:1,move:'ricochet',round:true,fast:1.25},
 };
+// Display names (rules screen). Kept next to the stats so a new hazard cannot ship unnamed.
+export const HAZARD_NAMES=Object.freeze({cloud:'くも',bubble:'シャボン玉',flyer:'チラシ',drink:'ジュース',banana:'バナナ',apple:'りんご',cherry:'さくらんぼ',cake:'ケーキ',pancakes:'パンケーキ',crate:'木箱',ufo:'UFO',blocks:'ブロック',bird:'とり',fork:'フォーク',knife:'ナイフ',meteor:'いん石',lightning:'かみなり',ironball:'鉄球',spikeball:'トゲ球',rocket:'ロケット',star:'はねぼし'});
 export const HAZARD_GROUPS=Object.freeze({soft:['cloud','bubble','flyer','drink','banana'],normal:['apple','cherry','cake','pancakes','crate','ufo','blocks'],heavy:['fork','lightning','ironball','spikeball','rocket','knife']});
 export const hazardArt=Object.fromEntries(Object.keys(hazardTypes).map(id=>[id,`./Asset/objects/${id}.png`]));
 export function sectionHazards(col,row,danger){
