@@ -40,6 +40,57 @@ iOSの1日後のお知らせは「今日のミッションが届いたよ」に�
 
 画像は `Asset/room`、生成プロンプト・透明化QCの記録は `output/` に保存。容量整理により中間PNG・GIFは削除済みです。背景とインテリア・キャラは別レイヤーで、歩行範囲と家具の衝突領域は `src/room-data.js` に定義しています。`npm run build` は現行の部屋・信頼度画像を配布対象に含めます。検証は `node scripts/verify-friend-room.mjs`。
 
+
+### なかよしレベル・セリフ・あそぶ／おせわ
+
+- 信頼度（0〜100）を5段階の「なかよしレベル」で表示します（はじめまして／ちょっとなかよし 20〜／なかよし 40〜／だいすき 70〜／ずっといっしょ 100）。アップ画面の左上にハートで出し、上がった瞬間に「なかよしレベルUP！」を出します（`src/friendship.js`）。
+- アップにしたとき・なでたとき・おやつ・あそぶ・おせわ・レベルアップで、性格とレベルに合わせたセリフをふきだしで出します。5キャラ×場面×5レベル、日本語と英語（`src/friend-lines.js`）。
+- 「あそぶ」：星のボールを3回投げると取りに行きます。「おせわ」：指でなでてメーターがたまるとキラキラ。どちらもキャラごとに1日1回だけ信頼度+3（ボタンのピンクの点がまだの印）。記録は `cosmii-room-daily-v1`。
+- 検証：`node scripts/verify-friendship.mjs`。
+## 最初の目的スライド
+
+プレイ開始時（画面切り替えの後）に「なかまを集めて、HOMEへとどけよう！」のリボンを出し、主人公が仲間を3匹拾ってわっかを通り「+3」になる短いアニメを繰り返し流します（下の ①ふれて集める ②わっかを通る ③1匹＝1点 が動きに合わせて光ります）。、タップでスタートします（8.5秒で自動で閉じます）。表示中はゲームが止まり、閉じるタップで飛び上がることはありません。最初の3回は必ず表示し、その後はまだ一度もHOMEへ届けていない人だけに出します（最大10回）。検証では `?goal=off` で止められます。`node scripts/verify-goal-card.mjs` で確認します。
+
+## 遊びながら覚えるヒント
+
+初めての場面で、その対象を黄色の点線で囲み、ふきだしを1回だけ出します（端末ごとに記録、2回目以降は出ません）。ゲームは止めず、同時に出すのは1つだけで、次のヒントまで少し間をあけます。練習中は出しません。
+
+- ぶつかる系の障害物 → 「ぶつかると、ライフ−1」（ハードは「ぶつかると、すぐおわり！」）
+- 技がたまった → 「顔をタップで、技が使える！」（ボタンを指す）
+- 8匹以上連れた → 「20匹いっしょに帰ると、レインボー！」
+
+仲間・わっかは開始時の目的スライド、ふわふわ系は当たったときの説明バナーで伝わるため、ヒントはこの3つだけにしています。
+
+実装は `src/play-hints.js`（出す条件）と `renderer.hintLayer`（描画）。記録は `localStorage` の `cosmii-hints-v1`。
+
+## キリのいい数の演出
+
+1回のプレイ中に得点が 50・100・150… を超えたとき、画面中央に大きな数字と「達成！」、放射状の光と紙ふぶきを出し、左上のスコアも弾ませます（効果音つき）。100の倍数は金色で長め、拍手の音も鳴ります。ゲームは止めません（`src/milestones.js`、`renderer.milestoneLayer`）。
+
+## 操作のわかりやすさ
+
+左下のスティックは「左右に動かすもの」と分かるよう、横長の形に左右の矢印を付けています。つまみは横にだけ動き、倒した側の矢印がピンクに光ります（`src/controls.css`）。
+
+## ウィンドウを重ねない
+
+- 結果画面の SNS 案内は自動では出さず、結果の「SNS・スタンプ」ボタンから開きます。
+- 練習（あそび方）の説明は、レインボーのゲージの下に1行（例：4/5 顔ボタンを押してみよう）で出し、スコアや指している場所、「本番であそぶ」を隠しません。長い説明文は読み上げ用にだけ残しています。
+- プレイ中は「お知らせ」「ヒント」「50/100達成」を同時に出しません（達成の演出中はお知らせとヒントを待たせます）。
+
+## フォント・リリース前の確認
+
+- 配布するフォントは使っている文字だけに絞ったサブセット（`Asset/fonts/MochiyPopOne-Subset.woff2`、約100KB。元は2.2MB）。新しい文字を使ったら `python3 scripts/subset-font.py` を実行してください（`tests/font-subset.test.mjs` が抜けを検出します）。
+- 広告計測の許可画面（ATT）の文言は `ios/App/App/en.lproj` と `ja.lproj` の `InfoPlist.strings` で英語・日本語に分けています。
+
+## 日本語 / English
+
+表示言語は日本語と英語。初回は端末の言語（日本語以外なら英語）、以降は「設定 → 言語」で切り替えます（`localStorage` の `cosmii-lang` に保存し、再読み込みで反映）。タイトルロゴと飾りの英語（COSMII RESCUE!、BETTER TOGETHER! など）は両言語とも同じです。
+
+- 文言は日本語がそのままキーです。コードでは `_t('日本語')` / `_t('{0}匹',[n])`、`index.html` の静的テキストは起動時に `translateStatic` が置き換えます（`src/i18n.js`）。
+- 英語は `src/i18n-en.js`。新しい日本語を足したら同じキーで英語も追加してください。`tests/i18n.test.mjs` が抜けと `{0}` の不一致を検出します。
+- 英語の「もどる」画像は `Asset/ui/menu/back-en.png`。iOSのお知らせ文言もゲームの言語に合わせます（`CosmiiReminders.swift`）。
+- ブラウザ検証（`verify-*.mjs`）は日本語の文言を確認するため、`locale:'ja-JP'` でページを開きます。
+
 ## 起動・配布
 
 Node.js 20以降で `npm start`。PCでは http://localhost:5180 を開きます。スマホはPCと同じWi-Fiに接続し、PCのLANアドレスとポート5180を使用してください。接続が遮断される場合は `Enable-Mobile.cmd` を実行します。許可範囲はプライベートネットワーク内のTCP 5180です。
@@ -50,7 +101,7 @@ Node.js 20以降で `npm start`。PCでは http://localhost:5180 を開きます
 
 ## 検証・保守
 
-`npm test` で物理・救出・帰還・保存・練習などを検証します（173件）。ブラウザ検証は scripts内の `verify-*.mjs`（ローカルサーバー起動後に実行）。主要なものは `verify-opening-flow.mjs`、`verify-guided-practice.mjs`、`verify-result-social.mjs`、`verify-total-returned.mjs`、`verify-joystick.mjs`。2026-11-04に現行仕様と合わない旧検証17本を削除しました（`REVIEW.md` 参照）。`verify-collaboration*.mjs` はコラボON時用、`verify-title-rotation.mjs` はFirefox/WebKitが必要です。
+`npm test` で物理・救出・帰還・保存・練習などを検証します（218件）。ブラウザ検証は scripts内の `verify-*.mjs`（ローカルサーバー起動後に実行）。主要なものは `verify-opening-flow.mjs`、`verify-guided-practice.mjs`、`verify-result-social.mjs`、`verify-total-returned.mjs`、`verify-joystick.mjs`。2026-11-04に現行仕様と合わない旧検証17本を削除しました（`REVIEW.md` 参照）。`verify-collaboration*.mjs` はコラボON時用、`verify-title-rotation.mjs` はFirefox/WebKitが必要です。
 
 通常ゲームだけを検証する場合は `?opening=off&analytics=off` を付けます。素材監査は `node scripts/audit-unused-assets.mjs`。これは削除を行わず、動画・音源の制作入力も考慮した一覧を `test-results/unused-assets.json` に出力します。LAN用サーバーは公開ゲームファイルだけを配信し、`.git`・ローカルデータ・ログは配信しません。
 

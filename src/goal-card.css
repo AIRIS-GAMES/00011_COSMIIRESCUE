@@ -1,0 +1,54 @@
+/* Start-of-run goal slide (see goal-card.js): outlined title, a candy ribbon with a looping mini scene, step chips in sync. */
+.goal-card{--goal-loop:4.2s;--ink:#422c35;position:absolute;inset:0;z-index:40;display:grid;place-items:center;cursor:pointer;
+ background:radial-gradient(ellipse 80% 75% at 50% 50%,#123c4866 0,#123c48a6 100%);-webkit-backdrop-filter:blur(3px) saturate(.9);backdrop-filter:blur(3px) saturate(.9);animation:goal-in .25s ease-out}
+.goal-card[hidden]{display:none}
+.goal-stage{width:100%;display:flex;flex-direction:column;align-items:center}
+.goal-title{position:relative;z-index:2;margin:0 16px -.45em;max-width:min(92%,760px);text-align:center;font-weight:400;line-height:1.2;
+ font-size:clamp(20px,4.6cqw,40px);color:#fff;letter-spacing:.02em;
+ text-shadow:0 3px 0 var(--ink),3px 0 0 var(--ink),0 -3px 0 var(--ink),-3px 0 0 var(--ink),2px 2px 0 var(--ink),-2px 2px 0 var(--ink),2px -2px 0 var(--ink),-2px -2px 0 var(--ink),3px 6px 0 var(--ink);
+ animation:goal-title .5s cubic-bezier(.2,1.5,.4,1) both}
+.goal-ribbon{position:relative;width:100%;padding:calc(.45em + 14px) 0 10px;font-size:clamp(20px,4.6cqw,40px);
+ background:linear-gradient(#fffaf1,#fff0d9);transform:rotate(-1.5deg);box-shadow:0 6px 0 #42293533,0 -2px 0 #42293514;animation:goal-ribbon .35s ease-out both}
+.goal-ribbon::before,.goal-ribbon::after{content:'';position:absolute;left:0;right:0;height:7px;background:repeating-linear-gradient(-45deg,#f1838c 0 10px,#fff 10px 20px)}
+.goal-ribbon::before{top:0}.goal-ribbon::after{bottom:0}
+.goal-lane{position:relative;height:clamp(66px,12.5cqw,112px);margin:0 auto;width:min(94%,720px);overflow:hidden;-webkit-mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);mask:linear-gradient(90deg,transparent,#000 7%,#000 93%,transparent);
+ background:radial-gradient(circle,#f8d9a8 1.2px,transparent 1.8px) 0 50%/22px 22px repeat-x}
+.goal-mover{--s:clamp(36px,7cqw,64px);position:absolute;top:50%;width:var(--s);height:var(--s);margin:calc(var(--s)/-2) 0 0 calc(var(--s)/-2);animation:var(--goal-loop) linear infinite both}
+.goal-mover img{width:100%;height:100%;object-fit:contain;animation:goal-bob .42s ease-in-out infinite alternate}
+.goal-hero{--s:clamp(44px,8.6cqw,78px);z-index:3;animation-name:goal-hero}
+.goal-f0{animation-name:goal-f0}.goal-f1{animation-name:goal-f1}.goal-f2{animation-name:goal-f2}
+.goal-f1 img{animation-delay:-.14s}.goal-f2 img{animation-delay:-.28s}
+.goal-pop{position:absolute;top:50%;width:clamp(48px,9cqw,84px);aspect-ratio:1;margin:calc(clamp(48px,9cqw,84px)/-2) 0 0 calc(clamp(48px,9cqw,84px)/-2);border-radius:50%;opacity:0;pointer-events:none;
+ background:repeating-conic-gradient(#ffe278 0 5deg,transparent 5deg 30deg,#f1838c 30deg 35deg,transparent 35deg 60deg);
+ -webkit-mask:radial-gradient(circle,transparent 38%,#000 40% 70%,transparent 72%);mask:radial-gradient(circle,transparent 38%,#000 40% 70%,transparent 72%);animation:var(--goal-loop) ease-out infinite both}
+.goal-pop0{animation-name:goal-pop0}.goal-pop1{animation-name:goal-pop1}.goal-pop2{animation-name:goal-pop2}
+.goal-ring{position:absolute;left:80%;top:50%;height:96%;transform:translate(-50%,-50%);animation:goal-ring var(--goal-loop) ease-out infinite both}
+.goal-points{position:absolute;left:80%;top:0;z-index:4;padding:.05em .45em;border:3px solid var(--ink);border-radius:999px;background:#ffe278;color:var(--ink);
+ font-size:clamp(16px,3.2cqw,28px);line-height:1.2;box-shadow:0 3px 0 var(--ink);opacity:0;animation:goal-score var(--goal-loop) ease-out infinite both}
+.goal-caps{display:flex;justify-content:center;gap:clamp(8px,2cqw,18px);margin:6px 0 2px;padding:0;list-style:none;counter-reset:goal}
+.goal-caps li{counter-increment:goal;display:flex;align-items:center;gap:.4em;padding:.28em .8em .28em .35em;border:2px solid #eadccd;border-radius:999px;background:#fff;color:#7a6470;
+ font-size:clamp(11px,1.75cqw,15px);white-space:nowrap;animation:var(--goal-loop) infinite both}
+.goal-caps li::before{content:counter(goal);display:grid;place-items:center;width:1.5em;height:1.5em;border-radius:50%;background:#f1838c;color:#fff;font-size:.85em}
+.goal-caps li:nth-child(1){animation-name:goal-cap0}.goal-caps li:nth-child(2){animation-name:goal-cap1}.goal-caps li:nth-child(3){animation-name:goal-cap2}
+.goal-tap{margin:16px 0 0;padding:.35em 1.1em;border-radius:999px;background:#422c35cc;color:#fff;font-size:clamp(11px,1.7cqw,14px);animation:goal-blink 1.4s ease-in-out infinite}
+@keyframes goal-in{from{opacity:0}}
+@keyframes goal-title{from{transform:translateY(-14px) scale(.8);opacity:0}}
+@keyframes goal-ribbon{from{transform:rotate(-1.5deg) scaleX(.6);opacity:0}}
+@keyframes goal-bob{to{transform:translateY(-12%)}}
+@keyframes goal-blink{50%{opacity:.55}}
+@keyframes goal-hero{0%{left:2%;opacity:1}80%{left:122%;opacity:1}80.1%,100%{left:122%;opacity:0}}
+@keyframes goal-f0{0%{left:24%;opacity:0;transform:scale(.4)}4%{left:24%;opacity:1;transform:none}14.7%{left:24%}19.7%{left:23.0%}80%{left:113.5%;opacity:1}80.1%,100%{left:113.5%;opacity:0}}
+@keyframes goal-pop0{0%,14.2%{opacity:0;transform:scale(.3)}16.7%{opacity:1;transform:scale(1.15)}22.7%,100%{opacity:0;transform:scale(1.6)}}
+@keyframes goal-f1{0%{left:38%;opacity:0;transform:scale(.4)}4%{left:38%;opacity:1;transform:none}24.0%{left:38%}29.0%{left:28.5%}80%{left:105.0%;opacity:1}80.1%,100%{left:105.0%;opacity:0}}
+@keyframes goal-pop1{0%,23.5%{opacity:0;transform:scale(.3)}26.0%{opacity:1;transform:scale(1.15)}32.0%,100%{opacity:0;transform:scale(1.6)}}
+@keyframes goal-f2{0%{left:52%;opacity:0;transform:scale(.4)}4%{left:52%;opacity:1;transform:none}33.3%{left:52%}38.3%{left:34.0%}80%{left:96.5%;opacity:1}80.1%,100%{left:96.5%;opacity:0}}
+@keyframes goal-pop2{0%,32.8%{opacity:0;transform:scale(.3)}35.3%{opacity:1;transform:scale(1.15)}41.3%,100%{opacity:0;transform:scale(1.6)}}
+@keyframes goal-score{0%,70.0%{opacity:0;transform:translateX(-50%) scale(.4)}74.0%{opacity:1;transform:translateX(-50%) translateY(-8px) scale(1.15)}78.0%,95%{opacity:1;transform:translateX(-50%) scale(1)}99%,100%{opacity:0;transform:translateX(-50%) scale(1)}}
+@keyframes goal-ring{0%,51.0%{transform:translate(-50%,-50%) scale(1)}54.0%{transform:translate(-50%,-50%) scale(1.12)}72.0%,100%{transform:translate(-50%,-50%) scale(1)}}
+@keyframes goal-cap0{0%,39.3%{background:#17616a;color:#fff;border-color:#17616a;transform:scale(1.06)}39.4%,100%{background:#fff;color:#7a6470;border-color:#eadccd;transform:none}}
+@keyframes goal-cap1{0%,49.9%{background:#fff;color:#7a6470;border-color:#eadccd;transform:none}50.0%,70.0%{background:#17616a;color:#fff;border-color:#17616a;transform:scale(1.06)}70.1%,100%{background:#fff;color:#7a6470;border-color:#eadccd;transform:none}}
+@keyframes goal-cap2{0%,69.9%{background:#fff;color:#7a6470;border-color:#eadccd;transform:none}70.0%,97.0%{background:#17616a;color:#fff;border-color:#17616a;transform:scale(1.06)}97.1%,100%{background:#fff;color:#7a6470;border-color:#eadccd;transform:none}}
+@media (prefers-reduced-motion:reduce){
+ .goal-card,.goal-title,.goal-ribbon,.goal-tap,.goal-mover img,.goal-mover,.goal-pop,.goal-ring,.goal-points,.goal-caps li{animation:none}
+ .goal-hero{left:62%}.goal-f0{left:54%}.goal-f1{left:46%}.goal-f2{left:38%}.goal-points{opacity:1;transform:translateX(-50%)}
+}

@@ -1,9 +1,10 @@
+import {t as _t} from './i18n.js';
 // Gusts that change from area to area: a headwind makes forward progress hard, a tailwind speeds you up.
 // Each gust is announced first (warn), then blows for a few seconds, then calms down.
 export const WIND_WARN=1.6,WIND_BLOW=5;
 export const WIND_KINDS=Object.freeze({
- head:{name:'向かい風',hint:'前に進みにくい',sign:-1},
- tail:{name:'追い風',hint:'スピードアップ！',sign:1},
+ head:{name:_t('向かい風'),hint:_t('前に進みにくい'),sign:-1},
+ tail:{name:_t('追い風'),hint:_t('スピードアップ！'),sign:1},
 });
 // Per mode and area: seconds between gusts and push strength (px/s added to the target speed).
 // NORMAL sky: calm at first, then a gentle breeze from the 2nd return so wind is introduced softly.

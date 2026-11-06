@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  for(const [width,height] of [[568,320],[844,390],[390,844]]){
-  const page=await browser.newPage({viewport:{width,height}}),errors=[];
+  const page=await browser.newPage({locale:'ja-JP',viewport:{width,height}}),errors=[];
   let reports=0,started=false,deleted=false,failDelete=true,signups=0;
   const id='11111111-1111-4111-8111-111111111111';
   page.on('pageerror',e=>errors.push(e.message));
@@ -20,7 +20,7 @@ try{
    }
    return route.fulfill({json:[]});
   });
-  await page.goto('http://localhost:5180/?opening=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});
+  await page.goto('http://localhost:5180/?opening=off&goal=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});
   await page.locator('#records').click();await page.locator('.ranking-row-menu').click();await page.locator('.safety-report').click();await page.locator('.safety-reason').first().click();
   await expect(page.locator('#ranking-safety-title')).toHaveText('通報を受け付けました');assert.equal(reports,1);assert.equal(signups,1);
   await page.locator('.safety-close').click();await page.locator('.ranking-row-menu').click();await page.locator('.safety-hide').click();

@@ -5,10 +5,10 @@ import assert from 'node:assert/strict';
 for(const [name,type,options] of [['chrome',chromium,{channel:'chrome'}],['webkit',webkit,{}]]){
   const browser=await type.launch({headless:true,...options});
   try{
-    const page=await browser.newPage({viewport:{width:390,height:844},deviceScaleFactor:3,hasTouch:true,reducedMotion:'reduce'});
+    const page=await browser.newPage({locale:'ja-JP',viewport:{width:390,height:844},deviceScaleFactor:3,hasTouch:true,reducedMotion:'reduce'});
     const errors=[];
     page.on('pageerror',error=>errors.push(error.message));
-    await page.goto(process.env.TEST_URL||'http://localhost:5180/?opening=off&analytics=off');
+    await page.goto(process.env.TEST_URL||'http://localhost:5180/?opening=off&goal=off&analytics=off');
     await page.locator('#loading').waitFor({state:'hidden'});
     await page.evaluate(()=>{
       const original=CanvasRenderingContext2D.prototype.drawImage;

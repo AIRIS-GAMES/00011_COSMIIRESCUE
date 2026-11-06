@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  for(const [width,height] of [[844,390],[390,844]]){
-  const page=await browser.newPage({viewport:{width,height}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
-  await page.goto('http://localhost:5180/index.html?opening=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});
+  const page=await browser.newPage({locale:'ja-JP',viewport:{width,height}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+  await page.goto('http://localhost:5180/index.html?opening=off&goal=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});
   const counts=await page.evaluate(()=>(JSON.parse(localStorage.getItem('cosmii-psf-v1')||'{}').counts||[0,0,0,0]));
   await page.locator('#practice-start').click();await expect(page.locator('#practice-guide')).toHaveAttribute('data-step','0');await page.locator('.face-transition').waitFor({state:'hidden'});
   const state=()=>page.evaluate(async()=>{const {game:g}=await import('/src/main.js');const t=g.practiceStep===2?g.friends[0]:g.stage.home;return {step:g.practiceStep,left:g.leftDone,x:g.player.x,y:g.player.y,vy:g.player.vy,target:t?{x:t.x,y:t.y}:null};});
@@ -33,6 +33,6 @@ try{
   await page.keyboard.up('ArrowRight');await expect(page.locator('#practice-guide')).toHaveAttribute('data-step','6');
   await page.screenshot({path:`test-results/practice-twenty-${width}.png`});await expect(page.locator('#tutorial-start')).toBeInViewport({ratio:1});
   assert.deepEqual(await page.evaluate(()=>(JSON.parse(localStorage.getItem('cosmii-psf-v1')||'{}').counts||[0,0,0,0])),counts);
-  await page.locator('#tutorial-title').click();await expect(page.locator('#title')).toBeVisible();assert.deepEqual(errors,[]);console.log('PASS actual controls, rescue, ring, skill and teaser',width,height);await page.close();
+  await page.locator('#pause').click();await page.locator('#quit').click();await expect(page.locator('#title')).toBeVisible();assert.deepEqual(errors,[]);console.log('PASS actual controls, rescue, ring, skill and teaser',width,height);await page.close();
  }
 }finally{await browser.close();}

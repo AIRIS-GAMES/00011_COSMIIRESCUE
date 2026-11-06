@@ -2,11 +2,11 @@ import {chromium} from '@playwright/test';
 import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
- const page=await browser.newPage({viewport:{width:844,height:390}}),errors=[];
+ const page=await browser.newPage({locale:'ja-JP',viewport:{width:844,height:390}}),errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  await page.route('https://*.gameanalytics.com/**',route=>route.abort());
  await page.addInitScript(()=>localStorage.setItem('cosmii-psf-v1',JSON.stringify({intro:true,counts:[10,10,10,10]})));
- await page.goto('http://localhost:5180/?analytics=off&opening=off');await page.locator('#boot-screen').waitFor({state:'hidden'});
+ await page.goto('http://localhost:5180/?analytics=off&opening=off&goal=off');await page.locator('#boot-screen').waitFor({state:'hidden'});
  await page.evaluate(async()=>{window.metrics=[];const {analytics}=await import('/src/analytics.js');analytics.send=(...args)=>window.metrics.push(args);});
  await page.locator('#open-room').click();
  await page.locator('[data-resident^="pink-"]').click();await page.locator('.room-interact').click();

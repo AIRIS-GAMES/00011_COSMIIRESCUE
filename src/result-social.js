@@ -1,23 +1,24 @@
 import {iconEl} from './icons.js';
 import {socialLinks} from './community-config.js';
 import {hero} from './characters.js';
+import {t as _t} from './i18n.js';
 
 export class ResultSocialPopup {
  constructor(measure){
   this.measure=measure;this.root=document.createElement('section');this.root.id='result-social-popup';this.root.className='overlay modal-screen result-social-popup';this.root.hidden=true;
   this.root.setAttribute('role','dialog');this.root.setAttribute('aria-modal','true');this.root.setAttribute('aria-labelledby','result-social-heading');
-  this.root.innerHTML='<div class="result-social-card"><header><img alt=""/><div><h2 id="result-social-heading">ゲームの外でも、コスミーと。</h2><p>公式SNSとLINEスタンプをチェック！</p></div></header><nav aria-label="公式SNSとLINEスタンプ"></nav><p class="result-social-note">リンクは外部サイトで開きます。</p><button type="button" class="result-social-back">結果を見る</button></div>';
+  this.root.innerHTML=_t('<div class="result-social-card"><header><img alt=""/><div><h2 id="result-social-heading">ゲームの外でも、コスミーと。</h2><p>公式SNSとLINEスタンプをチェック！</p></div></header><nav aria-label="公式SNSとLINEスタンプ"></nav><p class="result-social-note">リンクは外部サイトで開きます。</p><button type="button" class="result-social-back">結果を見る</button></div>');
   this.root.querySelector('header img').src=hero.src;
   const nav=this.root.querySelector('nav');
   for(const id of ['x','instagram','tiktok','line']){
    const item=socialLinks.find(link=>link.id===id);let url;try{url=new URL(item?.url);if(url.protocol!=='https:')url=null;}catch{}
    const link=document.createElement(url?'a':'button');link.className='result-social-link';
-   if(url){link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';link.setAttribute('aria-label',item.label+'（外部サイトを開く）');link.onclick=()=>this.measure('external_click',{source:'result_popup',destination:id});}
+   if(url){link.href=url.href;link.target='_blank';link.rel='noopener noreferrer';link.setAttribute('aria-label',item.label+_t('（外部サイトを開く）'));link.onclick=()=>this.measure('external_click',{source:'result_popup',destination:id});}
    else{link.type='button';link.disabled=true;}
-   if(item?.previewSrc){link.classList.add('has-preview');const img=document.createElement('img');img.src=item.previewSrc;img.alt='ありがとう、すき、了解！のスタンプ見本';link.append(img);}
+   if(item?.previewSrc){link.classList.add('has-preview');const img=document.createElement('img');img.src=item.previewSrc;img.alt=_t('ありがとう、すき、了解！のスタンプ見本');link.append(img);}
    else if(item?.iconSrc){const img=document.createElement('img');img.src=item.iconSrc;img.alt='';link.append(img);}
    else{const icon=document.createElement('span');icon.className='result-social-line';icon.textContent='LINE';icon.setAttribute('aria-hidden','true');link.append(icon);}
-   const label=document.createElement('span');label.textContent=item?.label||id;const status=document.createElement('small');status.textContent=url?'':'準備中';if(url)status.append(iconEl('link'));link.append(label,status);nav.append(link);
+   const label=document.createElement('span');label.textContent=item?.label||id;const status=document.createElement('small');status.textContent=url?'':_t('準備中');if(url)status.append(iconEl('link'));link.append(label,status);nav.append(link);
   }
   this.closeButton=this.root.querySelector('.result-social-back');this.closeButton.onclick=()=>this.close();
   this.root.addEventListener('keydown',e=>{

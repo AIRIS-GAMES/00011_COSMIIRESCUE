@@ -1,6 +1,7 @@
+import {t as _t} from './i18n.js';
 export const SKILL_REQUIREMENTS=Object.freeze([3,4,5,6]);
 export const SKILL_COLORS=['#ff65c4','#59ddff','#ff5c70','#c47aff'];
-export const skillNames=['するり抜け','ふわふわガード','はね飛ばし','おたすけキャッチ'];
+export const skillNames=[_t('するり抜け'),_t('ふわふわガード'),_t('はね飛ばし'),_t('おたすけキャッチ')];
 export const SKILL_SECONDS=5;
 // Each use in a run raises that color's next requirement by one (pink 3 → 4 → 5 …), up to +3. Practice keeps the base.
 export const SKILL_EXTRA_MAX=3;

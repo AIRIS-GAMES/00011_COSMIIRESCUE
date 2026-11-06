@@ -1,27 +1,28 @@
 import {hero,friends} from './characters.js';
+import {t as _t} from './i18n.js';
 export const ROOM_KEY='cosmii-friend-room-v2';
 export const roomArt='./Asset/room/cabinet.jpg';
 export const roomProps=[
- {id:'cushion',name:'星のクッション',required:0,src:'./Asset/room/props/cushion.png'},
- {id:'plant',name:'星のお花',required:5,src:'./Asset/room/props/plant.png'},
- {id:'chest',name:'おもちゃ箱',required:15,src:'./Asset/room/props/chest.png'},
- {id:'lamp',name:'おほしさまライト',required:30,src:'./Asset/room/props/lamp.png'},
- {id:'moon',name:'おつきさまクッション',required:50,src:'./Asset/room/props/moon.png'},
- {id:'mushroom',name:'きのこのスツール',required:75,src:'./Asset/room/props/mushroom.png'},
- {id:'planet',name:'惑星のオブジェ',required:100,src:'./Asset/room/props/planet.png'},
- {id:'radio',name:'おほしさまラジオ',required:150,src:'./Asset/room/props/radio.png'},
- {id:'rocket',name:'ちいさなロケット',required:200,src:'./Asset/room/props/rocket.png'},
- {id:'musicbox',name:'星のオルゴール',required:250,src:'./Asset/room/props/musicbox.png'},
- {id:'globe',name:'宇宙のスノードーム',required:300,src:'./Asset/room/props/globe.png'},
- {id:'arcade',name:'ミニクレーンゲーム',required:400,src:'./Asset/room/props/arcade.png'},
- {id:'trophy',name:'にじいろ星トロフィー',required:500,src:'./Asset/room/props/trophy.png'},
+ {id:'cushion',name:_t('星のクッション'),required:0,src:'./Asset/room/props/cushion.png'},
+ {id:'plant',name:_t('星のお花'),required:5,src:'./Asset/room/props/plant.png'},
+ {id:'chest',name:_t('おもちゃ箱'),required:15,src:'./Asset/room/props/chest.png'},
+ {id:'lamp',name:_t('おほしさまライト'),required:30,src:'./Asset/room/props/lamp.png'},
+ {id:'moon',name:_t('おつきさまクッション'),required:50,src:'./Asset/room/props/moon.png'},
+ {id:'mushroom',name:_t('きのこのスツール'),required:75,src:'./Asset/room/props/mushroom.png'},
+ {id:'planet',name:_t('惑星のオブジェ'),required:100,src:'./Asset/room/props/planet.png'},
+ {id:'radio',name:_t('おほしさまラジオ'),required:150,src:'./Asset/room/props/radio.png'},
+ {id:'rocket',name:_t('ちいさなロケット'),required:200,src:'./Asset/room/props/rocket.png'},
+ {id:'musicbox',name:_t('星のオルゴール'),required:250,src:'./Asset/room/props/musicbox.png'},
+ {id:'globe',name:_t('宇宙のスノードーム'),required:300,src:'./Asset/room/props/globe.png'},
+ {id:'arcade',name:_t('ミニクレーンゲーム'),required:400,src:'./Asset/room/props/arcade.png'},
+ {id:'trophy',name:_t('にじいろ星トロフィー'),required:500,src:'./Asset/room/props/trophy.png'},
 ];
 // Normalized coordinates match the generated cabinet floor; prop circles are blocked.
 export const roomLayout={floor:{left:.16,right:.84,top:.60,bottom:.89},slots:[
- {id:'back-left',name:'奥・左',x:.25,y:.68,width:.15,radius:.065},
- {id:'back-right',name:'奥・右',x:.75,y:.68,width:.15,radius:.065},
- {id:'front-left',name:'手前・左',x:.23,y:.88,width:.15,radius:.065},
- {id:'front-right',name:'手前・右',x:.77,y:.88,width:.15,radius:.065},
+ {id:'back-left',name:_t('奥・左'),x:.25,y:.68,width:.15,radius:.065},
+ {id:'back-right',name:_t('奥・右'),x:.75,y:.68,width:.15,radius:.065},
+ {id:'front-left',name:_t('手前・左'),x:.23,y:.88,width:.15,radius:.065},
+ {id:'front-right',name:_t('手前・右'),x:.77,y:.88,width:.15,radius:.065},
 ]};
 export const roomCast=[hero,...friends];
 export const expressionFrames=id=>[0,1,2,3,4,5,6,7].map(n=>`./Asset/room/reactions/${id}/${n}.png`);

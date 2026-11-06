@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  for(const [width,height] of [[844,390],[390,844]]){
-  const page=await browser.newPage({viewport:{width,height},hasTouch:true});
+  const page=await browser.newPage({locale:'ja-JP',viewport:{width,height},hasTouch:true});
   await page.addInitScript(()=>{if(!localStorage.getItem('cosmii-psf-v1'))localStorage.setItem('cosmii-psf-v1',JSON.stringify({intro:true,counts:[1,1,1,1]}));});
-  await page.goto('http://localhost:5180/index.html?opening=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});await page.locator('#open-room').click();
+  await page.goto('http://localhost:5180/index.html?opening=off&goal=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});await page.locator('#open-room').click();
   for(const id of ['green','pink','blue','red','purple']){
    const actor=page.locator(`[data-resident^="${id}-"]`);await actor.focus();await actor.click();await page.locator('.room-interact').click();
    await expect(page.locator('.community-header')).toBeHidden();await expect(page.locator('.room-focus-back')).toBeInViewport({ratio:1});

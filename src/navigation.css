@@ -17,8 +17,6 @@
 #game .room-closeup>.community-back,#game .community-screen:has(.room-celebration)>.community-back{display:none}
 #game .room-focus{border-radius:0}
 #game .mode-rules-overlay,#game #records-screen,#game .collaboration-details{padding-bottom:calc(var(--back-clear-y) + 4px)}
-/* Keep the practice stick clear of the back button; .flight-controls is inset by max(22px,safe-area-inset-left). */
-#game.training #direction-pad{margin-left:max(76px,calc(var(--back-left) + var(--back-size) + 10px - max(22px,env(safe-area-inset-left,0px))))}
 #game #result .result-actions{grid-column:1/-1;grid-row:auto;position:sticky;bottom:-8px;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:12px;background:#fff6df;padding:6px 0 8px;margin-bottom:-8px}
 #game #result .result-actions #retry,#game #result .result-actions #home{grid-column:auto;grid-row:auto;min-height:44px;margin:0}
 @container(max-width:650px){
@@ -31,10 +29,19 @@
 #game{--content-shift:calc(var(--safe-left) * .5)}
 #title .title-kicker,#title h1,#title .title-cast{translate:var(--content-shift) 0}
 #title .start-area{left:calc(62% + var(--content-shift))}
-#reminder-settings{translate:var(--content-shift) 0}
 #title .community-entry{padding-left:calc(7% + var(--content-shift))}
 #game .community-screen>*:not(.back-button){margin-left:var(--content-shift)}
 /* Portrait rotation: the physical top inset (status bar / Dynamic Island) sits on the game's LEFT edge,
    and the game's top edge is the physical right side (no inset). Map the HUD padding accordingly so the score
    and HOME rows are not pushed down. */
 .landscape-auto #game .hud{padding-top:max(10px,env(safe-area-inset-right,0px));padding-left:max(20px,env(safe-area-inset-top,0px))}
+/* English: same sticker with "BACK" lettering. */
+html[lang="en"] #game .back-button{background-image:url('../Asset/ui/menu/back-en.png')}
+/* Fewer words in play: the score needs no label. */
+#game .hud .score label{display:none}
+/* Score pops when a round number (50, 100, 150 …) is reached; multiples of 100 glow gold. */
+#game .hud .score.milestone strong{animation:score-milestone .9s cubic-bezier(.2,1.6,.4,1)}
+#game .hud .score.milestone.big strong{animation-duration:1.3s;color:#ffd23f}
+@keyframes score-milestone{0%{transform:scale(1)}25%{transform:scale(1.35) rotate(-4deg)}60%{transform:scale(.95)}100%{transform:scale(1)}}
+/* Practice is left from the pause button (top right), like a normal run — no extra back button over the stick. */
+#game #tutorial-title{display:none}

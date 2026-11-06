@@ -1,12 +1,13 @@
 import {rulesHtml} from './rules-content.js';
+import {t as _t} from './i18n.js';
 // Keep the explanation inside the game surface so portrait rotation also applies.
 export function setupModeRules(getMode){
  const trigger=document.getElementById('mode-rule');
  const panel=document.createElement('section');
  panel.id='mode-rules';panel.hidden=true;panel.className='mode-rules-overlay modal-screen';
  panel.setAttribute('role','dialog');panel.setAttribute('aria-modal','true');panel.setAttribute('aria-labelledby','mode-rules-title');
- panel.innerHTML=`<div class="mode-rules-card"><header><h2 id="mode-rules-title">ルール</h2></header>
- <div class="mode-rules-body" tabindex="0">${rulesHtml()}</div></div><button type="button" class="mode-rules-close back-button" aria-label="ホームにもどる"><small>もどる</small></button>`;
+ panel.innerHTML=`<div class="mode-rules-card"><header><h2 id="mode-rules-title">${_t('ルール')}</h2></header>
+ <div class="mode-rules-body" tabindex="0">${rulesHtml()}</div></div><button type="button" class="mode-rules-close back-button" aria-label="${_t('ホームにもどる')}"><small>${_t('もどる')}</small></button>`;
  document.getElementById('game').append(panel);
  const close=panel.querySelector('.mode-rules-close');
  let inertNodes=[];

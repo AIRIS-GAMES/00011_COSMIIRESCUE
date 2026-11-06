@@ -1,28 +1,29 @@
 import {ROOM_KEY,roomProps,roomResidents,validRoomState} from './room-data.js';
 import {AREAS} from './areas.js';
+import {t as _t} from './i18n.js';
 // Daily missions: three small goals per local day (two in flight, one in the room).
 // Rewards: star cookies (a special room treat), a trust bonus, and — for clearing all three — one furniture piece early.
 export const MISSION_KEY='cosmii-missions-v1';
-export const TREAT={id:'star-cookie',name:'ほしクッキー',src:'./Asset/objects/star-cookie.png',trust:5};
+export const TREAT={id:'star-cookie',name:_t('ほしクッキー'),src:'./Asset/objects/star-cookie.png',trust:5};
 export const TRUST_BONUS=5;
-const colors=[['pink','ピンク'],['blue','水色'],['red','赤'],['purple','紫']];
+const colors=[['pink',_t('ピンク')],['blue',_t('水色')],['red',_t('赤')],['purple',_t('紫')]];
 // Templates are pure data so tests and the UI read the same text and targets.
 const flight=[
- ...colors.map(([id,name],kind)=>({id:'rescue-'+id,type:'rescue',kind,target:10,text:`${name}を10匹助ける`,icon:`./Asset/cast/${id}.png`})),
- {id:'big-return',type:'bigReturn',target:8,text:'8匹まとめて帰還する',icon:'./Asset/stage/checkpoint-cosmii.png'},
- {id:'total-return',type:'delivered',target:25,text:'HOMEへ合計25匹届ける',icon:'./Asset/ui/menu/returns.png'},
- {id:'reach-sunset',type:'area',target:1,area:1,text:`エリア「${AREAS[1].name}」まで行く`,icon:'./Asset/objects/bird.png'},
- {id:'reach-neon',type:'area',target:1,area:2,text:`エリア「${AREAS[2].name}」まで行く`,icon:'./Asset/objects/lightning.png'},
- {id:'skills',type:'skill',target:3,text:'技を3回使う',icon:'./Asset/cast/pink.png'},
- {id:'runs',type:'run',target:3,text:'3回あそぶ',icon:'./Asset/ui/menu/practice.png'},
+ ...colors.map(([id,name],kind)=>({id:'rescue-'+id,type:'rescue',kind,target:10,text:_t('{0}を10匹助ける',[name]),icon:`./Asset/cast/${id}.png`})),
+ {id:'big-return',type:'bigReturn',target:8,text:_t('8匹まとめて帰還する'),icon:'./Asset/stage/checkpoint-cosmii.png'},
+ {id:'total-return',type:'delivered',target:25,text:_t('HOMEへ合計25匹届ける'),icon:'./Asset/ui/menu/returns.png'},
+ {id:'reach-sunset',type:'area',target:1,area:1,text:_t('エリア「{0}」まで行く',[AREAS[1].name]),icon:'./Asset/objects/bird.png'},
+ {id:'reach-neon',type:'area',target:1,area:2,text:_t('エリア「{0}」まで行く',[AREAS[2].name]),icon:'./Asset/objects/lightning.png'},
+ {id:'skills',type:'skill',target:3,text:_t('技を3回使う'),icon:'./Asset/cast/pink.png'},
+ {id:'runs',type:'run',target:3,text:_t('3回あそぶ'),icon:'./Asset/ui/menu/practice.png'},
 ];
 const room=[
- {id:'snack',type:'snack',target:1,text:'部屋でおやつをあげる',icon:'./Asset/objects/apple.png'},
- {id:'snack-3',type:'snack',target:3,text:'部屋でおやつを3回あげる',icon:'./Asset/objects/cake.png'},
- {id:'touch',type:'touch',target:1,text:'部屋でコスミーとふれあう',icon:'./Asset/ui/menu/room.png'},
+ {id:'snack',type:'snack',target:1,text:_t('部屋でおやつをあげる'),icon:'./Asset/objects/apple.png'},
+ {id:'snack-3',type:'snack',target:3,text:_t('部屋でおやつを3回あげる'),icon:'./Asset/objects/cake.png'},
+ {id:'touch',type:'touch',target:1,text:_t('部屋でコスミーとふれあう'),icon:'./Asset/ui/menu/room.png'},
 ];
 export const MISSION_TEMPLATES=Object.freeze([...flight,...room]);
-const rewards=[{type:'treat',count:1,label:'ほしクッキー×1'},{type:'trust',label:'みんなの信頼度+'+TRUST_BONUS},{type:'treat',count:1,label:'ほしクッキー×1'}];
+const rewards=[{type:'treat',count:1,label:_t('ほしクッキー×1')},{type:'trust',label:_t('みんなの信頼度+')+TRUST_BONUS},{type:'treat',count:1,label:_t('ほしクッキー×1')}];
 export const localDay=(date=new Date())=>`${date.getFullYear()}-${String(date.getMonth()+1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
 function seeded(text){let h=2166136261;for(const c of text)h=Math.imul(h^c.charCodeAt(0),16777619);return()=>{h=Math.imul(h^h>>>15,2246822507);h=Math.imul(h^h>>>13,3266489909);h^=h>>>16;return (h>>>0)/4294967296;};}
 // Same day → same three missions on every device; two different flight types plus one room mission.

@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  for(const [width,height,counts,base,reduced] of [[844,390,[3,4,5,18],'',false],[390,844,[3000,4000,5000,18000],'/dist',false],[568,320,[0,0,0,0],'',true]]){
-  const page=await browser.newPage({viewport:{width,height},reducedMotion:reduced?'reduce':'no-preference'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const page=await browser.newPage({locale:'ja-JP',viewport:{width,height},reducedMotion:reduced?'reduce':'no-preference'}),errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.addInitScript(counts=>localStorage.setItem('cosmii-psf-v1',JSON.stringify({intro:true,counts})),counts);
-  await page.goto(`http://localhost:5180${base}/index.html?opening=off&analytics=off`);await page.locator('#boot-screen').waitFor({state:'hidden'});await page.locator('#title-total-returned').click();
+  await page.goto(`http://localhost:5180${base}/index.html?opening=off&goal=off&analytics=off`);await page.locator('#boot-screen').waitFor({state:'hidden'});await page.locator('#title-total-returned').click();
   await expect(page.locator('.room-celebration')).toBeVisible();await expect(page.locator('.return-close')).toBeFocused();
   await expect(page.locator('.return-result strong')).toHaveText(counts.reduce((a,b)=>a+b,0).toLocaleString('ja-JP')+'体！！');
   await page.waitForTimeout(reduced?100:2200);await page.screenshot({path:'test-results/home-returns-'+width+'.png'});

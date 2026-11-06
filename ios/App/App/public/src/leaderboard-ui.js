@@ -3,42 +3,47 @@ import {Leaderboard,newRunId,playerName} from './leaderboard.js';
 import {leaderboardConfig} from './leaderboard-config.js';
 import {AutoRanking} from './auto-ranking.js';
 import {RankingSafetyUI} from './ranking-safety-ui.js';
+import {t as _t,LANG,LANGS,setLang} from './i18n.js';
 const $=id=>document.getElementById(id);
 export class LeaderboardUI {
   constructor(options={}){
     this.options=options;
     this.api=new Leaderboard(leaderboardConfig);this.auto=new AutoRanking(this.api);this.view=0;
     const records=document.querySelector('#records-screen .panel');
-    records.querySelector('.eyebrow').textContent='COSMII RECORDS';
-    records.querySelector('h2').textContent='RANKING';
+    records.querySelector('.eyebrow').textContent=_t('みんなの記録');
+    records.querySelector('h2').textContent=_t('ランキング');
     records.querySelector('p').id='records-caption';
     this.tabs=document.createElement('div');this.tabs.className='ranking-tabs';
-    this.tabs.innerHTML='<button type="button" id="ranking-online">救出 TOP 20</button><button type="button" id="ranking-local">自分の TOP 5</button>';
+    this.tabs.innerHTML=_t('<button type="button" id="ranking-online">救出 TOP 20</button><button type="button" id="ranking-local">自分の TOP 5</button>');
     records.querySelector('h2').after(this.tabs);
     this.status=document.createElement('p');this.status.id='ranking-status';this.status.setAttribute('role','status');
     $('record-list').before(this.status);
-    this.refresh=document.createElement('button');this.refresh.type='button';this.refresh.className='text-button';this.refresh.textContent='再読み込み';
+    this.refresh=document.createElement('button');this.refresh.type='button';this.refresh.className='text-button';this.refresh.textContent=_t('再読み込み');
     const footer=document.createElement('div');footer.className='ranking-footer';
     $('record-list').after(footer);footer.append(this.refresh,$('close-records'));this.refresh.onclick=()=>this.openOnline();
     $('ranking-online').onclick=()=>this.openOnline();$('ranking-local').onclick=()=>this.openLocal();
     this.form=document.createElement('form');this.form.className='ranking-entry';this.form.hidden=true;
-    this.form.innerHTML='<input id="ranking-name" type="hidden"><button type="submit">ランキングに参加</button><p role="status" class="ranking-entry-status"></p>';
+    this.form.innerHTML=_t('<input id="ranking-name" type="hidden"><button type="submit">ランキングに参加</button><p role="status" class="ranking-entry-status"></p>');
     $('unbanked').after(this.form);
     this.name=$('ranking-name');this.submit=this.form.querySelector('button');this.message=this.form.querySelector('[role="status"]');
     // Native keyboards follow the device viewport, not the CSS-rotated game.
     // Fit inside the visual viewport to leave room for the native keyboard.
     this.name.readOnly=true;this.name.setAttribute('aria-haspopup','dialog');
     this.editor=document.createElement('dialog');this.editor.className='ranking-name-dialog';this.editor.setAttribute('aria-labelledby','ranking-editor-title');
-    this.editor.innerHTML='<form class="ranking-name-card"><h2 id="ranking-editor-title">ランキングに参加</h2><p>名前と自己ベストを公開します。次回から自動更新。</p><input id="ranking-editor-input" type="text" maxlength="24" placeholder="ニックネーム（12文字まで）" autocomplete="off" enterkeyhint="done" aria-label="ニックネーム" autofocus><p class="ranking-name-error" role="status"></p><div><button type="button" class="ranking-name-cancel">キャンセル</button><button type="submit">参加する</button></div></form>';
+    this.editor.innerHTML=_t('<form class="ranking-name-card"><h2 id="ranking-editor-title">ランキングに参加</h2><p>名前と自己ベストを公開します。次回から自動更新。</p><input id="ranking-editor-input" type="text" maxlength="24" placeholder="ニックネーム（12文字まで）" autocomplete="off" enterkeyhint="done" aria-label="ニックネーム" autofocus><p class="ranking-name-error" role="status"></p><div><button type="button" class="ranking-name-cancel">キャンセル</button><button type="submit">参加する</button></div></form>');
     document.body.append(this.editor);this.editorInput=$('ranking-editor-input');
     this.bgmRow=document.createElement('div');this.bgmRow.className='settings-bgm';this.bgmRow.hidden=true;
     this.bgmRow.innerHTML='<span>BGM</span><button type="button" id="settings-bgm-toggle" aria-pressed="true">ON</button>';
-    this.editorInput.before(this.bgmRow);this.bgmButton=this.bgmRow.querySelector('button');
+    // Language: 日本語 / English (saved, then the page reloads so every screen is rebuilt).
+    this.langRow=document.createElement('div');this.langRow.className='settings-bgm settings-lang';this.langRow.hidden=true;
+    this.langRow.innerHTML=`<span class="settings-lang-label">${LANG==='ja'?'言語':'Language'}</span><span class="settings-lang-options" role="group" aria-label="言語 / Language">${LANGS.map(l=>`<button type="button" data-lang="${l}" aria-pressed="${l===LANG}">${l==='ja'?'日本語':'English'}</button>`).join('')}</span>`;
+    this.langRow.addEventListener('click',e=>{const b=e.target.closest('[data-lang]');if(b&&b.dataset.lang!==LANG)setLang(b.dataset.lang);});
+    this.editorInput.before(this.bgmRow);this.bgmRow.after(this.langRow);this.bgmButton=this.bgmRow.querySelector('button');
     this.safetyUI=new RankingSafetyUI(this);
-    this.supportButton=document.createElement('button');this.supportButton.type='button';this.supportButton.className='settings-support';this.supportButton.textContent='ランキング・サポート';this.supportButton.hidden=true;this.bgmRow.after(this.supportButton);this.supportButton.onclick=()=>this.safetyUI.settings();
+    this.supportButton=document.createElement('button');this.supportButton.type='button';this.supportButton.className='settings-support';this.supportButton.textContent=_t('ランキング・サポート');this.supportButton.hidden=true;this.bgmRow.after(this.supportButton);this.supportButton.onclick=()=>this.safetyUI.settings();
     const refreshBgm=()=>{const enabled=this.options.getBgm?.()!==false;this.bgmButton.textContent=enabled?'ON':'OFF';this.bgmButton.setAttribute('aria-pressed',String(enabled));};
     this.bgmButton.onclick=()=>{this.options.setBgm?.(!(this.options.getBgm?.()!==false));refreshBgm();};
-    this.settingsButton=document.createElement('button');this.settingsButton.type='button';this.settingsButton.id='home-settings';this.settingsButton.setAttribute('aria-label','設定');
+    this.settingsButton=document.createElement('button');this.settingsButton.type='button';this.settingsButton.id='home-settings';this.settingsButton.setAttribute('aria-label',_t('設定'));
     this.settingsButton.textContent='';const settingsIcon=document.createElement('img');settingsIcon.src='./Asset/ui/menu/settings.png';settingsIcon.alt='';this.settingsButton.append(settingsIcon);
     $('title').append(this.settingsButton);this.settingsButton.onclick=()=>this.openEditor(true);
     const fitEditor=()=>{
@@ -56,14 +61,14 @@ export class LeaderboardUI {
     this.openEditor=(settingsMode=false)=>{
       if((!settingsMode&&(this.name.disabled||this.form.hidden))||this.editor.open)return;
       clearTimeout(this.nameBlurTimer);this.editingName=false;
-      this.settingsMode=settingsMode;this.editor.classList.toggle('home-settings-dialog',settingsMode);this.bgmRow.hidden=!settingsMode;
+      this.settingsMode=settingsMode;this.editor.classList.toggle('home-settings-dialog',settingsMode);this.bgmRow.hidden=!settingsMode;this.langRow.hidden=!settingsMode;
       this.supportButton.hidden=!settingsMode;
       let saved={};try{saved=this.auto.read();}catch{}
-      this.editorInput.value=saved.name||saved.nickname||this.name.value;this.editor.querySelector('[role="status"]').textContent=saved.deleting?'削除処理中です。「ランキング・サポート」から再試行してください。':saved.rejected||(settingsMode&&saved.pendingName?'名前は端末に保存済み。ランキングへ自動再送します。':'');
-      $('ranking-editor-title').textContent=settingsMode?'設定':'ランキングに参加';
-      this.editor.querySelector('.ranking-name-card>p').textContent=settingsMode?(saved.name?'名前を変更するとランキングにも反映されます。':'名前を保存できます。ランキング参加は結果画面から。'):'名前と自己ベストを公開します。次回から自動更新。';
-      this.editor.querySelector('button[type="submit"]').textContent=settingsMode?'名前を保存':'参加する';
-      this.editor.querySelector('.ranking-name-cancel').textContent=settingsMode?'とじる':'キャンセル';
+      this.editorInput.value=saved.name||saved.nickname||this.name.value;this.editor.querySelector('[role="status"]').textContent=saved.deleting?_t('削除処理中です。「ランキング・サポート」から再試行してください。'):saved.rejected||(settingsMode&&saved.pendingName?_t('名前は端末に保存済み。ランキングへ自動再送します。'):'');
+      $('ranking-editor-title').textContent=settingsMode?_t('設定'):_t('ランキングに参加');
+      this.editor.querySelector('.ranking-name-card>p').textContent=settingsMode?(saved.name?_t('名前を変更するとランキングにも反映されます。'):_t('名前を保存できます。ランキング参加は結果画面から。')):_t('名前と自己ベストを公開します。次回から自動更新。');
+      this.editor.querySelector('button[type="submit"]').textContent=settingsMode?_t('名前を保存'):_t('参加する');
+      this.editor.querySelector('.ranking-name-cancel').textContent=settingsMode?_t('とじる'):_t('キャンセル');
       this.editorInput.autofocus=!settingsMode;refreshBgm();this.editor.showModal();fitEditor();(settingsMode?this.bgmButton:this.editorInput).focus({preventScroll:true});
     };
     this.name.onclick=()=>this.openEditor();
@@ -76,14 +81,14 @@ export class LeaderboardUI {
       event.preventDefault();
       if(this.savingName)return;
       this.savingName=true;this.editor.querySelectorAll('button').forEach(button=>button.disabled=true);this.editorInput.readOnly=true;
-      try{this.name.value=playerName(this.editorInput.value);if(this.settingsMode)this.auto.rename(this.name.value);else this.auto.join(this.name.value,this.run);this.editor.querySelector('[role="status"]').textContent='保存中…';await this.register(true);this.editor.close();}
+      try{this.name.value=playerName(this.editorInput.value);if(this.settingsMode)this.auto.rename(this.name.value);else this.auto.join(this.name.value,this.run);this.editor.querySelector('[role="status"]').textContent=_t('保存中…');await this.register(true);this.editor.close();}
       catch(error){this.editor.querySelector('[role="status"]').textContent=error.message;this.editorInput.focus();}
       finally{this.savingName=false;this.editorInput.readOnly=false;this.editor.querySelectorAll('button').forEach(button=>button.disabled=false);}
     };
-    this.form.onsubmit=event=>{event.preventDefault();try{if(this.auto.read().name)this.register();else this.openEditor();}catch{this.message.textContent='端末に保存できません';}};
+    this.form.onsubmit=event=>{event.preventDefault();try{if(this.auto.read().name)this.register();else this.openEditor();}catch{this.message.textContent=_t('端末に保存できません');}};
     this.form.addEventListener('keydown',event=>event.stopPropagation());
     this.form.addEventListener('keyup',event=>event.stopPropagation());
-    $('records').innerHTML='RANKING '+icon('link');
+    $('records').innerHTML=_t('ランキング ')+icon('link');
     window.addEventListener('online',()=>this.register());
     window.addEventListener('storage',event=>{if(event.key===this.auto.key)this.register();});
     document.addEventListener('visibilitychange',()=>{if(!document.hidden)this.register();});
@@ -95,20 +100,20 @@ export class LeaderboardUI {
     if(game.isTraining||game.mode!=='normal'){this.run=null;this.form.hidden=true;return;}
     this.run={id:newRunId(),mode:game.mode,score:game.rescued,rescued:game.rescued,seconds:game.time};
     this.form.hidden=!this.api.configured||game.mode!=='normal';
-    this.name.disabled=false;this.submit.disabled=false;this.submit.hidden=false;this.submit.textContent='ランキングに参加';this.message.textContent='';
-    try{if(this.auto.read().name){this.auto.offer(this.run);this.register();}}catch{this.message.textContent='端末に保存できません';}
+    this.name.disabled=false;this.submit.disabled=false;this.submit.hidden=false;this.submit.textContent=_t('ランキングに参加');this.message.textContent='';
+    try{if(this.auto.read().name){this.auto.offer(this.run);this.register();}}catch{this.message.textContent=_t('端末に保存できません');}
   }
   async register(propagateError=false){
     clearTimeout(this.retryTimer);
     try{
-      const data=this.auto.read();if(data.deleting){this.submit.hidden=true;this.message.textContent='データ削除中 · 設定から再試行';return;}if(!data.name){this.submit.hidden=false;this.submit.textContent='ランキングに参加';this.message.textContent='';return;}
-      this.submit.hidden=true;this.message.textContent=data.pending||data.pendingName?'ランキング更新中…':'自己ベスト登録済み ✓';
+      const data=this.auto.read();if(data.deleting){this.submit.hidden=true;this.message.textContent=_t('データ削除中 · 設定から再試行');return;}if(!data.name){this.submit.hidden=false;this.submit.textContent=_t('ランキングに参加');this.message.textContent='';return;}
+      this.submit.hidden=true;this.message.textContent=data.pending||data.pendingName?_t('ランキング更新中…'):_t('自己ベスト登録済み ✓');
       const result=await this.auto.flush();
       if(this.auto.read().deleting||this.auto.read().deleted)return;
-      this.message.textContent=result?`自己ベスト ${result.score}匹 · ${result.rank}位`:'自己ベスト登録済み ✓';
+      this.message.textContent=result?_t('自己ベスト {0}匹 · {1}位',[result.score,result.rank]):_t('自己ベスト登録済み ✓');
     }catch(error){
       if(error.permanent){this.message.textContent=error.message;this.submit.hidden=true;if(propagateError)throw error;return;}
-      this.message.textContent='未送信 · 後で自動再送';this.message.title=error.message;this.submit.hidden=false;this.submit.disabled=false;this.submit.textContent='再送';
+      this.message.textContent=_t('未送信 · 後で自動再送');this.message.title=error.message;this.submit.hidden=false;this.submit.disabled=false;this.submit.textContent=_t('再送');
       this.retryTimer=setTimeout(()=>{if(!document.hidden)this.register();},60000);
       if(propagateError)throw error;
     }
@@ -117,26 +122,26 @@ export class LeaderboardUI {
   select(online){
     $('ranking-online').setAttribute('aria-pressed',String(online));$('ranking-local').setAttribute('aria-pressed',String(!online));
     $('record-list').replaceChildren();this.status.textContent='';this.refresh.hidden=!online||!this.api.configured;
-    $('records-caption').textContent=online?'NORMAL · 1人1枠の自己ベスト · 同数は同順位':`${this.storage.key.endsWith('-hard')?'HARD':'NORMAL'} · 自分の帰還数 · 同数は同順位`;
+    $('records-caption').textContent=online?_t('ノーマル · 1人1枠の自己ベスト · 同数は同順位'):_t('{0} · 自分の帰還数 · 同数は同順位',[this.storage.key.endsWith('-hard')?_t('ハード'):_t('ノーマル')]);
   }
   row(rank,name,score,detail='',entry=null){
     const li=document.createElement('li'),position=document.createElement('b'),label=document.createElement('span'),points=document.createElement('strong');
-    position.textContent=String(rank).padStart(2,'0');label.textContent=name;points.textContent=Number(score).toLocaleString()+'体';
+    position.textContent=String(rank).padStart(2,'0');label.textContent=name;points.textContent=Number(score).toLocaleString()+_t('体');
     label.title=detail;li.append(position,label,points);$('record-list').append(li);
-    if(entry?.public_id){li.classList.add('ranking-row-actions');const button=document.createElement('button');button.type='button';button.textContent='…';button.className='ranking-row-menu';button.setAttribute('aria-label',`${name}のメニュー`);button.onclick=()=>this.safetyUI.row(entry);li.append(button);}
+    if(entry?.public_id){li.classList.add('ranking-row-actions');const button=document.createElement('button');button.type='button';button.textContent='…';button.className='ranking-row-menu';button.setAttribute('aria-label',_t('{0}のメニュー',[name]));button.onclick=()=>this.safetyUI.row(entry);li.append(button);}
   }
   openLocal(){
     this.view++;this.select(false);
-    let rank=0;this.storage.data.runs.forEach((run,i,runs)=>{if(!i||run.score!==runs[i-1].score)rank=i+1;this.row(rank,'自分の記録',run.score);});
-    if(!this.storage.data.runs.length)this.status.textContent='まだ記録がありません。';
+    let rank=0;this.storage.data.runs.forEach((run,i,runs)=>{if(!i||run.score!==runs[i-1].score)rank=i+1;this.row(rank,_t('自分の記録'),run.score);});
+    if(!this.storage.data.runs.length)this.status.textContent=_t('まだ記録がありません。');
   }
   async openOnline(){
-    const view=++this.view;this.select(true);this.status.textContent='読み込み中…';
+    const view=++this.view;this.select(true);this.status.textContent=_t('読み込み中…');
     try{
       let hidden=[];try{hidden=this.safetyUI.safety.hidden().map(r=>r.id);}catch{}
       const rows=await this.api.top(hidden);if(this.view!==view)return;
-      this.status.textContent=rows.length?'':'最初の記録を登録しよう！';
-      rows.forEach(row=>this.row(row.rank,row.player_name,row.score,`${row.rescued} RESCUED`,row));
+      this.status.textContent=rows.length?'':_t('最初の記録を登録しよう！');
+      rows.forEach(row=>this.row(row.rank,row.player_name,row.score,_t('{0}匹救出',[row.rescued]),row));
     }catch(error){if(this.view===view)this.status.textContent=error.message;}
   }
 }

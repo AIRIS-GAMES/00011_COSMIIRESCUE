@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  for(const [width,height,base] of [[568,320,''],[844,390,'/dist'],[390,844,'']]){
-  const page=await browser.newPage({viewport:{width,height},hasTouch:true}),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(10000);
+  const page=await browser.newPage({locale:'ja-JP',viewport:{width,height},hasTouch:true}),errors=[];page.on('pageerror',e=>errors.push(e.message));page.setDefaultTimeout(10000);
   await page.addInitScript(()=>{if(!localStorage.getItem('cosmii-psf-v1'))localStorage.setItem('cosmii-psf-v1',JSON.stringify({intro:true,counts:[3,4,5,18]}));});
-  await page.goto(`http://localhost:5180${base}/index.html?opening=off&analytics=off`);await page.locator('#boot-screen').waitFor({state:'hidden'});await page.locator('#open-room').click();
+  await page.goto(`http://localhost:5180${base}/index.html?opening=off&goal=off&analytics=off`);await page.locator('#boot-screen').waitFor({state:'hidden'});await page.locator('#open-room').click();
   await expect(page.locator('.room-resident')).toHaveCount(5);
   const first=page.locator('.room-resident').first(),start=await first.getAttribute('style');await expect.poll(()=>first.getAttribute('style')).not.toBe(start);
   await page.screenshot({path:`test-results/cabinet-room-${width}.png`});
@@ -29,5 +29,5 @@ try{
   for(const selector of ['.room-interact','.room-decor-toggle','.community-back'])await expect(page.locator(selector)).toBeInViewport({ratio:1});
   assert.deepEqual(errors,[]);console.log('PASS walking, all faces, decoration, persistence:',width,height,base);await page.close();
  }
- const page=await browser.newPage({viewport:{width:568,height:320}});await page.goto('http://localhost:5180/index.html?opening=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});await page.locator('#open-room').click();await expect(page.locator('.room-resident')).toHaveCount(1);await page.locator('.room-decor-toggle').click();await page.locator('[data-prop="lamp"]').click({force:true});await expect(page.locator('[data-prop="lamp"]')).toHaveAttribute('aria-disabled','true');await expect(page.locator('.room-decor-message')).toContainText('30');await expect(page.locator('.cabinet-prop')).toHaveCount(1);console.log('PASS locked furnishings, empty collection');await page.close();
+ const page=await browser.newPage({locale:'ja-JP',viewport:{width:568,height:320}});await page.goto('http://localhost:5180/index.html?opening=off&goal=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});await page.locator('#open-room').click();await expect(page.locator('.room-resident')).toHaveCount(1);await page.locator('.room-decor-toggle').click();await page.locator('[data-prop="lamp"]').click({force:true});await expect(page.locator('[data-prop="lamp"]')).toHaveAttribute('aria-disabled','true');await expect(page.locator('.room-decor-message')).toContainText('30');await expect(page.locator('.cabinet-prop')).toHaveCount(1);console.log('PASS locked furnishings, empty collection');await page.close();
 }finally{await browser.close();}

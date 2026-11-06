@@ -27,3 +27,5 @@
 .mode-rules-common .rules-skill-hint{font-size:10px;margin-top:2px}
 .mode-rules-card header{padding-top:4px;padding-bottom:4px}
 .mode-rules-body{padding-top:6px;padding-bottom:6px}
+/* The rainbow gauge already shows how many friends you carry, so the separate count chip is only kept for practice. */
+#game:not(.training) .carry-bar{display:none!important}

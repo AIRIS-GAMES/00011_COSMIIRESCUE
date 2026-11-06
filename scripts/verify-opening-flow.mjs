@@ -3,12 +3,12 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  for(const [route,width,height] of [['complete',844,390],['skip',568,320],['escape',390,844]]){
-  const p=await browser.newPage({viewport:{width,height}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
+  const p=await browser.newPage({locale:'ja-JP',viewport:{width,height}}),errors=[];p.on('pageerror',e=>errors.push(e.message));
   await p.goto('http://localhost:5180/?analytics=off');await expect(p.locator('#opening-screen')).toBeVisible();
-  await expect(p.locator('#opening-skip')).toHaveText('SKIP');await expect(p.locator('#opening-skip')).toBeInViewport({ratio:1});
+  await expect(p.locator('#opening-skip')).toHaveText('スキップ');await expect(p.locator('#opening-skip')).toBeInViewport({ratio:1});
   assert.equal(await p.locator('#opening-skip').evaluate(el=>el.classList.contains('back-button')),false);
   await p.waitForFunction(()=>document.querySelector('video').readyState>=2);
-  if(route==='complete'){await p.locator('video').click();await p.locator('video').evaluate(async v=>{v.currentTime=v.duration-.2;await v.play();});await expect(p.locator('#practice-guide')).toBeVisible();await p.locator('#tutorial-title').click();}
+  if(route==='complete'){await p.locator('video').click();await p.locator('video').evaluate(async v=>{v.currentTime=v.duration-.2;await v.play();});await expect(p.locator('#practice-guide')).toBeVisible();await p.locator('.face-transition').waitFor({state:'hidden'});await p.locator('#pause').click();await p.locator('#quit').click();}
   else if(route==='skip')await p.locator('#opening-skip').click();else await p.keyboard.press('Escape');
   await expect(p.locator('#title')).toBeVisible();await p.locator('.face-transition').waitFor({state:'hidden'});
   // Replay from the title: full cut, no back button in the corner, one tap anywhere returns to the title.

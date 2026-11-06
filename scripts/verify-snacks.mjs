@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  for(const [width,height] of [[568,320],[390,844]]){
-  const page=await browser.newPage({viewport:{width,height}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
+  const page=await browser.newPage({locale:'ja-JP',viewport:{width,height}}),errors=[];page.on('pageerror',e=>errors.push(e.message));
   await page.addInitScript(()=>localStorage.setItem('cosmii-psf-v1',JSON.stringify({intro:true,counts:[1,1,1,1]})));
-  await page.goto('http://localhost:5180/?opening=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});
+  await page.goto('http://localhost:5180/?opening=off&goal=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});
   await page.evaluate(async()=>{window.metrics=[];(await import('/src/analytics.js')).analytics.send=(...args)=>window.metrics.push(args);});
   await page.locator('#open-room').click();await page.locator('[data-resident^="green-"]').click();await page.locator('.room-interact').click();
   for(const snack of ['apple','cherry','cake']){

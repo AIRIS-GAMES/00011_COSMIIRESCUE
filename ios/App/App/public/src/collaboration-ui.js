@@ -1,5 +1,6 @@
 import {icon} from './icons.js';
 import {COLLABORATION_IMAGES,collaborationAssetsNeeded} from './collaboration.js';
+import {t as _t} from './i18n.js';
 
 // DOM is created only for a configured campaign. No artwork edits or character speech.
 export class CollaborationUI {
@@ -8,15 +9,15 @@ export class CollaborationUI {
     if(!collaborationAssetsNeeded(this.game.collaborationConfig,this.game.now()))return [];
     const images=await Promise.all(COLLABORATION_IMAGES.map(loadImage));
     const title=document.createElement('button');title.type='button';title.className='collaboration-title';title.hidden=true;
-    title.innerHTML='<span>期間限定コラボ</span><strong>おっ！サン × COSMII RESCUE!</strong><small>コラボ内容を見る '+icon('link')+'</small>';
+    title.innerHTML=_t('<span>期間限定コラボ</span><strong>おっ！サン × COSMII RESCUE!</strong><small>コラボ内容を見る ')+icon('link')+'</small>';
     const titleImage=document.createElement('img');titleImage.src=COLLABORATION_IMAGES[0];titleImage.alt='';titleImage.setAttribute('aria-hidden','true');title.prepend(titleImage);
     title.setAttribute('aria-haspopup','dialog');title.setAttribute('aria-controls','collaboration-details');
     document.getElementById('records').after(title);this.title=title;
     const modal=document.createElement('div');modal.id='collaboration-details';modal.className='overlay modal-screen collaboration-details';modal.hidden=true;
     modal.setAttribute('role','dialog');modal.setAttribute('aria-modal','true');modal.setAttribute('aria-labelledby','collaboration-details-heading');
-    modal.innerHTML='<section class="panel"><h2 id="collaboration-details-heading">おっ！サン コラボ</h2><p class="collaboration-lead">おっ！サンを集めてフィーバー！</p><div class="collaboration-description"><img alt="おっ！サン"><ol><li>おっ！サンに触れて、HOMEへ届けよう！</li><li class="collaboration-rule"></li><li>無敵＆ビームで障害物をこわそう！<br>おっ！サンもたくさん登場！</li></ol></div><small class="collaboration-modal-credit">© SUN-TV</small></section><button type="button" class="collaboration-close back-button" aria-label="ホームにもどる"><small>もどる</small></button>';
+    modal.innerHTML=_t('<section class="panel"><h2 id="collaboration-details-heading">おっ！サン コラボ</h2><p class="collaboration-lead">おっ！サンを集めてフィーバー！</p><div class="collaboration-description"><img alt="おっ！サン"><ol><li>おっ！サンに触れて、HOMEへ届けよう！</li><li class="collaboration-rule"></li><li>無敵＆ビームで障害物をこわそう！<br>おっ！サンもたくさん登場！</li></ol></div><small class="collaboration-modal-credit">© SUN-TV</small></section><button type="button" class="collaboration-close back-button" aria-label="ホームにもどる"><small>もどる</small></button>');
     modal.querySelector('img').src=COLLABORATION_IMAGES[0];
-    modal.querySelector('.collaboration-rule').textContent=`合計${this.game.collaboration.target}体届けると、${this.game.collaboration.seconds}秒間フィーバー！`;
+    modal.querySelector('.collaboration-rule').textContent=_t('合計{0}体届けると、{1}秒間フィーバー！',[this.game.collaboration.target,this.game.collaboration.seconds]);
     document.getElementById('game').append(modal);this.modal=modal;
     const close=modal.querySelector('.collaboration-close');
     title.onclick=()=>{modal.hidden=false;close.focus();};close.onclick=()=>this.close();
@@ -29,7 +30,7 @@ export class CollaborationUI {
       if(e.key==='Tab'){e.preventDefault();close.focus();}
     },true);
     const result=document.createElement('div');result.className='collaboration-result';result.hidden=true;
-    const img=document.createElement('img');img.src=COLLABORATION_IMAGES[6];img.alt='おっ！サン';
+    const img=document.createElement('img');img.src=COLLABORATION_IMAGES[6];img.alt=_t('おっ！サン');
     const label=document.createElement('span');result.append(img,label);
     document.querySelector('#result .panel').prepend(result);this.result=result;this.resultLabel=label;
     const credit=document.createElement('span');credit.className='collaboration-credit';credit.textContent='© SUN-TV';credit.hidden=true;
@@ -55,7 +56,7 @@ export class CollaborationUI {
     }
     if(screen==='result'&&this.lastDelivered!==this.game.collaboration.delivered){
       this.lastDelivered=this.game.collaboration.delivered;
-      this.resultLabel.textContent=`おっ！サン救出数 ${this.lastDelivered}体`;
+      this.resultLabel.textContent=_t('おっ！サン救出数 {0}体',[this.lastDelivered]);
     }
   }
 }

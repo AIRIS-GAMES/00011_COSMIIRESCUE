@@ -27,9 +27,16 @@ import {characterNames} from './character-profiles.js';
 import {AREAS} from './areas.js';
 import {icon,iconEl} from './icons.js';
 import {DailyMissions} from './missions.js';
+import {t as _t,LANG,translateStatic} from './i18n.js';
+import {GoalCard} from './goal-card.js';
+import {PlayHints} from './play-hints.js';
+import {milestoneCrossed,isBigMilestone} from './milestones.js';
+// i18n before any UI is built: static HTML switches language first.
+document.documentElement.lang=LANG;translateStatic(document.body);
 export const progress=new PsfProgress();
 const measure=(name,value=1,variant='normal',kind='group')=>psfMeasure(analytics,name,value,variant,kind);
 const $=id=>document.getElementById(id),audio=new GameAudio(),settings=new GameSettings();
+const goalCard=new GoalCard({parent:$('game')}),hints=new PlayHints();
 // Leaving the app suspends audio; outside a run, the next gesture may wake menu sounds.
 // During a run, only RESUME/PLAY lift the suspension so gameplay stays paused.
 function wakeMenuAudio(){if(audio.suspended&&!document.hidden&&game.state!=='playing'&&game.state!=='ending')audio.resume();else audio.unlock();}
@@ -49,37 +56,41 @@ const reminders=installReminders((name,kind)=>analytics.notification(name,kind),
 function openPendingMissions(){try{if(!pendingMissionOpen||screen!=='title'||!bootComplete||openingUI.active||transition.busy)return;}catch{return;}pendingMissionOpen=false;communityUI.open('missions',$('open-missions'),{source:'notification'});}
 const notices=new GameNotices($('toast'));
 const resultSocial=new ResultSocialPopup((name,data)=>analytics.community(name,data));
+// The SNS card no longer pops over the result on its own (no stacked windows); a small button next to the
+// ranking link opens it, and only then is the result set aside.
+function resultLinks(){if($('result-sns'))return;const row=document.createElement('div');row.className='result-links';const sns=document.createElement('button');sns.type='button';sns.id='result-sns';sns.className='result-sns';sns.textContent=_t('SNS・スタンプ');sns.onclick=()=>resultSocial.open();
+ const form=document.querySelector('#result .ranking-entry');$('unbanked').after(row);if(form)row.append(form);row.append(sns);}
 const modeStores={normal:new RescueStorage(undefined,'psf'),hard:new RescueStorage(undefined,'hard')};
 let selectedMode='normal',storage=modeStores.normal;
-function selectMode(mode){selectedMode=mode;storage=modeStores[mode];for(const name of ['normal','hard'])$('mode-'+name).setAttribute('aria-pressed',String(name===mode));$('mode-rule').textContent=mode==='hard'?'HARDのルールを見る ⓘ':'NORMALのルールを見る ⓘ';$('title-best').textContent=storage.data.best.toLocaleString();}
+function selectMode(mode){selectedMode=mode;storage=modeStores[mode];for(const name of ['normal','hard'])$('mode-'+name).setAttribute('aria-pressed',String(name===mode));$('mode-rule').textContent=_t('ルール ⓘ');$('mode-rule').setAttribute('aria-label',mode==='hard'?_t('ハードのルールを見る'):_t('ノーマルのルールを見る'));$('title-best').textContent=storage.data.best.toLocaleString();}
 setupModeRules(()=>selectedMode);
 const endlessGame=new RescueGame(stage,Math.random,collaboration),trainingGame=new TrainingGame();
 export let game=endlessGame;
-const skillUI=new SkillUI(kind=>{if(screen==='playing'&&!paused&&!transition.busy&&game.activateSkill(kind)){clearInput();$('live').textContent=['するり抜け','ふわふわガード','はね飛ばし','おたすけキャッチ'][kind]+'発動';}});
+const skillUI=new SkillUI(kind=>{if(screen==='playing'&&!paused&&!transition.busy&&game.activateSkill(kind)){clearInput();$('live').textContent=_t('{0}発動',[[_t('するり抜け'),_t('ふわふわガード'),_t('はね飛ばし'),_t('おたすけキャッチ')][kind]]);}});
 const collaborationUI=new CollaborationUI(endlessGame);
 const leaderboardUI=new LeaderboardUI({getBgm:()=>audio.enabled,setBgm:enabled=>{audio.unlock();audio.enabled=enabled;settings.muted=!enabled;settings.save();audio.music(screen==='playing'&&!paused);soundLabel();}});
 export const missions=new DailyMissions();
 export const communityUI=new CommunityUI(show,{progress,missions,measure:(name,data)=>{analytics.community(name,data);analytics.engagement(name,data);
  // Room actions feed today's room mission.
  if(name==='snack_given')missions.track('snack');if(name==='trust_gain'&&data?.source!=='treat')missions.track('touch');}});
-missions.subscribe(done=>{for(const m of done)if(screen==='playing')toast(`ミッション達成！「${m.text}」`,3,80);communityUI.updateMissionBadge();});
+missions.subscribe(done=>{for(const m of done)if(screen==='playing')toast(_t('ミッション達成！「{0}」',[m.text]),3,80);communityUI.updateMissionBadge();});
 communityUI.updateMissionBadge();
-const titleTotal=document.createElement('button');titleTotal.type='button';titleTotal.onclick=()=>communityUI.open('returns',titleTotal);titleTotal.id='title-total-returned';titleTotal.innerHTML='<img class="menu-icon" src="./Asset/ui/menu/returns.png" alt=""><span class="menu-label">累計帰還</span><span class="total-value"><b>0</b>体</span>';$('open-social').before(titleTotal);
-const resultTotal=$('result-rescued-stat');resultTotal.previousElementSibling.textContent='累計帰還';resultTotal.title='NORMALでHOMEへ届けた仲間の累計。今回までの保存済み帰還数。';
-function updateTotalReturned(){const total=progress.totalReturned.toLocaleString();titleTotal.querySelector('b').textContent=total;titleTotal.setAttribute('aria-label',`累計帰還を見る ${total}体（NORMAL）`);titleTotal.title='HOMEへ届けた仲間の累計。練習・HARDは含みません。';resultTotal.textContent=total+'体';}
+const titleTotal=document.createElement('button');titleTotal.type='button';titleTotal.onclick=()=>communityUI.open('returns',titleTotal);titleTotal.id='title-total-returned';titleTotal.innerHTML=_t('<img class="menu-icon" src="./Asset/ui/menu/returns.png" alt=""><span class="menu-label">累計帰還</span><span class="total-value"><b>0</b>体</span>');$('open-social').before(titleTotal);
+const resultTotal=$('result-rescued-stat');resultTotal.previousElementSibling.textContent=_t('累計帰還');resultTotal.title=_t('ノーマルでHOMEへ届けた仲間の累計。今回までの保存済み帰還数。');
+function updateTotalReturned(){const total=progress.totalReturned.toLocaleString();titleTotal.querySelector('b').textContent=total;titleTotal.setAttribute('aria-label',_t('累計帰還を見る {0}体（ノーマル）',[total]));titleTotal.title=_t('HOMEへ届けた仲間の累計。練習・ハードは含みません。');resultTotal.textContent=total+_t('体');}
 updateTotalReturned();
 export const presentation=presentationFlags();
 export const rescueTutorial=new RescueTutorial({start:()=>changeScene(()=>startNow(),true),title:()=>changeScene(homeNow)});
 export const openingUI=new OpeningUI({enabled:presentation.opening,show:()=>show('opening-screen'),close:(source,skipped)=>{if(source==='replay'||source==='return'||skipped){if(source!=='replay')progress.mark('intro');changeScene(()=>show('title'));return;}progress.mark('intro');changeScene(()=>startTraining('onboarding'),true);},measure:(name,data)=>analytics.presentation(name,data)});
-const openingReplay=document.createElement('button');openingReplay.id='intro-preview';openingReplay.type='button';openingReplay.innerHTML='<img class="menu-icon" src="./Asset/ui/menu/prologue.png" alt=""><span class="menu-label">プロローグ</span>';openingReplay.setAttribute('aria-label','プロローグを見る');openingReplay.hidden=!presentation.opening;openingReplay.onclick=()=>openingUI.open('replay',openingReplay);$('title').querySelector('.community-entry').append(openingReplay);
-const practiceButton=document.createElement('button');practiceButton.id='practice-start';practiceButton.innerHTML='<img class="menu-icon" src="./Asset/ui/menu/practice.png" alt=""><span class="menu-label">あそび方</span>';practiceButton.setAttribute('aria-label','あそび方');practiceButton.onclick=()=>changeScene(()=>startTraining('optional'),true);$('title').querySelector('.community-entry').append(practiceButton);$('title').querySelector('.community-entry').append($('open-games'));
+const openingReplay=document.createElement('button');openingReplay.id='intro-preview';openingReplay.type='button';openingReplay.innerHTML=_t('<img class="menu-icon" src="./Asset/ui/menu/prologue.png" alt=""><span class="menu-label">プロローグ</span>');openingReplay.setAttribute('aria-label',_t('プロローグを見る'));openingReplay.hidden=!presentation.opening;openingReplay.onclick=()=>openingUI.open('replay',openingReplay);$('title').querySelector('.community-entry').append(openingReplay);
+const practiceButton=document.createElement('button');practiceButton.id='practice-start';practiceButton.innerHTML=_t('<img class="menu-icon" src="./Asset/ui/menu/practice.png" alt=""><span class="menu-label">あそび方</span>');practiceButton.setAttribute('aria-label',_t('あそび方'));practiceButton.onclick=()=>changeScene(()=>startTraining('optional'),true);$('title').querySelector('.community-entry').append(practiceButton);$('title').querySelector('.community-entry').append($('open-games'));
 const memory=document.createElement('div');memory.id='return-memory';$('unbanked').after(memory);
 function resultMemory(){
  memory.replaceChildren();if(game.mode!=='normal')return;
  game.delivered.forEach((count,i)=>{if(!count)return;
   const row=document.createElement('div'),img=document.createElement('img'),button=document.createElement('button');
-  img.src=friends[i].src;img.alt=characterNames[kinds[i]]+'の仲間';
-  button.textContent='この子を知る';button.onclick=()=>{analytics.interest('result_detail',{source:'result',characterType:kinds[i],status:collectionStatus(characterCollection(kinds[i],progress.data))});communityUI.open('characters',button,{source:'result',character:kinds[i],returnTo:()=>show('result')});};
+  img.src=friends[i].src;img.alt=characterNames[kinds[i]]+_t('の仲間');
+  button.textContent=_t('この子を知る');button.onclick=()=>{analytics.interest('result_detail',{source:'result',characterType:kinds[i],status:collectionStatus(characterCollection(kinds[i],progress.data))});communityUI.open('characters',button,{source:'result',character:kinds[i],returnTo:()=>show('result')});};
   button.prepend(img);row.append(button);memory.append(row);
  });
 }
@@ -119,7 +130,7 @@ function toast(text,duration=2.5,priority=10){notices.push(text,{duration,priori
 function clearInput(){pointer=null;pressed.clear();resetStick();}
 function startTraining(source='optional'){
   exitPractice();practiceSource=source;practiceStep=-1;practiceActive=true;measure('practice_start',1,source);
-  analytics.end(game,'quit');game=trainingGame;game.startPractice();reminders.played(true);paused=false;clearInput();audio.resume();audio.restart();renderer.snap(game);accumulator=0;tutorialLeft=0;notices.reset();$('tutorial').hidden=true;$('toast').hidden=true;rescueTutorial.lastStep=-1;show('playing');$('flap').focus();
+  analytics.end(game,'quit');game=trainingGame;game.startPractice();reminders.played(true);paused=false;clearInput();audio.resume();audio.restart();renderer.snap(game);accumulator=0;tutorialLeft=0;notices.reset();hints.reset();$('tutorial').hidden=true;$('toast').hidden=true;rescueTutorial.lastStep=-1;show('playing');$('flap').focus();
 }
 function startNow(){if(!ready||!bootComplete)return;audio.unlock();clearInput();paused=false;audio.resume();analytics.end(game,'retry');
   exitPractice();
@@ -127,14 +138,21 @@ function startNow(){if(!ready||!bootComplete)return;audio.unlock();clearInput();
   game.psfRules=selectedMode==='normal';game.firstReturnProtection=game.psfRules&&!progress.data.returned;
   if(game.psfRules){game.normalAttempt=progress.beginNormal();measure('normal_attempt',1,game.normalAttempt);if(progress.mark('started'))measure('first_start');}
   analytics.community('play',{mode:selectedMode});
-  leaderboardUI.beginRun();audio.restart();renderer.snap(game);accumulator=0;tutorialLeft=0;notices.reset();$('tutorial').hidden=true;$('toast').hidden=true;show('playing');if(document.hidden)background();$('live').textContent='救出開始。左手で左右の向き、右手タップで上昇。仲間を道中のHOMEへ。';}
-function homeNow(){if(game.state==='playing')reminders.played(false);notices.reset();exitPractice();analytics.end(game,'quit');audio.music(false);audio.stopEffects();clearInput();paused=false;game=endlessGame;game.reset();renderer.snap(game);show('title');$('tutorial').hidden=true;$('toast').hidden=true;}
-function pause(){if(game.state!=='playing'&&game.state!=='ending')return;paused=!paused;reminders.played(!paused);clearInput();show(paused?'pause-screen':'playing');accumulator=0;if(!paused){if(document.hidden){paused=true;show('pause-screen');return;}audio.resume();}if(paused)audio.stopEffects();audio.music(!paused);}
+  leaderboardUI.beginRun();audio.restart();renderer.snap(game);accumulator=0;tutorialLeft=0;notices.reset();hints.reset();$('tutorial').hidden=true;$('toast').hidden=true;show('playing');showGoal();if(document.hidden)background();$('live').textContent=_t('救出開始。左手で左右の向き、右手タップで上昇。仲間を道中のHOMEへ。');}
+// Before the first runs (and until the first HOME return) the run waits behind a one-glance goal slide.
+// It opens once the scene transition has finished, so its entrance animation is actually seen.
+let goalPending=false;
+const hintAnchors={skill:kind=>{const b=document.querySelector(`#skill-bar button[data-kind="${kind}"]`);return b&&!b.closest('[hidden]')?renderer.elementAnchor(b):null;},rainbow:()=>({x:renderer.width/2,y:54})};
+function celebrateScore(big){const s=document.querySelector('.hud .score');if(!s)return;s.classList.remove('milestone','big');void s.offsetWidth;s.classList.add('milestone');s.classList.toggle('big',big);}
+function showGoal(){if(!presentation.goal||!goalCard.wanted(!!progress.data.returned))return;paused=true;goalPending=true;}
+function openGoal(){goalPending=false;goalCard.show(()=>{paused=false;clearInput();accumulator=0;last=0;if(audio.suspended&&!document.hidden)audio.resume();});}
+function homeNow(){goalPending=false;if(goalCard.open){goalCard.onClose=null;goalCard.close();}if(game.state==='playing')reminders.played(false);notices.reset();hints.reset();exitPractice();analytics.end(game,'quit');audio.music(false);audio.stopEffects();clearInput();paused=false;game=endlessGame;game.reset();renderer.snap(game);show('title');$('tutorial').hidden=true;$('toast').hidden=true;}
+function pause(){if(goalPending)return;if(goalCard.open){goalCard.close();return;}if(game.state!=='playing'&&game.state!=='ending')return;$('quit').textContent=game.isTraining?_t('練習をやめる'):_t('終了してスコアを見る');paused=!paused;reminders.played(!paused);clearInput();show(paused?'pause-screen':'playing');accumulator=0;if(!paused){if(document.hidden){paused=true;show('pause-screen');return;}audio.resume();}if(paused)audio.stopEffects();audio.music(!paused);}
 function processEvents(){audio.setRainbow(game.state==='playing'&&game.powered);const sounds=new Set();let rescued=false;for(const e of game.drain()){
   renderer.event(e,game);sounds.add(e.type==='collaborationStart'?'rainbowStart':e.type==='collaborationEnd'?'rainbowEnd':e.type);if(!game.isTraining)analytics.event(e,game);
   if(e.type==='rescue')rescued=true;
   if(!game.isTraining&&game.mode==='normal'){
-    if(e.type==='rim'&&game.beforeFirstReturn&&!game.rimGuideShown){game.rimGuideShown=true;toast('リングの横へ回って、中央を通ろう',3,60);}
+    if(e.type==='rim'&&game.beforeFirstReturn&&!game.rimGuideShown){game.rimGuideShown=true;toast(_t('リングの横へ回って、中央を通ろう'),3,60);}
     if(e.type==='rescue'&&progress.mark('rescued'))measure('first_rescue',game.time);
     if(e.type==='itemCollected')progress.collect(storage.runId,e.sequence,e.item);
     if(e.type==='return'){
@@ -157,9 +175,10 @@ function processEvents(){audio.setRainbow(game.state==='playing'&&game.powered);
    if(e.type==='skillStart')missions.track('skill');
    if(e.type==='gameOver')missions.track('run');
   }
-  if(e.type==='return')$('live').textContent=`RESCUED ${e.count}. SCORE +${e.total}`;
-  if(e.type==='windWarn')$('live').textContent=e.kind==='head'?'向かい風がくる':'追い風がくる';
-  if(e.type==='area'&&!game.isTraining){notices.push(`エリア${e.index+1}「${e.name}」へ！`,{duration:2.8,priority:85,kind:'area'});$('live').textContent=`エリア${e.index+1} ${e.name}に到着`;}
+  if(e.type==='return')$('live').textContent=_t('{0}匹救出。得点 +{1}',[e.count,e.total]);
+  if(e.type==='return'&&!game.isTraining){const reached=milestoneCrossed(game.score-e.total,game.score);if(reached){renderer.milestone(reached);celebrateScore(isBigMilestone(reached));audio.effect('best');if(isBigMilestone(reached)){const fx=renderer.milestoneFx;setTimeout(()=>{if(renderer.milestoneFx===fx&&screen==='playing'&&!paused)audio.effect('applause');},350);}$('live').textContent=_t('{0}点達成！',[reached]);}}
+  if(e.type==='windWarn')$('live').textContent=e.kind==='head'?_t('向かい風がくる'):_t('追い風がくる');
+  if(e.type==='area'&&!game.isTraining){notices.push(_t('エリア{0}「{1}」へ！',[e.index+1,e.name]),{duration:2.8,priority:85,kind:'area'});$('live').textContent=_t('エリア{0} {1}に到着',[e.index+1,e.name]);}
 
   if(e.type==='finish'){reminders.played(false);$('tutorial').hidden=true;}
   if(e.type==='gameOver'&&game.isTraining){home();break;}
@@ -167,10 +186,10 @@ function processEvents(){audio.setRainbow(game.state==='playing'&&game.powered);
     leaderboardUI.result(game);
     const best=storage.record(game);show('result');$('toast').hidden=true;$('result-rescued').textContent=game.rescued;updateTotalReturned();
     $('result-score').textContent=game.score.toLocaleString();$('result-best').textContent=storage.data.best.toLocaleString();$('result-carry').textContent=`${game.maxCarry}`;
-    $('result-return').textContent=`${game.bestReturnCount}匹`;$('result-distance').textContent=`${Math.floor(game.travel).toLocaleString()} m`;const reached=AREAS[game.bestArea||0].name,bestReached=AREAS[storage.data.bestArea||0].name;$('result-area').textContent=storage.newArea?`${reached} NEW!`:reached;$('result-area').title=`これまでの最高：${bestReached}`;$('new-best').hidden=!best;
-    $('result-eyebrow').textContent=(game.mode==='hard'?'HARD · ':'')+(best?'✦ 自己ベスト！':'おかえり！');$('unbanked').textContent='';
-    $('live').textContent=`${game.rescued}匹を救出。スコア${game.score}。`;if(best){sounds.add('best');renderer.event({type:'best'});}
-    notices.reset();resultMemory();measure('result_shown',1,game.mode);resultSocial.open();
+    $('result-return').textContent=_t('{0}匹',[game.bestReturnCount]);$('result-distance').textContent=`${Math.floor(game.travel).toLocaleString()} m`;const reached=AREAS[game.bestArea||0].name,bestReached=AREAS[storage.data.bestArea||0].name;$('result-area').textContent=storage.newArea?_t('{0} 更新！',[reached]):reached;$('result-area').title=_t('これまでの最高：{0}',[bestReached]);$('new-best').hidden=!best;
+    $('result-eyebrow').textContent=(game.mode==='hard'?_t('ハード · '):'')+(best?_t('✦ 自己ベスト！'):_t('おかえり！'));$('unbanked').textContent='';
+    $('live').textContent=_t('{0}匹を救出。スコア{1}。',[game.rescued,game.score]);if(best){sounds.add('best');renderer.event({type:'best'});}
+    notices.reset();hints.reset();resultMemory();resultLinks();measure('result_shown',1,game.mode);
   }
 }
   // Only POP, power-up end, and new-record events play sound effects.
@@ -178,15 +197,15 @@ function processEvents(){audio.setRainbow(game.state==='playing'&&game.powered);
   if(rescued)$('carry-bar').classList.add('pulse');
 }
 function hud(){
-  document.querySelector('.score label').textContent='救出スコア';document.querySelector('.timer').hidden=true;
+  document.querySelector('.score label').textContent=_t('スコア');document.querySelector('.timer').hidden=true;
   $('score').textContent=String(game.score).padStart(5,'0');$('timer').textContent=`${Math.floor(game.travel)} m`;
   const p=game.player,h=game.stage.home,d=distance(p,h),angle=Math.atan2(h.y-p.y,h.x-p.x),index=(Math.round(angle/(Math.PI/4))+8)%8;
-  $('home-direction').hidden=d>900&&!game.carry.length;homeDirection(angle,`HOME · ${Math.round(d/10)} m · リング中央を通過`);
+  $('home-direction').hidden=d>900&&!game.carry.length;homeDirection(angle,_t('HOME {0} m',[Math.round(d/10)]));
   const lives=Math.max(0,Math.min(3,game.hearts)),protectedLife=false,lifeKey=game.mode+':'+lives+':'+protectedLife;
   if($('hearts').dataset.state!==lifeKey){
    $('hearts').dataset.state=lifeKey;$('hearts').dataset.mode=game.mode;
-   $('hearts').innerHTML=game.mode==='hard'?'<span class="life-hard">HARD</span>':'<span class="life-images" aria-hidden="true">'+[0,1,2].map(i=>'<img src="./Asset/ui/life/'+(i<lives?'full':'empty')+'.png" alt="">').join('')+'</span>'+(protectedLife?'<span class="life-protection">保護中</span>':'');
-   $('hearts').setAttribute('aria-label',game.mode==='hard'?'HARD: 主人公に障害物が当たると終了':'ライフ'+lives+' / 3'+(protectedLife?'、ライフ保護中':''));
+   $('hearts').innerHTML=game.mode==='hard'?_t('<span class="life-hard">ハード</span>'):'<span class="life-images" aria-hidden="true">'+[0,1,2].map(i=>'<img src="./Asset/ui/life/'+(i<lives?'full':'empty')+'.png" alt="">').join('')+'</span>'+(protectedLife?_t('<span class="life-protection">保護中</span>'):'');
+   $('hearts').setAttribute('aria-label',game.mode==='hard'?_t('ハード：主人公に障害物が当たると終了'):_t('ライフ')+lives+' / 3'+(protectedLife?_t('、ライフ保護中'):''));
   }
   $('carry-count').textContent=game.carry.length;
 }
@@ -231,7 +250,8 @@ document.addEventListener('keydown',e=>{
 document.addEventListener('keyup',e=>{pressed.delete(e.code);if(leftPointer===null)updateDirection();});
 // Click supports accessibility activation; physical pointer taps already flap on down.
 $('flap').onclick=e=>{if(!transition.busy&&e.detail===0&&screen==='playing'&&!paused){game.flap();}};
-function background(){audio.suspend();if(!paused&&(game.state==='playing'||game.state==='ending'))pause();clearInput();if(ready)processEvents();last=0;accumulator=0;}
+let blurred=false;window.addEventListener('focus',()=>{blurred=false;});
+function background(){blurred=true;audio.suspend();if(!paused&&(game.state==='playing'||game.state==='ending'))pause();clearInput();if(ready)processEvents();last=0;accumulator=0;}
 window.addEventListener('blur',background);
 // Capacitor's built-in scene lifecycle event; keep the existing tap-to-resume flow.
 document.addEventListener('pause',background);
@@ -239,7 +259,7 @@ $('mode-normal').onclick=()=>selectMode('normal');$('mode-hard').onclick=()=>sel
 $('retry').onclick=()=>{if(transition.busy)return;measure('retry',1,selectedMode);start();};
 // HOME pointer: a drawn arrow rotated toward the ring (8 steps), text updated only when it changes.
 function homeDirection(angle,text){const box=$('home-direction');if(!box.arrow){box.textContent='';box.arrow=iconEl('arrow','dir-arrow');box.label=document.createElement('span');box.append(box.arrow,box.label);}const step=Math.round(angle/(Math.PI/4))*45;if(box.step!==step){box.step=step;box.arrow.style.transform=`rotate(${step}deg)`;}if(box.label.textContent!==text)box.label.textContent=text;}
-function soundLabel(){$('sound').innerHTML=icon(audio.enabled?'sound-on':'sound-off');$('sound').setAttribute('aria-label',audio.enabled?'BGMをオフにする（効果音はON）':'BGMをオンにする（効果音はON）');}
+function soundLabel(){$('sound').innerHTML=icon(audio.enabled?'sound-on':'sound-off');$('sound').setAttribute('aria-label',audio.enabled?_t('BGMをオフにする（効果音はON）'):_t('BGMをオンにする（効果音はON）'));}
 $('sound').onclick=()=>{audio.unlock();audio.enabled=!audio.enabled;settings.muted=!audio.enabled;settings.save();audio.music(screen==='playing'&&!paused);soundLabel();};
 $('records').onclick=()=>{show('records-screen');leaderboardUI.open(storage);};$('close-records').onclick=()=>show('title');
 document.addEventListener('visibilitychange',()=>{if(document.hidden)background();last=0;accumulator=0;});
@@ -257,13 +277,18 @@ const controller=new BrowserController({
  direction:axis=>{if(controllerAxis!==axis||axis!==0){controllerAxis=axis;if(leftPointer===null)updateDirection();}},
  flap:()=>{if(!game.skillCutin)game.flap();},
  pause:()=>pause(),
- disconnected:()=>{controllerAxis=0;if(screen==='playing'&&!paused)pause();clearInput();$('live').textContent='コントローラーの接続が切れました。';}
+ disconnected:()=>{controllerAxis=0;if(screen==='playing'&&!paused)pause();clearInput();$('live').textContent=_t('コントローラーの接続が切れました。');}
 });
 function frame(now){const dt=Math.min(.06,(now-(last||now))/1000);last=now;
   controller.update(now);
   if(game.isTraining&&practiceActive&&game.practiceStep!==practiceStep){practiceStep=game.practiceStep;measure('practice_step',practiceStep,practiceSource);if(practiceStep===6){progress.mark('practice');measure('practice_complete',1,practiceSource);practiceActive=false;}}
   if(!document.hidden&&!audio.suspended&&!paused&&!transition.busy){accumulator+=dt;while(accumulator>=1/120){game.update(1/120);accumulator-=1/120;}processEvents();if(tutorialLeft>0){tutorialLeft-=dt;if(tutorialLeft<=0)$('tutorial').hidden=true;}}
-  notices.update(!document.hidden&&!audio.suspended&&!paused&&!transition.busy?dt:0,screen==='playing');
+  if(goalPending&&!transition.busy&&screen==='playing')openGoal();
+  // One message at a time: a hint never starts while a notice or a 50/100 celebration is up, and hides under the celebration.
+  {const busy=!!renderer.milestoneFx||!!notices.current,live=!document.hidden&&!paused&&!transition.busy&&game.state==='playing';
+   const h=screen==='playing'&&!game.isTraining&&!goalCard.open?hints.update(game,live&&(hints.current||!busy)?dt:0,hintAnchors):null;renderer.hint=renderer.milestoneFx?null:h;}
+  if(!document.hidden&&!blurred&&!transition.busy)goalCard.update(dt);
+  notices.update(!document.hidden&&!audio.suspended&&!paused&&!transition.busy?dt:0,screen==='playing'&&!renderer.milestoneFx);
   skillUI.update(game,screen==='playing'&&!paused);collaborationUI.update(screen);rescueTutorial.update(game,screen,renderer);hud();audio.setRainbow(game.state==='playing'&&game.powered);audio.music(game.state==='playing'&&!paused&&!transition.busy);renderer.draw(game,dt,screen==='title'||screen==='records-screen'||screen==='community-screen'||screen==='opening-screen',paused||transition.busy);requestAnimationFrame(frame);
 }
-try{const [heroImage,friendImages,art,flapFrames,collaborationImages]=await Promise.all([loadImage(hero.src),Promise.all(friends.map(f=>loadImage(f.src))),Promise.all(Object.entries(stage.art).map(async([key,src])=>[key,await loadImage(src)])),Promise.all(hero.frames.map(loadImage)),collaborationUI.loadImages(loadImage),document.fonts.load('16px "Mochiy Pop One"')]);renderer=new Renderer($('canvas'),{hero:heroImage,flapFrames,collaborationImages,friends:friendImages,...Object.fromEntries(art)},stage);ready=true;renderer.snap(game);show('title');soundLabel();requestAnimationFrame(frame);await Promise.all([$('boot-logo').decode(),new Promise(resolve=>setTimeout(resolve,Math.max(0,1800-(performance.now()-bootStarted))))]);bootComplete=true;$('boot-screen').hidden=true;$('loading').hidden=true;orientationUI();if(presentation.opening)openingUI.open(progress.data.intro?'return':'startup');openPendingMissions();}catch(error){audio.suspend();ready=false;bootComplete=false;$('boot-screen').hidden=false;$('boot-status').textContent='LOAD FAILED';$('boot-retry').hidden=false;console.error(error);}
+try{const [heroImage,friendImages,art,flapFrames,collaborationImages]=await Promise.all([loadImage(hero.src),Promise.all(friends.map(f=>loadImage(f.src))),Promise.all(Object.entries(stage.art).map(async([key,src])=>[key,await loadImage(src)])),Promise.all(hero.frames.map(loadImage)),collaborationUI.loadImages(loadImage),document.fonts.load('16px "Mochiy Pop One"')]);renderer=new Renderer($('canvas'),{hero:heroImage,flapFrames,collaborationImages,friends:friendImages,...Object.fromEntries(art)},stage);ready=true;renderer.snap(game);show('title');soundLabel();requestAnimationFrame(frame);await Promise.all([$('boot-logo').decode(),new Promise(resolve=>setTimeout(resolve,Math.max(0,1800-(performance.now()-bootStarted))))]);bootComplete=true;$('boot-screen').hidden=true;$('loading').hidden=true;orientationUI();if(presentation.opening)openingUI.open(progress.data.intro?'return':'startup');openPendingMissions();}catch(error){audio.suspend();ready=false;bootComplete=false;$('boot-screen').hidden=false;$('boot-status').textContent=_t('よみこみに失敗しました');$('boot-retry').hidden=false;console.error(error);}

@@ -2,7 +2,7 @@ import {chromium} from '@playwright/test';
 import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
- const page=await browser.newPage({viewport:{width:1280,height:720}}),errors=[];
+ const page=await browser.newPage({locale:'ja-JP',viewport:{width:1280,height:720}}),errors=[];
  page.on('pageerror',e=>errors.push(e.message));
  await page.addInitScript(()=>{
   localStorage.setItem('cosmii-psf-v1',JSON.stringify({intro:true,practice:true}));
@@ -10,7 +10,7 @@ try{
   window.pads=[];Object.defineProperty(navigator,'getGamepads',{value:()=>window.pads});
  });
  await page.route('**/*',r=>new URL(r.request().url()).hostname==='localhost'?r.continue():r.abort());
- await page.goto('http://localhost:5180/?opening=off&analytics=off');await page.locator('#loading').waitFor({state:'hidden'});
+ await page.goto('http://localhost:5180/?opening=off&goal=off&analytics=off');await page.locator('#loading').waitFor({state:'hidden'});
  await page.mouse.click(10,10);await page.evaluate(()=>{window.pads=[window.pad];});
  const frames=()=>page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
  const press=async index=>{await page.evaluate(i=>window.pad.buttons[i].pressed=true,index);await frames();await page.evaluate(i=>window.pad.buttons[i].pressed=false,index);await frames();};
@@ -31,8 +31,7 @@ try{
  await page.evaluate(()=>window.pads=[]);await frames();assert.equal(await page.locator('#game').getAttribute('data-screen'),'pause-screen');
  await page.evaluate(()=>window.pads=[window.pad]);await frames();assert.equal(await page.locator('#game').getAttribute('data-screen'),'pause-screen');
  await press(0);assert.equal(await page.locator('#game').getAttribute('data-screen'),'playing');
- await page.evaluate(()=>{g.finish('quit');});await page.locator('#result-social-popup').waitFor({state:'visible',timeout:15000});
- await frames();await press(1);await page.locator('#result-social-popup').waitFor({state:'hidden'});
+ await page.evaluate(()=>{g.finish('quit');});await page.locator('#result').waitFor({state:'visible',timeout:15000});assert.ok(await page.locator('#result-social-popup').isHidden());
  await frames();await press(1);await page.locator('.face-transition').waitFor({state:'hidden'});
  assert.equal(await page.locator('#game').getAttribute('data-screen'),'title');
  await page.locator('#home-settings').click();await frames();await press(1);assert.equal(await page.locator('dialog[open]').count(),0);

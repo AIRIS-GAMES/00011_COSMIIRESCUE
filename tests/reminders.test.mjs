@@ -11,7 +11,7 @@ test('play lifecycle waits for native load and D1/D7 taps feed only fixed analyt
  const pending=r.initialize(()=>new Promise(done=>resolve=done));const play=r.played(true);
  let taps=[{kind:'d1'},{kind:'d7'},{kind:'unknown'}];
  resolve({plugin:{played:async data=>calls.push(data),consumeTaps:async()=>{const result={taps};taps=[];return result;}}});await pending;await play;
- await r.played(false);await r.consume();await r.consume();assert.deepEqual(calls,[{active:true},{active:false}]);assert.deepEqual(events,[['opened','d1'],['opened','d7']]);
+ await r.played(false);await r.consume();await r.consume();assert.deepEqual(calls,[{active:true,lang:'ja'},{active:false,lang:'ja'}]);assert.deepEqual(events,[['opened','d1'],['opened','d7']]);
  const sent=[],a=new RescueAnalytics((...args)=>sent.push(args));a.notification('opened','d1');a.notification('opened','d7');a.notification('opened','unknown');a.notification('permission_granted');
  assert.deepEqual(sent.map(c=>c[1]),['Reminder:v1:opened:d1','Reminder:v1:opened:d7','Reminder:v1:permission_granted']);
 });

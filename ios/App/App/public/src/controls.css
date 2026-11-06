@@ -1,0 +1,12 @@
+/* Left stick reads as "left / right": a pill with chevrons at both ends; the knob slides sideways and the
+   chevron on the side you push lights up. (Tap-to-rise stays on the right.) */
+#game #direction-pad{width:138px;height:86px;border-radius:43px;background:#b6f3ede6;box-shadow:inset 0 0 0 7px #ffffff40,0 3px 0 #54344235}
+#game #direction-pad:before,#game #direction-pad:after{content:'';position:absolute;inset:auto;top:50%;width:15px;height:15px;border:solid #54344299;border-width:0 0 5px 5px;border-radius:3px;pointer-events:none;transition:transform .12s,border-color .12s}
+#game #direction-pad:before{left:15px;transform:translateY(-50%) rotate(45deg)}
+#game #direction-pad:after{right:15px;transform:translateY(-50%) rotate(-135deg)}
+#game #direction-pad[data-direction="left"]:before{border-color:#ff5fa8;transform:translate(-3px,-50%) rotate(45deg) scale(1.15)}
+#game #direction-pad[data-direction="right"]:after{border-color:#ff5fa8;transform:translate(3px,-50%) rotate(-135deg) scale(1.15)}
+#game #direction-pad>i{width:52px;height:52px;transform:translate(calc(-50% + var(--stick-x,0px)),calc(-50% + var(--stick-y,0px) * .15))}
+#game #direction-pad>small{display:none}
+@media(max-height:360px){#game #direction-pad{width:118px;height:72px}#game #direction-pad>i{width:44px;height:44px}}
+@media(orientation:portrait) and (max-width:360px){.landscape-auto #game #direction-pad{width:118px;height:72px}.landscape-auto #game #direction-pad>i{width:44px;height:44px}}

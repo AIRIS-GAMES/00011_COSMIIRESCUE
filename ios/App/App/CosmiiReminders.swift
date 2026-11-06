@@ -10,6 +10,7 @@ final class CosmiiReminders: NSObject, NotificationHandlerProtocol {
     private let enabledKey = "cosmii.reminders.enabled.v1"
     private let playedKey = "cosmii.reminders.lastPlayed.v1"
     private let tapsKey = "cosmii.reminders.taps.v1"
+    private let langKey = "cosmii.reminders.lang.v1"
     private let ids = ["cosmii.return.d1", "cosmii.return.d7"]
     private var revision = 0
     var playing = false
@@ -20,10 +21,16 @@ final class CosmiiReminders: NSObject, NotificationHandlerProtocol {
         NotificationCenter.default.addObserver(self, selector: #selector(background), name: UIApplication.didEnterBackgroundNotification, object: nil)
     }
     @objc private func background() { if playing { played(active: false) } }
-    func played(active: Bool) {
+    func played(active: Bool, lang: String? = nil) {
         playing = active
+        if let lang = lang, lang == "ja" || lang == "en" { defaults.set(lang, forKey: langKey) }
         defaults.set(Date().timeIntervalSince1970, forKey: playedKey)
         center.removeDeliveredNotifications(withIdentifiers: ids)
+        schedule()
+    }
+    func setLanguage(_ lang: String?) {
+        guard let lang = lang, lang == "ja" || lang == "en", defaults.string(forKey: langKey) != lang else { return }
+        defaults.set(lang, forKey: langKey)
         schedule()
     }
     func setEnabled(_ value: Bool) {
@@ -51,8 +58,14 @@ final class CosmiiReminders: NSObject, NotificationHandlerProtocol {
                     guard remaining > 0 else { continue }
                     let content = UNMutableNotificationContent()
                     // D1 announces the daily missions; D7 stays a gentle comeback note.
-                    content.title = index == 0 ? "今日のミッションが届いたよ" : "コスミーが待ってるよ"
-                    content.body = index == 0 ? "3つクリアして、おやつや家具をもらおう！" : "ひさしぶり！コスミーたちに会いにきてね。"
+                    // Same language as the game (chosen in Settings and sent with each `played` call).
+                    if self.defaults.string(forKey: self.langKey) == "en" {
+                        content.title = index == 0 ? "Today's missions are here!" : "The Cosmii miss you"
+                        content.body = index == 0 ? "Clear all 3 to earn snacks and furniture!" : "Long time no see! Come visit the Cosmii."
+                    } else {
+                        content.title = index == 0 ? "今日のミッションが届いたよ" : "コスミーが待ってるよ"
+                        content.body = index == 0 ? "3つクリアして、おやつや家具をもらおう！" : "ひさしぶり！コスミーたちに会いにきてね。"
+                    }
                     content.sound = .default
                     content.threadIdentifier = "cosmii-reminders"
                     content.userInfo = ["cosmiiReminder": index == 0 ? "d1" : "d7"]
@@ -95,7 +108,8 @@ public class CosmiiRemindersPlugin: CAPPlugin, CAPBridgedPlugin {
         CAPPluginMethod(name: "disable", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "played", returnType: CAPPluginReturnPromise),
         CAPPluginMethod(name: "consumeTaps", returnType: CAPPluginReturnPromise),
-        CAPPluginMethod(name: "openSettings", returnType: CAPPluginReturnPromise)
+        CAPPluginMethod(name: "openSettings", returnType: CAPPluginReturnPromise),
+        CAPPluginMethod(name: "language", returnType: CAPPluginReturnPromise)
     ]
     public override func load() {
         bridge?.notificationRouter.localNotificationHandler = CosmiiReminders.shared
@@ -128,7 +142,9 @@ public class CosmiiRemindersPlugin: CAPPlugin, CAPBridgedPlugin {
         }
     }
     @objc func disable(_ call: CAPPluginCall) { DispatchQueue.main.async { CosmiiReminders.shared.setEnabled(false); call.resolve() } }
-    @objc func played(_ call: CAPPluginCall) { DispatchQueue.main.async { CosmiiReminders.shared.played(active: call.getBool("active") ?? false); call.resolve() } }
+    // Called at every launch so already-scheduled reminders follow a language switch made in Settings.
+    @objc func language(_ call: CAPPluginCall) { DispatchQueue.main.async { CosmiiReminders.shared.setLanguage(call.getString("lang")); call.resolve() } }
+    @objc func played(_ call: CAPPluginCall) { DispatchQueue.main.async { CosmiiReminders.shared.played(active: call.getBool("active") ?? false, lang: call.getString("lang")); call.resolve() } }
     @objc func consumeTaps(_ call: CAPPluginCall) { DispatchQueue.main.async { call.resolve(["taps": CosmiiReminders.shared.consumeTaps()]) } }
     @objc func openSettings(_ call: CAPPluginCall) {
         DispatchQueue.main.async {

@@ -1,0 +1,2 @@
+/* Shown in the App Tracking Transparency prompt. */
+"NSUserTrackingUsageDescription" = "Used to measure installs and play from ads, so we can improve our ads.";

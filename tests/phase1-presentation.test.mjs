@@ -5,7 +5,7 @@ import {presentationFlags} from '../src/presentation-config.js';
 import {RescueGame,seededRandom} from '../src/engine.js';
 import {stage} from '../src/stage.js';
 import {RescueAnalytics} from '../src/analytics.js';
-test('presentation flags default on and support explicit off',()=>{assert.deepEqual(presentationFlags('?opening=off&reactions=on'),{opening:false,reactions:true});assert.deepEqual(presentationFlags(''),{opening:true,reactions:true});});
+test('presentation flags default on and support explicit off',()=>{assert.deepEqual(presentationFlags('?opening=off&reactions=on'),{opening:false,reactions:true,goal:true});assert.deepEqual(presentationFlags(''),{opening:true,reactions:true,goal:true});});
 test('presentation events are read-only: full simulation is identical with reactions on and off',()=>{
  const make=()=>{const g=new RescueGame(stage,seededRandom(17),{enabled:false});g.start();return g;},a=make(),b=make(),r=new RescueReactions();
  for(let tick=0;tick<600;tick++){

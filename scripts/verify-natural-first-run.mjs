@@ -2,8 +2,8 @@
 import fs from 'node:fs/promises';
 const b=await chromium.launch({channel:'chrome',headless:true}),reports=[];
 try{for(const probe of ['return','rim']){
- const p=await b.newPage({viewport:{width:844,height:390}});await p.route('**/*',r=>new URL(r.request().url()).hostname==='localhost'?r.continue():r.abort());
- await p.goto('http://localhost:5180/index.html?opening=off&analytics=off');await p.locator('#boot-screen').waitFor({state:'hidden'});await p.locator('#start').click();await p.locator('.face-transition').waitFor({state:'hidden'});
+ const p=await b.newPage({locale:'ja-JP',viewport:{width:844,height:390}});await p.route('**/*',r=>new URL(r.request().url()).hostname==='localhost'?r.continue():r.abort());
+ await p.goto('http://localhost:5180/index.html?opening=off&goal=off&analytics=off');await p.locator('#boot-screen').waitFor({state:'hidden'});await p.locator('#start').click();await p.locator('.face-transition').waitFor({state:'hidden'});
  // Observer only: retain every original event, no changes to world, RNG, contacts or physics.
  await p.evaluate(async()=>{const g=(await import('/src/main.js')).game,drain=g.drain.bind(g);window.observed=[];g.drain=()=>{const events=drain();window.observed.push(...events.map(e=>({type:e.type,time:g.time,kind:e.kind,count:e.count})));return events;};});
  let key=null,firstRescue=null,closest=Infinity,rim=false,homeVisible=false,last,approach=false;

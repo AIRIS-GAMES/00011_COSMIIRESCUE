@@ -1,27 +1,28 @@
 import {icon} from './icons.js';
+import {t as _t,LANG} from './i18n.js';
 export class Reminders {
  constructor(measure=()=>{},onOpen=()=>{}){this.measure=measure;this.onOpen=onOpen;}
  initialize(load=async()=>{const {registerPlugin}=await import('./vendor/capacitor-core-7.6.9.js');return {plugin:registerPlugin('CosmiiReminders')};}){
   if(this.loading)return this.loading;
   this.loading=(async()=>{try{this.plugin=(await load()).plugin;return true;}catch{return false;}})();return this.loading;
  }
- async played(active){try{await this.loading;if(this.plugin)await this.plugin.played({active});}catch{/* Reminders cannot interrupt a game. */}}
+ async played(active){try{await this.loading;if(this.plugin)await this.plugin.played({active,lang:LANG});}catch{/* Reminders cannot interrupt a game. */}}
  async consume(){try{await this.loading;const result=await this.plugin?.consumeTaps();for(const tap of result?.taps||[])if(['d1','d7'].includes(tap.kind)){this.measure('opened',tap.kind);this.onOpen(tap.kind);}}catch{}}
 }
 export function installReminders(measure,onOpen){
  const reminders=new Reminders(measure,onOpen);
  if(globalThis.Capacitor?.getPlatform?.()!=='ios')return reminders;
- const button=document.createElement('button');button.id='reminder-settings';button.type='button';button.hidden=true;button.innerHTML=icon('bell');button.setAttribute('aria-label','お知らせの設定');
+ const button=document.createElement('button');button.id='reminder-settings';button.type='button';button.hidden=true;button.innerHTML=icon('bell');button.setAttribute('aria-label',_t('お知らせの設定'));
  document.getElementById('title').append(button);
  const dialog=document.createElement('dialog');dialog.className='reminder-dialog';
  dialog.setAttribute('aria-labelledby','reminder-heading');
- dialog.innerHTML='<h2 id="reminder-heading">コスミーからお知らせ</h2><p>最後に遊んでから1日後に「今日のミッション」、<br>7日後にもう一度お知らせします。</p><p class="reminder-status" role="status"></p><div><button type="button" class="reminder-toggle"></button><button type="button" class="reminder-ios" hidden>iPhoneの設定を開く</button><button type="button" class="reminder-close">とじる</button></div>';
+ dialog.innerHTML=_t('<h2 id="reminder-heading">コスミーからお知らせ</h2><p>最後に遊んでから1日後に「今日のミッション」、<br>7日後にもう一度お知らせします。</p><p class="reminder-status" role="status"></p><div><button type="button" class="reminder-toggle"></button><button type="button" class="reminder-ios" hidden>iPhoneの設定を開く</button><button type="button" class="reminder-close">とじる</button></div>');
  document.body.append(dialog);
  const status=dialog.querySelector('.reminder-status'),toggle=dialog.querySelector('.reminder-toggle'),settings=dialog.querySelector('.reminder-ios');
  let state={};
  const refresh=async()=>{
-  try{state=await reminders.plugin.status();status.textContent=state.permission==='denied'?'iPhoneの設定で通知を許可してください':state.enabled&&state.permission==='granted'?'お知らせ：ON':'お知らせ：OFF';toggle.textContent=state.enabled?'お知らせをOFFにする':'お知らせを受け取る';toggle.hidden=state.permission==='denied'&&!state.enabled;settings.hidden=state.permission!=='denied';}
-  catch{status.textContent='設定を読み込めませんでした';}
+  try{state=await reminders.plugin.status();status.textContent=state.permission==='denied'?_t('iPhoneの設定で通知を許可してください'):state.enabled&&state.permission==='granted'?_t('お知らせ：ON'):_t('お知らせ：OFF');toggle.textContent=state.enabled?_t('お知らせをOFFにする'):_t('お知らせを受け取る');toggle.hidden=state.permission==='denied'&&!state.enabled;settings.hidden=state.permission!=='denied';}
+  catch{status.textContent=_t('設定を読み込めませんでした');}
  };
  button.onclick=async()=>{dialog.showModal();await refresh();};
  dialog.querySelector('.reminder-close').onclick=()=>dialog.close();
@@ -32,12 +33,12 @@ export function installReminders(measure,onOpen){
    if(state.enabled){await reminders.plugin.disable();measure('disabled');}
    else{measure('permission_request');const result=await reminders.plugin.enable();measure(result.granted?'permission_granted':'permission_denied');}
    await refresh();
-  }catch{status.textContent='設定を変更できませんでした。もう一度お試しください';}finally{toggle.disabled=false;}
+  }catch{status.textContent=_t('設定を変更できませんでした。もう一度お試しください');}finally{toggle.disabled=false;}
  };
- settings.onclick=()=>reminders.plugin.openSettings().catch(()=>{status.textContent='設定を開けませんでした';});
+ settings.onclick=()=>reminders.plugin.openSettings().catch(()=>{status.textContent=_t('設定を開けませんでした');});
  const resume=()=>{if(!document.hidden){reminders.consume();if(dialog.open)refresh();}};
  document.addEventListener('visibilitychange',resume);document.addEventListener('resume',resume);window.addEventListener('focus',resume);
   document.addEventListener('cosmiiReminderOpened',()=>reminders.consume());
- reminders.initialize().then(ready=>{button.hidden=!ready;if(ready)reminders.consume();});
+ reminders.initialize().then(ready=>{button.hidden=!ready;if(ready){reminders.consume();reminders.plugin.language?.({lang:LANG}).catch(()=>{});}});
  return reminders;
 }

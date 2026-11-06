@@ -4,7 +4,7 @@ import {otherGames} from '../src/other-games.js';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  for(const [width,height] of [[844,390],[568,320],[390,844]]){
-  const page=await browser.newPage({viewport:{width,height}}),errors=[];
+  const page=await browser.newPage({locale:'ja-JP',viewport:{width,height}}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await page.context().route('https://apps.apple.com/**',r=>r.fulfill({status:200,body:'Test store destination'}));
   await page.addInitScript(()=>localStorage.setItem('cosmii-psf-v1',JSON.stringify({intro:true})));

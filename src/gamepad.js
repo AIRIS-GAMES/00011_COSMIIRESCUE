@@ -1,3 +1,4 @@
+import {t as _t} from './i18n.js';
 // Standard browser mapping: Xbox A/B/X, shoulders and Menu.
 export class PadInput {
  constructor(){this.id=null;this.previous=[];this.context=null;this.repeatAt=0;this.move=0;}
@@ -51,7 +52,7 @@ export class BrowserController {
   const input=this.input.poll(pads,context,now);
   document.documentElement.classList.toggle('controller-connected',input.connected);
   this.hint.hidden=!input.connected||!state.active;
-  const hint=playing?'← → 移動　A 飛ぶ　LB/RB 技選択　X 発動　Menu 一時停止':'十字キー 選択　A 決定　B もどる';
+  const hint=playing?_t('← → 移動　A 飛ぶ　LB/RB 技選択　X 発動　Menu 一時停止'):_t('十字キー 選択　A 決定　B もどる');
   if(this.hint.textContent!==hint)this.hint.textContent=hint;
   this.actions.direction(active&&playing?input.axis:0);
   if(input.disconnected){this.actions.disconnected();document.querySelectorAll('.controller-focus').forEach(n=>n.classList.remove('controller-focus'));return;}

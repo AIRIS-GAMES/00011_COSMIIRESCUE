@@ -3,10 +3,10 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  for(const [width,height] of [[390,844],[844,390],[568,320]]){
-  const page=await browser.newPage({viewport:{width,height}}),errors=[];
+  const page=await browser.newPage({locale:'ja-JP',viewport:{width,height}}),errors=[];
   page.on('pageerror',e=>errors.push(e.message));
   await page.route('https://*.supabase.co/**',r=>r.abort());
-  await page.goto('http://localhost:5180/?opening=off&analytics=off');
+  await page.goto('http://localhost:5180/?opening=off&goal=off&analytics=off');
   await page.locator('#boot-screen').waitFor({state:'hidden'});
   await page.locator('#home-settings').click();
   const dialog=page.locator('.ranking-name-dialog');

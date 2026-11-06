@@ -94,3 +94,38 @@
 .room-snack-options .room-treat{position:relative;background:#fff1f8;border-color:#e86fa3}
 .room-treat-count{position:absolute;top:-6px;right:-6px;min-width:22px;padding:2px 5px;border-radius:11px;background:#e8613a;color:#fff;font-size:11px;line-height:1.2;font-weight:400}
 .room-snack-options .room-treat[hidden]{display:none}
+/* ── Friendship: level chip, speech bubble, level-up, play / brush ── */
+.room-trust-fraction{font-size:clamp(8px,1.2cqw,12px);white-space:nowrap}
+.room-friend-chip{position:absolute;left:14px;top:12px;z-index:6;display:grid;grid-template-columns:auto auto;align-items:center;gap:2px 10px;padding:6px 14px 6px 12px;background:#fffaf1ee;border:2.5px solid #543442;border-radius:18px;box-shadow:0 3px 0 #54344255;color:#543442}
+.room-friend-name{font-size:clamp(12px,1.8cqw,16px);font-weight:400}
+.room-friend-hearts{display:flex;gap:2px}
+.room-friend-hearts img{width:clamp(14px,2cqw,20px);height:auto}
+.room-friend-level{grid-column:1/-1;font-size:clamp(10px,1.4cqw,13px);color:#c0457d}
+.room-speech{position:absolute;left:50%;top:7%;z-index:7;max-width:min(70%,460px);margin:0;padding:.55em 1.1em;background:#fff;border:3px solid #543442;border-radius:22px;box-shadow:0 4px 0 #54344240;font-size:clamp(14px,2.3cqw,20px);line-height:1.35;color:#543442;text-align:center;translate:-50% 0;pointer-events:none}
+.room-speech::after{content:'';position:absolute;left:50%;bottom:-12px;width:16px;height:16px;background:#fff;border:solid #543442;border-width:0 3px 3px 0;translate:-50% 0;rotate:45deg}
+.room-speech.pop{animation:room-speech-pop .32s cubic-bezier(.2,1.6,.4,1)}
+@keyframes room-speech-pop{from{transform:scale(.6);opacity:0}}
+.room-activity{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;position:relative;background:#fff5d9;border:2px solid #aa758d;border-radius:14px;color:#805665;font:inherit;font-size:12px;padding:5px;min-width:64px;min-height:60px;box-shadow:0 3px 0 #aa758d66}
+.room-activity .ui-icon{width:30px;height:30px}
+.room-activity:disabled{opacity:.55;cursor:default}
+.room-activity[data-done="false"]::after{content:'';position:absolute;right:-4px;top:-4px;width:14px;height:14px;border-radius:50%;background:#ff6fae;border:2px solid #fff}
+.room-focus[data-activity] .room-activity[data-activity]{opacity:.55}
+.room-ball{position:absolute;left:50%;top:84%;z-index:6;width:60px;height:60px;padding:0;border:0;background:none;translate:-50% -50%;cursor:pointer;animation:room-ball-wiggle 1s ease-in-out infinite}
+.room-ball .ui-icon{width:100%;height:100%}
+.room-ball.flying{animation:none;translate:none}
+@keyframes room-ball-wiggle{50%{transform:translateY(-8px) rotate(-12deg)}}
+.room-brush-meter{position:absolute;left:50%;bottom:16px;z-index:6;width:min(40%,260px);height:14px;translate:-50% 0;background:#fffaf1;border:2.5px solid #543442;border-radius:999px;overflow:hidden}
+.room-brush-meter i{display:block;height:100%;width:0;background:linear-gradient(90deg,#9be7ff,#ff9cc6);transition:width .12s}
+.room-focus[data-activity="brush"] .room-pet-target{cursor:url('../Asset/ui/icons/brush.svg') 8 56,grab}
+.room-sparkle{position:absolute;width:14px;height:14px;margin:-7px 0 0 -7px;background:hsl(var(--hue) 95% 72%);clip-path:polygon(50% 0,62% 38%,100% 50%,62% 62%,50% 100%,38% 62%,0 50%,38% 38%);pointer-events:none;animation:room-sparkle .7s ease-out forwards}
+@keyframes room-sparkle{to{transform:translate(var(--dx),var(--dy)) scale(.2) rotate(120deg);opacity:0}}
+.room-levelup{position:absolute;inset:auto 0 18% 0;z-index:60;display:grid;place-items:center;pointer-events:none;animation:room-levelup-out .4s ease-in 2.5s forwards}
+.room-levelup-card{display:grid;justify-items:center;gap:2px;padding:8px 22px;background:#fffaf1;border:3px solid #543442;border-radius:24px;box-shadow:0 6px 0 #543442;animation:room-levelup-in .45s cubic-bezier(.2,1.6,.4,1)}
+.room-levelup-hearts{display:flex;gap:4px}.room-levelup-hearts img{width:20px;animation:room-heart-hop .6s ease-out both}
+.room-levelup-hearts img:nth-child(2){animation-delay:.08s}.room-levelup-hearts img:nth-child(3){animation-delay:.16s}.room-levelup-hearts img:nth-child(4){animation-delay:.24s}.room-levelup-hearts img:nth-child(5){animation-delay:.32s}
+.room-levelup strong{font-size:clamp(15px,2.4cqw,22px);font-weight:400;color:#ff4f9a;text-shadow:0 2px 0 #fff}
+.room-levelup b{font-size:clamp(13px,2cqw,17px);font-weight:400;color:#543442}
+@keyframes room-levelup-in{from{transform:scale(.5);opacity:0}}
+@keyframes room-levelup-out{to{opacity:0}}
+@keyframes room-heart-hop{from{transform:translateY(12px) scale(.3);opacity:0}60%{transform:translateY(-6px) scale(1.15)}}
+@media (prefers-reduced-motion:reduce){.room-ball,.room-speech.pop,.room-levelup-card,.room-levelup-hearts img,.room-sparkle{animation:none}}

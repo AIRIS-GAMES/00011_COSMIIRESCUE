@@ -1,12 +1,13 @@
 import {playerName,newRunId} from './leaderboard.js';
+import {t as _t} from './i18n.js';
 // Persist the highest unsent run before sending; retrying can never lower a server score.
 export class AutoRanking {
  constructor(api,storage,locks=globalThis.navigator?.locks){this.locks=locks;this.api=api;this.storage=storage;this.key='cosmii-auto-ranking:'+api.config.eventId;}
- getStorage(){try{return this.storage??=globalThis.localStorage;}catch{throw Error('端末に保存できません。ブラウザ設定を確認してください。');}}
+ getStorage(){try{return this.storage??=globalThis.localStorage;}catch{throw Error(_t('端末に保存できません。ブラウザ設定を確認してください。'));}}
  read(){const data=JSON.parse(this.getStorage().getItem(this.key)||'{}');return data;}
  write(data){this.getStorage().setItem(this.key,JSON.stringify(data));}
- join(name,run){let data=this.read();if(data.deleting)throw Error('削除処理中です。設定から削除を完了してください。');if(data.deleted)data={};data.generation??=newRunId();data.name=playerName(name);delete data.rejected;this.write(data);this.offer(run);}
- rename(name){const data=this.read(),clean=playerName(name);if(data.deleting)throw Error('削除処理中です。');data.nickname=clean;if(data.name&&data.name!==clean){data.name=clean;data.pendingName=true;}delete data.rejected;this.write(data);}
+ join(name,run){let data=this.read();if(data.deleting)throw Error(_t('削除処理中です。設定から削除を完了してください。'));if(data.deleted)data={};data.generation??=newRunId();data.name=playerName(name);delete data.rejected;this.write(data);this.offer(run);}
+ rename(name){const data=this.read(),clean=playerName(name);if(data.deleting)throw Error(_t('削除処理中です。'));data.nickname=clean;if(data.name&&data.name!==clean){data.name=clean;data.pendingName=true;}delete data.rejected;this.write(data);}
  offer(run){
   if(!run||run.mode!=='normal')return;
   const data=this.read();if(!data.name||data.deleting||data.deleted)return;

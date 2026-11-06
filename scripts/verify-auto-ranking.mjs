@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  for(const [width,height] of [[568,320],[844,390],[390,844]]){
-  const page=await browser.newPage({viewport:{width,height}}),errors=[];let signups=0,submits=0,best=0,offline=false;
+  const page=await browser.newPage({locale:'ja-JP',viewport:{width,height}}),errors=[];let signups=0,submits=0,best=0,offline=false;
   page.on('pageerror',e=>errors.push(e.message));
   await page.route('https://*.supabase.co/**',async route=>{
    const url=route.request().url();
@@ -15,10 +15,10 @@ try{
    }
    return route.fulfill({json:[]});
   });
-  await page.goto('http://localhost:5180/?opening=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});
+  await page.goto('http://localhost:5180/?opening=off&goal=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});
   const finish=async score=>{
    await page.evaluate(async score=>{const {game:g}=await import('/src/main.js');g.rescued=score;g.score=score;g.delivered=[1,1,1,1];g.finish('quit');},score);
-   await page.locator('.result-social-back').click();await expect(page.locator('#result')).toBeVisible();
+   await expect(page.locator('#result')).toBeVisible();
   };
   await page.locator('#start').click();await page.locator('.face-transition').waitFor({state:'hidden'});await finish(24);
   await expect(page.locator('#return-memory button')).toHaveCount(4);

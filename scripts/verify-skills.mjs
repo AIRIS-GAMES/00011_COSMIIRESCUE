@@ -2,9 +2,9 @@ import {chromium,expect} from '@playwright/test';
 import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{for(const [width,height,base] of [[568,320,''],[844,390,'/dist'],[390,844,'']]){
- const page=await browser.newPage({viewport:{width,height}}),errors=[];
+ const page=await browser.newPage({locale:'ja-JP',viewport:{width,height}}),errors=[];
  page.on('pageerror',error=>errors.push(error.message));
- await page.goto(`http://localhost:5180${base}/index.html?opening=off&analytics=off`);
+ await page.goto(`http://localhost:5180${base}/index.html?opening=off&goal=off&analytics=off`);
  await page.locator('#boot-screen').waitFor({state:'hidden'});
  await page.locator('#start').click();await page.locator('.face-transition').waitFor({state:'hidden'});
  for(let kind=0;kind<4;kind++){

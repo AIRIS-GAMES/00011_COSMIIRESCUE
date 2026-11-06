@@ -2,14 +2,16 @@
 import assert from 'node:assert/strict';
 const b=await chromium.launch({channel:'chrome',headless:true});
 try{for(const base of ['','/dist']){
- const p=await b.newPage({viewport:{width:568,height:320}}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.route('**/*',r=>new URL(r.request().url()).hostname==='localhost'?r.continue():r.abort());
- await p.goto(`http://localhost:5180${base}/index.html?opening=off&analytics=off`);await p.locator('#boot-screen').waitFor({state:'hidden'});
+ const p=await b.newPage({locale:'ja-JP',viewport:{width:568,height:320}}),errors=[];p.on('pageerror',e=>errors.push(e.message));await p.route('**/*',r=>new URL(r.request().url()).hostname==='localhost'?r.continue():r.abort());
+ await p.goto(`http://localhost:5180${base}/index.html?opening=off&goal=off&analytics=off`);await p.locator('#boot-screen').waitFor({state:'hidden'});
  await p.evaluate(async base=>{window.events=[];(await import(base+'/src/analytics.js')).analytics.send=(...a)=>window.events.push(a);},base);
- await p.locator('#practice-start').click();await p.locator('.face-transition').waitFor({state:'hidden'});await p.locator('#tutorial-title').click();await p.locator('.face-transition').waitFor({state:'hidden'});await expect(p.locator('#result-social-popup')).toBeHidden();
+ await p.locator('#practice-start').click();await p.locator('.face-transition').waitFor({state:'hidden'});await p.locator('#pause').click();await p.locator('#quit').click();await p.locator('.face-transition').waitFor({state:'hidden'});await expect(p.locator('#result-social-popup')).toBeHidden();
  for(const mode of ['normal','hard']){
   await p.locator('#mode-'+mode).click();await p.locator('#start').click();await p.locator('.face-transition').waitFor({state:'hidden'});
   await p.evaluate(async base=>{const {game:g}=await import(base+'/src/main.js');g.world={extend(){}};g.incoming={update(){}};g.obstacles=[];g.friends=[];g.homes=[];g.carry=[];g.rescue(g.spawnFriend({x:g.player.x,y:g.player.y,kind:1}));g.beginReturn();g.finish('quit');},base);
-  const popup=p.locator('#result-social-popup');await expect(popup).toBeVisible();await expect(popup.locator('a')).toHaveCount(3);await expect(popup.locator('button:disabled')).toHaveCount(1);
+  // Never stacked on its own: the result shows first, the SNS card opens from its small button.
+  const popup=p.locator('#result-social-popup');await expect(p.locator('#result')).toBeVisible();await p.waitForTimeout(300);await expect(popup).toBeHidden();
+  await p.locator('#result-sns').click();await expect(popup).toBeVisible();await expect(popup.locator('a')).toHaveCount(3);await expect(popup.locator('button:disabled')).toHaveCount(1);
   await p.waitForFunction(()=>[...document.querySelectorAll('#result-social-popup img')].every(i=>i.complete&&i.naturalWidth));
   for(const size of [{width:568,height:320},{width:390,height:844}]){await p.setViewportSize(size);await p.waitForTimeout(100);assert.ok(await p.locator('.result-social-back').isVisible());const fits=await p.locator('.result-social-card').evaluate(e=>e.scrollHeight<=e.clientHeight+1);assert.ok(fits,'popup fits small landscape / rotated portrait');}
   if(mode==='normal')await p.screenshot({path:`test-results/result-social${base?'-dist':''}.png`});

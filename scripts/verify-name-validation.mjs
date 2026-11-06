@@ -3,14 +3,14 @@ import assert from 'node:assert/strict';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 try{
  for(const [width,height] of [[568,320],[390,844]]){
- const page=await browser.newPage({viewport:{width,height}});let renames=0;
+ const page=await browser.newPage({locale:'ja-JP',viewport:{width,height}});let renames=0;
  await page.route('https://*.supabase.co/**',async r=>{
   if(r.request().url().includes('cosmii_player_rename')){
    renames++;return r.fulfill({status:400,json:{message:'NAME_NOT_ALLOWED'}});
   }
   return r.abort();
  });
- await page.goto('http://localhost:5180/?opening=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});
+ await page.goto('http://localhost:5180/?opening=off&goal=off&analytics=off');await page.locator('#boot-screen').waitFor({state:'hidden'});
  await page.locator('#home-settings').click();
  await page.locator('#ranking-editor-input').fill('ＦＵＣＫ');
  await page.locator('.ranking-name-card button[type=submit]').click();

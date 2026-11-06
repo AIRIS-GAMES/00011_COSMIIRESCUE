@@ -1,10 +1,11 @@
+import {t as _t} from './i18n.js';
 export const COLLECTIBLE_RADIUS=25;
 // Counts are delivered ordinary companions, not rescues that were later lost.
 export const CHARACTER_UNLOCK_COUNTS={green:0,blue:5,pink:10,red:20,purple:30};
 export const collectibleItems=[
- {id:'apple',name:'りんご',src:'./Asset/objects/apple.png',description:'飛行中に拾ったりんご。'},
- {id:'cherry',name:'さくらんぼ',src:'./Asset/objects/cherry.png',description:'飛行中に拾ったさくらんぼ。'},
- {id:'cake',name:'ケーキ',src:'./Asset/objects/cake.png',description:'飛行中に拾ったケーキ。'},
+ {id:'apple',name:_t('りんご'),src:'./Asset/objects/apple.png',description:_t('飛行中に拾ったりんご。')},
+ {id:'cherry',name:_t('さくらんぼ'),src:'./Asset/objects/cherry.png',description:_t('飛行中に拾ったさくらんぼ。')},
+ {id:'cake',name:_t('ケーキ'),src:'./Asset/objects/cake.png',description:_t('飛行中に拾ったケーキ。')},
 ];
 const characterKinds=['pink','blue','red','purple'];
 export function characterCollection(id,data={}){
@@ -13,7 +14,7 @@ export function characterCollection(id,data={}){
  return {count,required,unlocked:id==='green'||index>=0&&count>=required,achieved:id==='green'||index>=0&&count>=required};
 }
 // Short descriptions of visible actions, not new dialogue or individual identities.
-export const returnReactions={pink:'そっと、いっしょに帰ってきた。',blue:'みんなが帰って、ほっとひと安心。',red:'帰ってきても、元気にぴょん！',purple:'ちょっと得意そうに、帰ってきた。'};
+export const returnReactions={pink:_t('そっと、いっしょに帰ってきた。'),blue:_t('みんなが帰って、ほっとひと安心。'),red:_t('帰ってきても、元気にぴょん！'),purple:_t('ちょっと得意そうに、帰ってきた。')};
 export const collectionStatus=collection=>collection.achieved?'achieved':collection.unlocked?'basic':'preview';
 // Exposure is once per character/status per dialog. Explicit selections remain actions.
 export class CollectionVisit {

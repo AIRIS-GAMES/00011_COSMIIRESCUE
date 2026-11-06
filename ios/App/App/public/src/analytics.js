@@ -34,7 +34,7 @@ export class RescueAnalytics {
   }
   design(name,value){this.call('addDesignEvent',`${name}:${this.mode||'normal'}`,value);}
   engagement(name,data={}){
-    if(!['room_open','room_select','focus_start','focus_end','focus_abandon','focus_touches','focus_seconds','trust_gain','decor_open','decor_change','returns_open','snack_given'].includes(name))return;
+    if(!['room_open','room_select','focus_start','focus_end','focus_abandon','focus_touches','focus_seconds','trust_gain','decor_open','decor_change','returns_open','snack_given','friend_level','play_done','brush_done'].includes(name))return;
     const source=['title','result','home','room'].includes(data.source)?data.source:'title';
     const color=['green','pink','blue','red','purple'].includes(data.characterType)?data.characterType:'group';
     let suffix=color;

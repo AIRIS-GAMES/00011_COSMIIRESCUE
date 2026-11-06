@@ -1,3 +1,4 @@
+import {t as _t} from './i18n.js';
 export const hazardTypes={
  cloud:{effect:'fog',duration:1.4,move:'drift'},bubble:{effect:'slow',duration:2.2,move:'float'},flyer:{effect:'paper',duration:1.7,move:'flutter'},drink:{effect:'slip',duration:2.5,move:'spin'},banana:{effect:'slip',duration:1.8,move:'spin'},
  apple:{damage:1,move:'hop'},cherry:{damage:1,move:'swing'},cake:{damage:1,move:'wobble'},pancakes:{damage:1,move:'frisbee'},crate:{damage:1,move:'tumble'},ufo:{damage:1,move:'dash'},blocks:{damage:1,move:'tumble'},
@@ -8,7 +9,7 @@ export const hazardTypes={
  star:{damage:1,move:'ricochet',round:true,fast:1.25},
 };
 // Display names (rules screen). Kept next to the stats so a new hazard cannot ship unnamed.
-export const HAZARD_NAMES=Object.freeze({cloud:'くも',bubble:'シャボン玉',flyer:'チラシ',drink:'ジュース',banana:'バナナ',apple:'りんご',cherry:'さくらんぼ',cake:'ケーキ',pancakes:'パンケーキ',crate:'木箱',ufo:'UFO',blocks:'ブロック',bird:'とり',fork:'フォーク',knife:'ナイフ',meteor:'いん石',lightning:'かみなり',ironball:'鉄球',spikeball:'トゲ球',rocket:'ロケット',star:'はねぼし'});
+export const HAZARD_NAMES=Object.freeze({cloud:_t('くも'),bubble:_t('シャボン玉'),flyer:_t('チラシ'),drink:_t('ジュース'),banana:_t('バナナ'),apple:_t('りんご'),cherry:_t('さくらんぼ'),cake:_t('ケーキ'),pancakes:_t('パンケーキ'),crate:_t('木箱'),ufo:'UFO',blocks:_t('ブロック'),bird:_t('とり'),fork:_t('フォーク'),knife:_t('ナイフ'),meteor:_t('いん石'),lightning:_t('かみなり'),ironball:_t('鉄球'),spikeball:_t('トゲ球'),rocket:_t('ロケット'),star:_t('はねぼし')});
 export const HAZARD_GROUPS=Object.freeze({soft:['cloud','bubble','flyer','drink','banana'],normal:['apple','cherry','cake','pancakes','crate','ufo','blocks'],heavy:['fork','lightning','ironball','spikeball','rocket','knife']});
 export const hazardArt=Object.fromEntries(Object.keys(hazardTypes).map(id=>[id,`./Asset/objects/${id}.png`]));
 export function sectionHazards(col,row,danger){

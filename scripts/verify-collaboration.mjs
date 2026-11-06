@@ -4,7 +4,7 @@ import {mkdir} from 'node:fs/promises';
 const browser=await chromium.launch({channel:'chrome',headless:true});
 await mkdir('test-results',{recursive:true});
 try{
-  const p=await browser.newPage({viewport:{width:844,height:390},hasTouch:true}),errors=[];
+  const p=await browser.newPage({locale:'ja-JP',viewport:{width:844,height:390},hasTouch:true}),errors=[];
   p.on('pageerror',e=>errors.push(e.message));
   await p.addInitScript(()=>{
     window.artworkChecks=[];window.titleCast=new Set();window.carriedLabel='';
@@ -20,7 +20,7 @@ try{
       return draw.call(this,img,...args);
     };
   });
-  await p.goto(process.env.GAME_URL||'http://localhost:5180/?opening=off&analytics=offdist/index.html');await p.locator('#loading').waitFor({state:'hidden'});
+  await p.goto(process.env.GAME_URL||'http://localhost:5180/?opening=off&goal=off&analytics=offdist/index.html');await p.locator('#loading').waitFor({state:'hidden'});
   assert.equal(await p.locator('.collaboration-title').isVisible(),true);
   assert.deepEqual(await p.evaluate(()=>[...titleCast].sort()),['blue.png','green.png','pink.png','purple.png','red.png']);
   await p.screenshot({path:'test-results/collaboration-title.png'});

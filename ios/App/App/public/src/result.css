@@ -57,3 +57,22 @@
 #game #result .result-actions #retry,#game #result .result-actions #home{flex:1;min-height:44px;padding:6px;border:2px solid #704f5f;border-radius:16px;box-shadow:0 3px 0 #704f5f;font-size:16px;margin:0;text-decoration:none}
 #game #result .result-actions #home{background:#fffaf0}
 @container(max-width:650px){#game #result .result-panel{gap:5px;padding:8px 12px}#game #result #return-memory img{width:28px;height:28px}#game #result #return-memory button{font-size:9px}#game #result .rescued-head>b{font-size:40px}#game #result .result-actions #retry,#game #result .result-actions #home{font-size:14px}}
+/* Language toggle in Settings (日本語 / English). */
+.settings-lang .settings-lang-options{display:flex;gap:6px}
+.settings-lang .settings-lang-options button{min-width:76px;min-height:38px;padding:0 10px;border:2px solid #9fd8d0;border-radius:12px;background:#fff;color:#2f5b4f;font-family:var(--game-font);font-size:14px}
+.settings-lang .settings-lang-options button[aria-pressed=true]{background:#17616a;border-color:#17616a;color:#fff}
+/* Settings layout: [BGM | 言語] then [nickname | ランキング・サポート], so the language row adds no extra height. */
+.home-settings-dialog .ranking-name-card>*{order:5}
+.home-settings-dialog .ranking-name-card>h2,.home-settings-dialog .ranking-name-card>p{order:0}
+.home-settings-dialog .ranking-name-card>.settings-bgm{order:1}
+.home-settings-dialog .ranking-name-card>.settings-lang{order:2;gap:8px}
+.home-settings-dialog .ranking-name-card>input{order:3;grid-column:auto!important;min-width:0}
+.home-settings-dialog .ranking-name-card>.settings-support{order:4;align-self:stretch}
+.home-settings-dialog .settings-lang .settings-lang-options button{min-width:0;flex:0 1 auto;padding:0 8px;font-size:13px}
+.settings-lang .settings-lang-options button{white-space:nowrap}
+/* "Language" is too wide for the half-width cell; the 日本語 / English buttons explain themselves. */
+html[lang="en"] .home-settings-dialog .settings-lang-label{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+html[lang="en"] .home-settings-dialog .settings-lang{justify-content:flex-end}
+/* Ranking + SNS sit side by side as two small links (the SNS card opens only when asked). */
+#result .result-links{display:flex;justify-content:center;align-items:center;gap:8px;flex-wrap:wrap}
+#result .result-sns{font:inherit;font-size:11px;min-height:28px;border:1px solid #d8a6c2;border-radius:14px;background:#fff0f7;color:#8d377c;padding:3px 14px}

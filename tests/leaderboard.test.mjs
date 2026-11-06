@@ -12,7 +12,7 @@ test('ranking submission contains a stable run ID and public API key, never an a
 });
 test('HARD, invalid names, negative scores and secret keys cannot submit',async()=>{
   const api=new Leaderboard(config,()=>{throw Error('must not send');});
-  await assert.rejects(()=>api.submit({...run,mode:'hard'},'A'),/NORMAL/);
+  await assert.rejects(()=>api.submit({...run,mode:'hard'},'A'),/ノーマル/);
   await assert.rejects(()=>api.submit({...run,score:-1},'A'),/スコア/);
   await assert.rejects(()=>api.submit({...run,score:5000},'A'),/スコア/);
   for(const name of ['',' '.repeat(3),'a'.repeat(13),'A\nB','A\u202eB'])assert.throws(()=>playerName(name));
